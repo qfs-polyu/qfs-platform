@@ -7,7 +7,7 @@
 export type Level = {
   id: string;
   topic: string;
-  carrier: string;
+  track: 'trading' | 'research' | 'coding';
   gate: string;
 };
 
@@ -15,37 +15,37 @@ export const LEVELS: Level[] = [
   {
     id: 'L0',
     topic: 'Know Quant & Markets',
-    carrier: 'Trading basics + 1 primer',
+    track: 'trading',
     gate: 'L0 quiz ≥ 80%'
   },
   {
     id: 'L1',
     topic: 'Python & pandas Up and Running',
-    carrier: 'Coding lessons 1–5 + assignments',
+    track: 'coding',
     gate: '5 auto-graded assignments passed'
   },
   {
     id: 'L2',
     topic: 'Read the Market & Trade',
-    carrier: 'Trading track: quotes, orders, simulation',
+    track: 'trading',
     gate: 'First-month trading report (generated in-site)'
   },
   {
     id: 'L3',
     topic: 'Your First Backtest',
-    carrier: 'Coding lessons 6–8 + strategy lab',
+    track: 'coding',
     gate: 'MA-crossover backtest report'
   },
   {
     id: 'L4',
     topic: 'Factor Mining Introduction',
-    carrier: 'Research track: full workflow + classic factor',
+    track: 'research',
     gate: 'Momentum factor group-backtest assignment'
   },
   {
     id: 'L5',
     topic: 'Replication & Competition',
-    carrier: 'Paper-reading path + external exits',
+    track: 'research',
     gate: 'Replication notes + entry contest team'
   }
 ];

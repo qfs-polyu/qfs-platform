@@ -16,8 +16,7 @@
     "assessTitle": "入门测评",
     "assessBody": "10–15 题自测（金融常识 + 编程常识 + 兴趣自评），系统给出建议起点。M1 上线。",
     "assessCta": "敬请期待",
-    "gateLabel": "通关标志",
-    "carrierLabel": "主要载体"
+    "gateLabel": "通关标志"
   },
   "learn": {
     "title": "学习版块",
@@ -62,9 +61,7 @@
   },
   "common": {
     "comingM1": "M1 上线",
-    "comingM2": "M2 上线",
-    "skeleton": "M0 骨架",
-    "parallel": "并列子版块"
+    "comingM2": "M2 上线"
   },
   "footer": {
     "disclaimer": "本平台仅供教学与研究，全部交易均为历史数据模拟，不构成投资建议，不承诺任何收益。",

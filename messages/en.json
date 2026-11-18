@@ -16,8 +16,7 @@
     "assessTitle": "Placement Assessment",
     "assessBody": "10–15 questions (finance + programming + interests) recommend your starting level. Coming in M1.",
     "assessCta": "Coming soon",
-    "gateLabel": "Gate",
-    "carrierLabel": "Delivered via"
+    "gateLabel": "Gate"
   },
   "learn": {
     "title": "Learning",
@@ -62,9 +61,7 @@
   },
   "common": {
     "comingM1": "Coming in M1",
-    "comingM2": "Coming in M2",
-    "skeleton": "M0 Skeleton",
-    "parallel": "Parallel track"
+    "comingM2": "Coming in M2"
   },
   "footer": {
     "disclaimer": "For education and research only. All trading is simulated on historical data; nothing here constitutes investment advice, and no returns are promised.",

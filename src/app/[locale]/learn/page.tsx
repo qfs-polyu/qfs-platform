@@ -9,7 +9,6 @@ export default async function LearnPage({
   const {locale} = await params;
   setRequestLocale(locale);
   const t = await getTranslations('learn');
-  const tc = await getTranslations('common');
 
   const tracks = [
     {
@@ -60,9 +59,6 @@ export default async function LearnPage({
           </Link>
         ))}
       </div>
-      <p className="mt-6 text-xs text-navy/40">
-        {tc('skeleton')} · {tc('parallel')}
-      </p>
     </div>
   );
 }

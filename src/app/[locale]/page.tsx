@@ -36,41 +36,41 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* Learning map */}
+      {/* Learning map — a single L0→L5 path across the three tracks */}
       <section>
         <div className="mb-6">
           <h2 className="text-2xl font-bold">{t('mapTitle')}</h2>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <ol className="relative ml-4 space-y-7 border-l-2 border-navy/15 pl-10">
           {LEVELS.map((level) => (
-            <div
-              key={level.id}
-              className="rounded-xl border border-navy/10 bg-white p-5 shadow-sm transition hover:border-accent/60 hover:shadow-md"
-            >
-              <div className="flex items-center justify-between">
-                <span className="rounded-full bg-accent-soft px-3 py-1 text-sm font-bold text-accent">
-                  {level.id}
+            <li key={level.id} className="relative">
+              <span
+                className={`absolute -left-[58px] top-0 flex h-9 w-9 items-center justify-center rounded-full text-xs font-bold text-white ${
+                  level.track === 'trading'
+                    ? 'bg-navy'
+                    : level.track === 'coding'
+                      ? 'bg-accent'
+                      : 'bg-navy-light'
+                }`}
+              >
+                {level.id}
+              </span>
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                <h3 className="font-semibold text-navy">{level.topic}</h3>
+                <span className="rounded-full bg-navy/5 px-2.5 py-0.5 text-xs font-medium text-navy/60">
+                  {level.track === 'trading'
+                    ? 'Trading'
+                    : level.track === 'coding'
+                      ? 'Coding'
+                      : 'Research'}
                 </span>
-                <span className="text-xs text-navy/40">{tc('skeleton')}</span>
               </div>
-              <h3 className="mt-3 font-semibold text-navy">{level.topic}</h3>
-              <dl className="mt-3 space-y-1.5 text-xs text-navy/60">
-                <div className="flex gap-2">
-                  <dt className="shrink-0 font-medium text-navy/75">
-                    {t('carrierLabel')}:
-                  </dt>
-                  <dd>{level.carrier}</dd>
-                </div>
-                <div className="flex gap-2">
-                  <dt className="shrink-0 font-medium text-navy/75">
-                    {t('gateLabel')}:
-                  </dt>
-                  <dd>{level.gate}</dd>
-                </div>
-              </dl>
-            </div>
+              <p className="mt-1 text-sm text-navy/60">
+                {t('gateLabel')}：{level.gate}
+              </p>
+            </li>
           ))}
-        </div>
+        </ol>
       </section>
 
       {/* Progress + assessment placeholders */}
