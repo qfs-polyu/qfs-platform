@@ -1,0 +1,75 @@
+{
+  "nav": {
+    "home": "Home",
+    "learn": "Learning",
+    "assignments": "Assignments",
+    "leaderboard": "Leaderboard"
+  },
+  "home": {
+    "heroTag": "PolyU Quantitative Finance Society (founding)",
+    "heroTitle": "QFS Learning Platform",
+    "heroSubtitle": "Level-by-level learning map · Interactive in-site lessons · From reading the market to your first backtest",
+    "ctaAssess": "Take the Assessment",
+    "ctaMap": "View the Learning Map",
+    "mapTitle": "Learning Map",
+    "mapSubtitle": "A gated path: complete the deliverable of each level to unlock the next. The three tracks are parallel; order is guided by the Level system.",
+    "progressTitle": "My Progress",
+    "progressNote": "Progress tracking arrives in M1 (accounts). This is the M0 skeleton preview.",
+    "assessTitle": "Placement Assessment",
+    "assessBody": "10–15 questions (finance + programming + interests) recommend your starting level. Coming in M1.",
+    "assessCta": "Coming soon",
+    "gateLabel": "Gate",
+    "carrierLabel": "Delivered via"
+  },
+  "learn": {
+    "title": "Learning",
+    "subtitle": "Three parallel tracks — not a prerequisite chain. Order is guided by the Level system on the learning map.",
+    "open": "Open",
+    "stageLabel": "Stage",
+    "layerLabel": "Layer",
+    "lessonLabel": "Lesson",
+    "tradingDesc": "From reading quotes, order books and trading apps to simulated trading, strategy tuning, and an overview of automated & high-frequency trading systems.",
+    "researchDesc": "From what factor mining is, through the math and finance basics, to a full classic-factor workflow, paper replication and competitions.",
+    "codeDesc": "Hands-on Python & pandas with auto-graded assignments — everything in-site, no external links."
+  },
+  "trading": {
+    "title": "Trading Track",
+    "subtitle": "Five stages: Stages 1–4 form the main line (each gated by the previous quiz); Stage 5 is a knowledge extension.",
+    "level": "Levels"
+  },
+  "research": {
+    "title": "Research Track",
+    "subtitle": "Five layers: from concept to a complete workflow, then paper replication and competition exits."
+  },
+  "code": {
+    "title": "Coding Track",
+    "subtitle": "8 lessons covering L1–L3. Step-by-step courses with auto-graded assignments, fully in-site.",
+    "lesson": "Lesson",
+    "assignmentLabel": "Assignment (auto-graded)"
+  },
+  "assignments": {
+    "title": "Assignments & Practice",
+    "subtitle": "Shared across all tracks: submissions, auto-grading, and a mistake notebook.",
+    "colSubmit": "Submit",
+    "colSubmitDesc": "Submit code assignments in the browser; hidden test cases judge instantly; unlimited retries.",
+    "colJudge": "Auto-grading",
+    "colJudgeDesc": "Code tasks run tests in-browser (Pyodide); concept quizzes are graded instantly.",
+    "colWrong": "Mistake Notebook",
+    "colWrongDesc": "Wrong answers are collected automatically with links back to the relevant sections."
+  },
+  "leaderboard": {
+    "title": "Leaderboard",
+    "subtitle": "Simulated trading (historical replay) and learning-point rankings.",
+    "m2Note": "The leaderboard launches in M2 together with the first trading contest. This is the M0 skeleton preview."
+  },
+  "common": {
+    "comingM1": "Coming in M1",
+    "comingM2": "Coming in M2",
+    "skeleton": "M0 Skeleton",
+    "parallel": "Parallel track"
+  },
+  "footer": {
+    "disclaimer": "For education and research only. All trading is simulated on historical data; nothing here constitutes investment advice, and no returns are promised.",
+    "org": "PolyU Quantitative Finance Society (founding) · QFS Learning Platform"
+  }
+}

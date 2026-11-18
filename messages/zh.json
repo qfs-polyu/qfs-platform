@@ -1,0 +1,75 @@
+{
+  "nav": {
+    "home": "首页",
+    "learn": "学习版块",
+    "assignments": "作业与练习中心",
+    "leaderboard": "排行榜"
+  },
+  "home": {
+    "heroTag": "香港理工大学量化金融学会（筹）",
+    "heroTitle": "量化金融入门学习平台",
+    "heroSubtitle": "通关式学习地图 · 站内交互教学 · 从看懂行情到跑完第一个回测",
+    "ctaAssess": "开始入门测评",
+    "ctaMap": "查看学习地图",
+    "mapTitle": "学习地图",
+    "mapSubtitle": "通关式路径：完成每一级的产出物即可点亮下一级。三大子版块并列，学习顺序由 Level 体系引导。",
+    "progressTitle": "个人进度",
+    "progressNote": "进度追踪将在 M1 上线（账号系统）。当前为骨架预览。",
+    "assessTitle": "入门测评",
+    "assessBody": "10–15 题自测（金融常识 + 编程常识 + 兴趣自评），系统给出建议起点。M1 上线。",
+    "assessCta": "敬请期待",
+    "gateLabel": "通关标志",
+    "carrierLabel": "主要载体"
+  },
+  "learn": {
+    "title": "学习版块",
+    "subtitle": "三个并列的子版块——不是先修序列，学习顺序由学习地图的 Level 体系引导。",
+    "open": "进入",
+    "stageLabel": "阶段",
+    "layerLabel": "层",
+    "lessonLabel": "课",
+    "tradingDesc": "从看懂行情、交易软件与订单，到模拟交易与策略调整，再到自动交易系统认知。",
+    "researchDesc": "从因子挖掘是什么、数学与金融基础，到经典因子全流程，再到论文复现与比赛。",
+    "codeDesc": "站内手把手学 Python 与 pandas，自动判题作业，不甩外部链接。"
+  },
+  "trading": {
+    "title": "Trading 子版块",
+    "subtitle": "五个阶段递进：前四阶段为主线（前一阶段测验通过解锁下一阶段），阶段五为知识拓展。",
+    "level": "对应级别"
+  },
+  "research": {
+    "title": "Research 子版块",
+    "subtitle": "五层递进：从概念到完整流程，再到论文复现与比赛出口。"
+  },
+  "code": {
+    "title": "代码教学子版块",
+    "subtitle": "8 课对应 L1–L3。手把手步骤式课程 + 自动判题作业，全部站内实现。",
+    "lesson": "课",
+    "assignmentLabel": "作业（自动判题）"
+  },
+  "assignments": {
+    "title": "作业与练习中心",
+    "subtitle": "全版块共用：提交、自动判题、错题本。",
+    "colSubmit": "提交作业",
+    "colSubmitDesc": "浏览器内提交代码作业，隐藏测试用例即时判定，可无限重试。",
+    "colJudge": "自动判题",
+    "colJudgeDesc": "代码类在浏览器内运行测试（Pyodide），概念类即时判分。",
+    "colWrong": "错题本",
+    "colWrongDesc": "错题自动归集，推荐回看相关段落，三次失败提示预约答疑。"
+  },
+  "leaderboard": {
+    "title": "排行榜",
+    "subtitle": "模拟交易（历史行情回放）与学习积分排行。",
+    "m2Note": "排行榜将在 M2 随模拟交易赛一并上线。当前为骨架预览。"
+  },
+  "common": {
+    "comingM1": "M1 上线",
+    "comingM2": "M2 上线",
+    "skeleton": "M0 骨架",
+    "parallel": "并列子版块"
+  },
+  "footer": {
+    "disclaimer": "本平台仅供教学与研究，全部交易均为历史数据模拟，不构成投资建议，不承诺任何收益。",
+    "org": "PolyU Quantitative Finance Society（筹） · QFS Learning Platform"
+  }
+}
