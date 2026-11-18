@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# QFS Learning Platform
 
-## Getting Started
+PolyU Quantitative Finance Society (founding) — an interactive platform for
+learning quantitative finance from zero. This repository holds the **M0
+skeleton**: page architecture, bilingual UI, and placeholder content.
 
-First, run the development server:
+Per the plan (v2.4 §4.6): **UI is bilingual (zh/en), learning content is
+English-only.**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Structure
+
+```
+src/app/[locale]/          Pages (home, learn/*, assignments, leaderboard)
+src/components/            Header, Footer, LanguageSwitcher
+src/content/curriculum.ts  Course structure (English) — single source of truth
+src/i18n/                  next-intl routing / request / navigation
+messages/zh.json en.json   UI strings (two languages)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Information architecture (plan v2.4 §2.1):
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+Home (top): learning map · my progress · placement assessment
+├── Learning: Trading | Research | Coding   (three parallel tracks)
+├── Assignments & Practice
+└── Leaderboard
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Development
 
-## Learn More
+```bash
+npm install
+npm run dev        # http://localhost:3000
+npm run build      # production build
+npm run start      # serve the production build
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Milestones
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **M0 (current)** — skeleton + bilingual UI, no content, no accounts
+- **M1 (2027 Spring)** — accounts, Pyodide lessons, auto-graded assignments,
+  admin dashboard, first content batch
+- **M2 / M3** — simulated trading & leaderboard / auto-grading & showcase
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+For education and research only. All trading is simulated on historical data;
+nothing here constitutes investment advice, and no returns are promised.
