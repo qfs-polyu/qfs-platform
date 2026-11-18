@@ -17,6 +17,8 @@
   --color-accent: #d4875a;
   --color-accent-soft: #f8f0eb;
   --color-surface: #faf7f4;
+  /* third track color, clearly distinct from navy/orange */
+  --color-track-research: #3a7d6c;
 }
 
 body {

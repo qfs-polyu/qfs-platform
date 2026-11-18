@@ -1,6 +1,5 @@
 import {useTranslations} from 'next-intl';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
-import {Link} from '@/i18n/navigation';
 import {LEVELS} from '@/content/curriculum';
 
 export default async function HomePage({
@@ -27,17 +26,17 @@ export default async function HomePage({
           <span className="rounded-full bg-white/10 px-4 py-2 text-sm text-white/60">
             {t('ctaAssess')} · {tc('comingM1')}
           </span>
-          <Link
-            href="/learn"
+          <a
+            href="#learning-map"
             className="rounded-full bg-accent px-5 py-2 text-sm font-medium text-white transition hover:bg-accent/90"
           >
             {t('ctaMap')}
-          </Link>
+          </a>
         </div>
       </section>
 
       {/* Learning map — a single L0→L5 path across the three tracks */}
-      <section>
+      <section id="learning-map" className="scroll-mt-20">
         <div className="mb-6">
           <h2 className="text-2xl font-bold">{t('mapTitle')}</h2>
         </div>
@@ -50,7 +49,7 @@ export default async function HomePage({
                     ? 'bg-navy'
                     : level.track === 'coding'
                       ? 'bg-accent'
-                      : 'bg-navy-light'
+                      : 'bg-track-research'
                 }`}
               >
                 {level.id}
