@@ -2,6 +2,8 @@
 
 import {useMemo, useState} from 'react';
 import {useTranslations} from 'next-intl';
+import {Link} from '@/i18n/navigation';
+import {createClient} from '@/lib/supabase/browser';
 import type {Lesson} from '@/content/lessons';
 import {usePyodide} from './pyodide/usePyodide';
 
@@ -24,6 +26,9 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
   const [checked, setChecked] = useState(false);
   const [showHint, setShowHint] = useState(false);
   const [running, setRunning] = useState(false);
+  const [saveState, setSaveState] = useState<'idle' | 'saved' | 'anon' | 'error'>(
+    'idle'
+  );
 
   const step = lesson.steps[stepIndex];
   const isLast = stepIndex === lesson.steps.length - 1;
@@ -57,9 +62,27 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
     setPassed(ok);
   };
 
-  const onNext = () => {
+  const onNext = async () => {
     if (isLast) {
       setDone(true);
+      // Persist completion for signed-in users.
+      try {
+        const supabase = createClient();
+        const {
+          data: {session}
+        } = await supabase.auth.getSession();
+        if (!session) {
+          setSaveState('anon');
+          return;
+        }
+        const {error} = await supabase.from('lesson_progress').upsert({
+          user_id: session.user.id,
+          lesson_id: lesson.n
+        });
+        setSaveState(error ? 'error' : 'saved');
+      } catch {
+        setSaveState('error');
+      }
     } else {
       setStepIndex(stepIndex + 1);
       setOutput('');
@@ -81,6 +104,20 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
         <div className="text-3xl">🎉</div>
         <h2 className="mt-3 text-lg font-bold text-navy">{t('completed')}</h2>
         <p className="mt-1 text-sm text-navy/60">{lesson.title}</p>
+        {saveState === 'saved' && (
+          <p className="mt-3 text-xs text-green-700">✓ {t('progressSaved')}</p>
+        )}
+        {saveState === 'anon' && (
+          <p className="mt-3 text-xs text-navy/60">
+            {t('loginToSave')}{' '}
+            <Link href="/auth" className="font-medium text-accent hover:underline">
+              {t('loginLink')}
+            </Link>
+          </p>
+        )}
+        {saveState === 'error' && (
+          <p className="mt-3 text-xs text-navy/50">{t('saveError')}</p>
+        )}
         <button
           onClick={() => {
             setDone(false);

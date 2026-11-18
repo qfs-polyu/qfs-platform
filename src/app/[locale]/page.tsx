@@ -1,6 +1,9 @@
-import {useTranslations} from 'next-intl';
+import {Suspense} from 'react';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
+import {Link} from '@/i18n/navigation';
 import {LEVELS} from '@/content/curriculum';
+import ProgressCard from '@/components/home/ProgressCard';
+import L1Badge from '@/components/home/L1Badge';
 
 export default async function HomePage({
   params
@@ -67,6 +70,11 @@ export default async function HomePage({
               <p className="mt-1 text-sm text-navy/60">
                 {t('gateLabel')}
                 {level.gate}
+                {level.id === 'L1' && (
+                  <Suspense fallback={null}>
+                    <L1Badge />
+                  </Suspense>
+                )}
               </p>
             </li>
           ))}
@@ -75,15 +83,16 @@ export default async function HomePage({
 
       {/* Progress + assessment placeholders */}
       <section className="grid gap-4 md:grid-cols-2">
-        <div className="rounded-xl border border-dashed border-navy/25 bg-surface p-6">
-          <h2 className="font-semibold">{t('progressTitle')}</h2>
-          <div className="mt-3 flex items-center gap-2 text-sm text-navy/50">
-            <span className="rounded bg-navy/5 px-2 py-0.5 text-xs">
-              {tc('comingM1')}
-            </span>
-            {t('progressNote')}
-          </div>
-        </div>
+        <Suspense
+          fallback={
+            <div className="rounded-xl border border-dashed border-navy/25 bg-surface p-6">
+              <h2 className="font-semibold">{t('progressTitle')}</h2>
+              <div className="mt-3 h-2 w-24 animate-pulse rounded-full bg-navy/10" />
+            </div>
+          }
+        >
+          <ProgressCard />
+        </Suspense>
         <div className="rounded-xl border border-dashed border-navy/25 bg-surface p-6">
           <h2 className="font-semibold">{t('assessTitle')}</h2>
           <p className="mt-3 text-sm text-navy/60">{t('assessBody')}</p>

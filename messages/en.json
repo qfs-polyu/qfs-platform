@@ -16,7 +16,8 @@
     "assessTitle": "Placement Assessment",
     "assessBody": "10–15 questions (finance + programming + interests) recommend your starting level. Coming in M1.",
     "assessCta": "Coming soon",
-    "gateLabel": "Gate: "
+    "gateLabel": "Gate: ",
+    "completedLessons": "Coding lessons completed"
   },
   "learn": {
     "title": "Learning",
@@ -83,7 +84,11 @@
     "restart": "Restart",
     "comingSoonTitle": "Coming soon",
     "comingSoonBody": "This lesson arrives with the M1 content batch.",
-    "comingM1": "Coming in M1"
+    "comingM1": "Coming in M1",
+    "progressSaved": "Progress saved to your account",
+    "loginToSave": "Log in to save your progress across devices.",
+    "loginLink": "Log in",
+    "saveError": "Progress not saved yet (resumes once the database is initialized)."
   },
   "auth": {
     "title": "Account",

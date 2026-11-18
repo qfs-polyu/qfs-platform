@@ -16,7 +16,8 @@
     "assessTitle": "入门测评",
     "assessBody": "10–15 题自测（金融常识 + 编程常识 + 兴趣自评），系统给出建议起点。M1 上线。",
     "assessCta": "敬请期待",
-    "gateLabel": "通关标志："
+    "gateLabel": "通关标志：",
+    "completedLessons": "已完成代码课"
   },
   "learn": {
     "title": "学习版块",
@@ -83,7 +84,11 @@
     "restart": "重新开始",
     "comingSoonTitle": "本课建设中",
     "comingSoonBody": "这一课将随 M1 内容批次上线。",
-    "comingM1": "M1 上线"
+    "comingM1": "M1 上线",
+    "progressSaved": "进度已保存到你的账号",
+    "loginToSave": "登录后可保存进度（换设备不丢）。",
+    "loginLink": "去登录",
+    "saveError": "进度暂未保存（数据库初始化后自动恢复）。"
   },
   "auth": {
     "title": "账号",

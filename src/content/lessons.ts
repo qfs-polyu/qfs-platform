@@ -52,7 +52,7 @@ export const LESSONS: Lesson[] = [
         title: 'Reading an error',
         explain:
           'Errors are messages, not failures. Run the code — it crashes with a NameError because the variable is misspelled. Read the last line of the error, fix the typo, and make it print 42.',
-        starter: 'awnser = 42\nprint(awnser)\n',
+        starter: 'answer = 42\nprint(awnser)\n',
         expected: '42',
         hint: 'The error tells you the exact line. Consistent spelling fixes it.'
       }
