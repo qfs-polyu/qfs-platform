@@ -84,5 +84,17 @@
     "comingSoonTitle": "Coming soon",
     "comingSoonBody": "This lesson arrives with the M1 content batch.",
     "comingM1": "Coming in M1"
+  },
+  "auth": {
+    "title": "Account",
+    "login": "Log in",
+    "signup": "Sign up",
+    "logout": "Log out",
+    "email": "University email",
+    "password": "Password",
+    "passwordHint": "At least 6 characters; do not reuse passwords from other sites",
+    "schoolEmailOnly": "Please sign up with a PolyU email (@polyu.edu.hk or @connect.polyu.hk)",
+    "checkEmail": "Confirmation email sent — open your university inbox, click the link, then log in.",
+    "schoolEmailNote": "Accounts use PolyU university emails; progress and assignments attach to your account (from M1)."
   }
 }

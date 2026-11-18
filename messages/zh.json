@@ -84,5 +84,17 @@
     "comingSoonTitle": "本课建设中",
     "comingSoonBody": "这一课将随 M1 内容批次上线。",
     "comingM1": "M1 上线"
+  },
+  "auth": {
+    "title": "账号",
+    "login": "登录",
+    "signup": "注册",
+    "logout": "退出",
+    "email": "学校邮箱",
+    "password": "密码",
+    "passwordHint": "至少 6 位，请勿复用其他网站的密码",
+    "schoolEmailOnly": "请使用 PolyU 学校邮箱（@polyu.edu.hk 或 @connect.polyu.hk）注册",
+    "checkEmail": "确认邮件已发送，请到学校邮箱点击确认链接后再登录。",
+    "schoolEmailNote": "账号使用 PolyU 学校邮箱，进度与作业记录将关联到账号（M1 起生效）。"
   }
 }

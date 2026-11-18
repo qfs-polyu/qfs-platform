@@ -3,6 +3,7 @@
 import {useTranslations} from 'next-intl';
 import {Link, usePathname} from '@/i18n/navigation';
 import LanguageSwitcher from './LanguageSwitcher';
+import AuthButton from './AuthButton';
 
 export default function Header() {
   const t = useTranslations('nav');
@@ -45,7 +46,10 @@ export default function Header() {
             );
           })}
         </nav>
-        <div className="ml-1 md:ml-4">
+        <div className="ml-1 md:ml-3">
+          <AuthButton />
+        </div>
+        <div className="ml-1 md:ml-2">
           <LanguageSwitcher />
         </div>
       </div>
