@@ -8,11 +8,9 @@
   "home": {
     "heroTag": "香港理工大学量化金融学会（筹）",
     "heroTitle": "量化金融入门学习平台",
-    "heroSubtitle": "通关式学习地图 · 站内交互教学 · 从看懂行情到跑完第一个回测",
     "ctaAssess": "开始入门测评",
     "ctaMap": "查看学习地图",
     "mapTitle": "学习地图",
-    "mapSubtitle": "通关式路径：完成每一级的产出物即可点亮下一级。三大子版块并列，学习顺序由 Level 体系引导。",
     "progressTitle": "个人进度",
     "progressNote": "进度追踪将在 M1 上线（账号系统）。当前为骨架预览。",
     "assessTitle": "入门测评",
