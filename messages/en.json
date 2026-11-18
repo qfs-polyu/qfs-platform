@@ -42,7 +42,8 @@
     "title": "Coding Track",
     "subtitle": "8 lessons covering L1–L3. Step-by-step courses with auto-graded assignments, fully in-site.",
     "lesson": "Lesson",
-    "assignmentLabel": "Assignment (auto-graded)"
+    "assignmentLabel": "Assignment (auto-graded)",
+    "live": "Live now"
   },
   "assignments": {
     "title": "Assignments & Practice",
@@ -66,5 +67,22 @@
   "footer": {
     "disclaimer": "For education and research only. All trading is simulated on historical data; nothing here constitutes investment advice, and no returns are promised.",
     "org": "PolyU Quantitative Finance Society (founding) · QFS Learning Platform"
+  },
+  "lesson": {
+    "run": "Run",
+    "check": "Check",
+    "passed": "Passed!",
+    "failed": "Not yet — compare the output and retry",
+    "next": "Next",
+    "finish": "Finish",
+    "hint": "Show hint",
+    "output": "Output",
+    "loadingRuntime": "Loading Python runtime (~10MB first time, cached afterwards)…",
+    "runtimeError": "Failed to load the Python runtime — refresh and retry",
+    "completed": "Lesson completed!",
+    "restart": "Restart",
+    "comingSoonTitle": "Coming soon",
+    "comingSoonBody": "This lesson arrives with the M1 content batch.",
+    "comingM1": "Coming in M1"
   }
 }

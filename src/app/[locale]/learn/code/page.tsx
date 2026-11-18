@@ -1,4 +1,5 @@
 import {getTranslations, setRequestLocale} from 'next-intl/server';
+import {Link} from '@/i18n/navigation';
 import {CODE_LESSONS} from '@/content/curriculum';
 
 export default async function CodePage({
@@ -31,7 +32,17 @@ export default async function CodePage({
               >
                 <td className="px-4 py-3 font-bold text-accent">{lesson.n}</td>
                 <td className="px-4 py-3 font-medium text-navy">
-                  {lesson.title}
+                  <Link
+                    href={`/learn/code/${lesson.n}`}
+                    className="hover:text-accent hover:underline"
+                  >
+                    {lesson.title}
+                  </Link>
+                  {lesson.n === 1 && (
+                    <span className="ml-2 rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
+                      {t('live')}
+                    </span>
+                  )}
                 </td>
                 <td className="px-4 py-3 text-navy/65">{lesson.assignment}</td>
               </tr>

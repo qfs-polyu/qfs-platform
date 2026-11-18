@@ -42,7 +42,8 @@
     "title": "代码教学子版块",
     "subtitle": "8 课对应 L1–L3。手把手步骤式课程 + 自动判题作业，全部站内实现。",
     "lesson": "课",
-    "assignmentLabel": "作业（自动判题）"
+    "assignmentLabel": "作业（自动判题）",
+    "live": "可试玩"
   },
   "assignments": {
     "title": "作业与练习中心",
@@ -66,5 +67,22 @@
   "footer": {
     "disclaimer": "本平台仅供教学与研究，全部交易均为历史数据模拟，不构成投资建议，不承诺任何收益。",
     "org": "PolyU Quantitative Finance Society（筹） · QFS Learning Platform"
+  },
+  "lesson": {
+    "run": "运行",
+    "check": "检查",
+    "passed": "通过！",
+    "failed": "未通过，对照输出再试",
+    "next": "下一步",
+    "finish": "完成课程",
+    "hint": "看提示",
+    "output": "输出",
+    "loadingRuntime": "正在加载 Python 运行时（首次约 10MB，之后有缓存）…",
+    "runtimeError": "Python 运行时加载失败，请刷新重试",
+    "completed": "课程完成！",
+    "restart": "重新开始",
+    "comingSoonTitle": "本课建设中",
+    "comingSoonBody": "这一课将随 M1 内容批次上线。",
+    "comingM1": "M1 上线"
   }
 }
