@@ -65,7 +65,8 @@ export default async function HomePage({
                 </span>
               </div>
               <p className="mt-1 text-sm text-navy/60">
-                {t('gateLabel')}：{level.gate}
+                {t('gateLabel')}
+                {level.gate}
               </p>
             </li>
           ))}
