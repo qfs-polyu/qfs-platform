@@ -33,20 +33,20 @@ export const LESSONS: Lesson[] = [
       {
         title: 'Numbers and variables',
         explain:
-          'A variable is a name for a value. Prices and quantities are just numbers. Compute the position value by multiplying price by quantity, and print it.',
+          'A variable is a name for a value — here, the price of one share (in dollars) and the number of shares you hold. Print the total value of the position: how many dollars are these 200 shares worth altogether?',
         starter:
-          'price = 12.5      # dollars per share\nquantity = 200    # shares\n\n# TODO: print price * quantity\n',
+          'price = 12.5      # dollars per share\nquantity = 200    # shares\n\n# TODO: print the total value of the position\n',
         expected: '2500.0',
-        hint: 'Replace the TODO line with: print(price * quantity)'
+        hint: 'Which arithmetic operation combines "price per share" with "number of shares"?'
       },
       {
         title: 'Your first return',
         explain:
-          'A return is the relative change of a price. If a stock went from 100 to 107.5, the return is (107.5 - 100) / 100 = 0.075, i.e. 7.5%. Compute and print the return of the prices below (keep it as a decimal).',
+          'A return measures how much a price changed, relative to where it started. Example: if a snack used to cost 4 dollars and now costs 5, the return is the 1-dollar gain divided by the starting price — 0.25. Print the return for the two prices below, as a decimal (not a percentage).',
         starter:
-          'old_price = 100.0\nnew_price = 107.5\n\n# TODO: print the return (new_price - old_price) / old_price\n',
+          'old_price = 100.0\nnew_price = 107.5\n\n# TODO: print the return as a decimal\n',
         expected: '0.075',
-        hint: 'print((new_price - old_price) / old_price) — brackets matter!'
+        hint: 'First find the gain, then scale it by the starting price. Brackets keep the division in the right order.'
       },
       {
         title: 'Reading an error',
