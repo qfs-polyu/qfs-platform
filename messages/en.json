@@ -15,7 +15,9 @@
     "assessTitle": "Placement Assessment",
     "assessBody": "10–15 questions (finance + programming + interests) recommend your starting level. Coming in M1.",
     "assessCta": "Start the assessment",
-    "gateLabel": "Gate: "
+    "gateLabel": "Gate: ",
+    "mapLegend": "Six levels form the recommended order; all 18 units across the three tracks belong to a level — expand each one to see its units.",
+    "unitLabel": "units"
   },
   "learn": {
     "title": "Learning",

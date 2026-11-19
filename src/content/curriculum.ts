@@ -139,3 +139,55 @@ export const CODE_LESSONS: Lesson[] = [
   { n: 7, title: 'pandas III: groupby, merge, Plotting', assignment: 'Monthly market-return statistics' },
   { n: 8, title: 'Capstone: pandas + backtesting.py', assignment: 'MA-crossover backtest report (L3 gate)' }
 ];
+
+/* ---------- level <-> content-unit mapping (6 levels bundle the 18 units) ---------- */
+
+export type UnitRef = {
+  track: 'trading' | 'research' | 'coding';
+  kind: 'stage' | 'layer' | 'lesson';
+  n: number;
+  title: string;
+  href: string;
+  live: boolean;
+  extension?: boolean;
+};
+
+export function levelUnits(levelId: string): UnitRef[] {
+  const t = (n: number, live = false, extension = false): UnitRef => {
+    const s = TRADING_STAGES[n - 1];
+    return {track: 'trading', kind: 'stage', n, title: s.title, href: '/learn/trading', live, extension};
+  };
+  const c = (n: number): UnitRef => ({
+    track: 'coding',
+    kind: 'lesson',
+    n,
+    title: CODE_LESSONS[n - 1].title,
+    href: `/learn/code/${n}`,
+    live: n === 1
+  });
+  const r = (n: number): UnitRef => ({
+    track: 'research',
+    kind: 'layer',
+    n,
+    title: RESEARCH_LAYERS[n - 1].title,
+    href: '/learn/research',
+    live: false
+  });
+
+  switch (levelId) {
+    case 'L0':
+      return [t(1, true)];
+    case 'L1':
+      return [c(1), c(2), c(3), c(4), c(5)];
+    case 'L2':
+      return [t(2), t(3), t(4)];
+    case 'L3':
+      return [c(6), c(7), c(8), t(5, false, true)];
+    case 'L4':
+      return [r(1), r(2), r(3)];
+    case 'L5':
+      return [r(4), r(5)];
+    default:
+      return [];
+  }
+}
