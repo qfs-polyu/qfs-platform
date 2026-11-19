@@ -25,10 +25,10 @@ export const LESSONS: Lesson[] = [
       {
         title: 'Say something',
         explain:
-          'print() sends text to the console. Strings must be wrapped in quotes. Run the code below, then change it so it prints your own name instead.',
+          'print() sends text to the console, and text must be wrapped in quotes. Press Run — the code below prints the greeting "Hello, QFS!". Then press Check: it compares your output with the expected output. (Trying changing the text between the quotes to anything you like, then run again to see the difference.)',
         starter: 'print("Hello, QFS!")\n',
         expected: 'Hello, QFS!',
-        hint: 'Keep the quotes and the brackets — only change the text inside.'
+        hint: 'The expected output for Check is "Hello, QFS!" — restore it before pressing Check.'
       },
       {
         title: 'Numbers and variables',
