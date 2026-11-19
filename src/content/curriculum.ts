@@ -130,7 +130,7 @@ export type Lesson = {
 };
 
 export const CODE_LESSONS: Lesson[] = [
-  { n: 1, title: 'Variables, Printing & Reading Errors', assignment: 'A percentage-return function' },
+  { n: 1, title: 'Variables, Printing & Reading Errors', assignment: 'Percentage Return Calculator' },
   { n: 2, title: 'Lists & Loops: Price Series', assignment: 'Maximum drawdown of a price series' },
   { n: 3, title: 'Functions & Conditionals', assignment: 'Bull/bear regime classifier' },
   { n: 4, title: 'NumPy: Vectorized Thinking', assignment: 'Vectorized daily returns' },
@@ -163,7 +163,7 @@ export function levelUnits(levelId: string): UnitRef[] {
     n,
     title: CODE_LESSONS[n - 1].title,
     href: `/learn/code/${n}`,
-    live: n === 1
+    live: n <= 5
   });
   const r = (n: number): UnitRef => ({
     track: 'research',

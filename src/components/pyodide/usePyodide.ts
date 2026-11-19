@@ -12,6 +12,7 @@ interface PyodideInterface {
   runPythonAsync: (code: string) => Promise<unknown>;
   setStdout: (opts: {batched: (s: string) => void}) => void;
   setStderr: (opts: {batched: (s: string) => void}) => void;
+  loadPackage: (names: string | string[]) => Promise<unknown>;
 }
 
 const PYODIDE_VERSION = '0.28.3';
@@ -44,7 +45,10 @@ export function usePyodide() {
     const get = async (): Promise<PyodideInterface> => {
       await loadScript(`${CDN}pyodide.js`);
       if (!window.loadPyodide) throw new Error('pyodide.js loaded but loadPyodide missing');
-      return window.loadPyodide({indexURL: CDN});
+      const py = await window.loadPyodide({indexURL: CDN});
+      // Lessons 4-5 need numpy/pandas; ~20MB extra on first visit, cached after.
+      await py.loadPackage(['numpy', 'pandas']);
+      return py;
     };
     if (!pyodidePromise) pyodidePromise = get();
     pyodidePromise
