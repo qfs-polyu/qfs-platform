@@ -7,13 +7,41 @@ import {createClient} from '@/lib/supabase/browser';
 import type {Lesson} from '@/content/lessons';
 import {usePyodide} from './pyodide/usePyodide';
 
-const normalize = (s: string) =>
+/* Lenient answer matching: "correct answer passes".
+   1) Extra printed lines around the expected block are fine (containment).
+   2) Numbers compare by VALUE (2500 == 2500.0) with 1e-3 relative tolerance
+      (float noise / un-rounded full precision pass; genuinely different
+      numbers still fail).
+   3) Words and booleans stay strict (True ≠ False, Bull ≠ Bear). */
+
+const NUM_RE = /^-?\d+(\.\d+)?([eE][+-]?\d+)?$/;
+const tokEq = (a: string, b: string): boolean => {
+  if (a === b) return true;
+  return NUM_RE.test(a) && NUM_RE.test(b)
+    ? Math.abs(Number(a) - Number(b)) <=
+      1e-3 * Math.max(1, Math.abs(Number(a)), Math.abs(Number(b)))
+    : false;
+};
+const lineEq = (a: string, b: string): boolean => {
+  const at = a.trim().split(/\s+/);
+  const bt = b.trim().split(/\s+/);
+  return at.length === bt.length && at.every((t, i) => tokEq(t, bt[i]));
+};
+const toLines = (s: string) =>
   s
-    .replace(/\r\n/g, '\n')
+    .replace(/\r/g, '')
     .split('\n')
-    .map((l) => l.trimEnd())
-    .join('\n')
-    .trim();
+    .map((l) => l.trim())
+    .filter((l) => l.length > 0);
+const outputsMatch = (expected: string, actual: string): boolean => {
+  const e = toLines(expected);
+  const a = toLines(actual);
+  if (e.length === 0 || a.length < e.length) return false;
+  for (let i = 0; i + e.length <= a.length; i++) {
+    if (e.every((el, j) => lineEq(el, a[i + j]))) return true;
+  }
+  return false;
+};
 
 export default function StepCourse({lesson}: {lesson: Lesson}) {
   const t = useTranslations('lesson');
@@ -57,7 +85,7 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
   };
 
   const onCheck = () => {
-    const ok = !error && normalize(output) === normalize(step.expected);
+    const ok = !error && outputsMatch(step.expected, output);
     setChecked(true);
     setPassed(ok);
   };
