@@ -100,6 +100,7 @@
     "passwordHint": "至少 6 位，请勿复用其他网站的密码",
     "schoolEmailOnly": "请使用 PolyU 学校邮箱（@polyu.edu.hk 或 @connect.polyu.hk）注册",
     "checkEmail": "确认邮件已发送，请到学校邮箱点击确认链接后再登录。",
-    "schoolEmailNote": "账号使用 PolyU 学校邮箱，进度与作业记录将关联到账号（M1 起生效）。"
+    "schoolEmailNote": "账号使用 PolyU 学校邮箱，进度与作业记录将关联到账号（M1 起生效）。",
+    "loginSignup": "登录/注册"
   }
 }
