@@ -33,7 +33,8 @@
     "subtitle": "Five stages: Stages 1–4 form the main line (each gated by the previous quiz); Stage 5 is a knowledge extension.",
     "level": "Levels",
     "openCandles": "Open the Candlestick Reader",
-    "live": "Live"
+    "live": "Live",
+    "openIndicators": "Indicator Lab"
   },
   "research": {
     "title": "Research Track",
@@ -162,5 +163,16 @@
     "quizCheck": "Check answers",
     "quizCorrect": "Correct!",
     "quizWrong": "Think again —"
+  },
+  "indicators": {
+    "title": "Indicator Lab",
+    "subtitle": "MA, Bollinger Bands, MACD, KDJ and volume computed live on the same real daily data (Tencent 0700.HK) — toggle overlays to compare, open cards for formulas, worked numbers, signal types and pitfalls.",
+    "tMA": "MA5/MA20",
+    "tBOLL": "Bollinger",
+    "tMACD": "MACD",
+    "tKDJ": "KDJ",
+    "formulaLabel": "How it's calculated",
+    "exampleLabel": "Worked on the latest real data",
+    "signalsLabel": "Reading the signals"
   }
 }

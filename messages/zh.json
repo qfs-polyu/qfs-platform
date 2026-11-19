@@ -33,7 +33,8 @@
     "subtitle": "五个阶段递进：前四阶段为主线（前一阶段测验通过解锁下一阶段），阶段五为知识拓展。",
     "level": "对应级别",
     "openCandles": "打开 K 线阅读器",
-    "live": "可试玩"
+    "live": "可试玩",
+    "openIndicators": "指标学堂"
   },
   "research": {
     "title": "Research 子版块",
@@ -162,5 +163,16 @@
     "quizCheck": "提交答案",
     "quizCorrect": "回答正确！",
     "quizWrong": "再想想——"
+  },
+  "indicators": {
+    "title": "指标学堂",
+    "subtitle": "同一份真实日线（腾讯 0700.HK）上现场计算均线、布林带、MACD、KDJ 与成交量——勾选开关对照走势，展开卡片看公式、真实数字演算、信号类型与陷阱。",
+    "tMA": "均线 MA5/MA20",
+    "tBOLL": "布林带",
+    "tMACD": "MACD",
+    "tKDJ": "KDJ",
+    "formulaLabel": "如何计算",
+    "exampleLabel": "用最新真实数据算一遍",
+    "signalsLabel": "信号怎么读"
   }
 }
