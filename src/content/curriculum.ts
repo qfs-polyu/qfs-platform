@@ -60,8 +60,8 @@ export type Stage = {
 export const TRADING_STAGES: Stage[] = [
   {
     n: 1,
-    title: 'Reading the Market',
-    blurb: 'Interactive candlestick reader, annotated quote pages, concept cards.',
+    title: 'Know Quant & Markets',
+    blurb: 'What quant is, markets & instruments (we learn with stocks), and how to read price action.',
     level: 'L0–L2'
   },
   {

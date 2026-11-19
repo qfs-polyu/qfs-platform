@@ -44,6 +44,15 @@ export default async function TradingPage({
               {stage.n === 1 && (
                 <div className="mt-2 flex flex-wrap gap-4">
                   <Link
+                    href="/learn/trading/foundations"
+                    className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline"
+                  >
+                    {t('openFoundations')} →
+                    <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
+                      {t('live')}
+                    </span>
+                  </Link>
+                  <Link
                     href="/learn/trading/candles"
                     className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline"
                   >

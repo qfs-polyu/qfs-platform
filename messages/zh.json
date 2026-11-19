@@ -36,7 +36,8 @@
     "level": "对应级别",
     "openCandles": "打开 K 线阅读器",
     "live": "可试玩",
-    "openIndicators": "指标学堂"
+    "openIndicators": "指标学堂",
+    "openFoundations": "量化金融入门"
   },
   "research": {
     "title": "Research 子版块",
@@ -176,5 +177,16 @@
     "formulaLabel": "如何计算",
     "exampleLabel": "用最新真实数据算一遍",
     "signalsLabel": "信号怎么读"
+  },
+  "foundations": {
+    "title": "量化金融入门",
+    "subtitle": "在读懂任何行情之前，先弄清三件事：量化金融是什么、量化和主观交易有何不同、量化都在哪些市场交易什么工具——以及为什么本平台用股票来举例。",
+    "marketsTitle": "量化都在交易什么？——市场与工具概览",
+    "colInstrument": "工具",
+    "colWhat": "是什么",
+    "colExample": "例子",
+    "whyTitle": "本平台的选择：以股票为例",
+    "quizTitle": "入门自测",
+    "quizCheck": "提交答案"
   }
 }

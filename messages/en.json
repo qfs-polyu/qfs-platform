@@ -36,7 +36,8 @@
     "level": "Levels",
     "openCandles": "Open the Candlestick Reader",
     "live": "Live",
-    "openIndicators": "Indicator Lab"
+    "openIndicators": "Indicator Lab",
+    "openFoundations": "Quant Foundations"
   },
   "research": {
     "title": "Research Track",
@@ -176,5 +177,16 @@
     "formulaLabel": "How it's calculated",
     "exampleLabel": "Worked on the latest real data",
     "signalsLabel": "Reading the signals"
+  },
+  "foundations": {
+    "title": "Quant Foundations",
+    "subtitle": "Before reading any chart, three questions: what quantitative finance is, how it differs from discretionary trading, and what markets quants trade — then why this platform teaches with stocks.",
+    "marketsTitle": "What do quants trade? — Markets & instruments",
+    "colInstrument": "Instrument",
+    "colWhat": "What it is",
+    "colExample": "Example",
+    "whyTitle": "Our choice: stocks as the running example",
+    "quizTitle": "Foundations quiz",
+    "quizCheck": "Check answers"
   }
 }
