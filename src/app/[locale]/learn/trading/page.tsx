@@ -1,4 +1,5 @@
 import {getTranslations, setRequestLocale} from 'next-intl/server';
+import {Link} from '@/i18n/navigation';
 import {TRADING_STAGES} from '@/content/curriculum';
 
 export default async function TradingPage({
@@ -40,6 +41,17 @@ export default async function TradingPage({
                 )}
               </div>
               <p className="mt-1.5 text-sm text-navy/65">{stage.blurb}</p>
+              {stage.n === 1 && (
+                <Link
+                  href="/learn/trading/candles"
+                  className="mt-2 inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline"
+                >
+                  {t('openCandles')} →
+                  <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
+                    {t('live')}
+                  </span>
+                </Link>
+              )}
             </div>
           </div>
         ))}

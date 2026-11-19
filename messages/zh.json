@@ -9,13 +9,13 @@
   "home": {
     "heroTag": "香港理工大学量化金融学会（筹）",
     "heroTitle": "量化金融学习平台",
-    "ctaAssess": "开始入门测评",
     "ctaMap": "查看学习地图",
     "mapTitle": "学习地图",
     "assessTitle": "入门测评",
     "assessBody": "10–15 题自测（金融常识 + 编程常识 + 兴趣自评），系统给出建议起点。M1 上线。",
-    "assessCta": "敬请期待",
-    "gateLabel": "通关标志："
+    "assessCta": "开始测评",
+    "gateLabel": "通关标志：",
+    "ctaAssess": "开始入门测评"
   },
   "learn": {
     "title": "学习版块",
@@ -31,7 +31,9 @@
   "trading": {
     "title": "Trading 子版块",
     "subtitle": "五个阶段递进：前四阶段为主线（前一阶段测验通过解锁下一阶段），阶段五为知识拓展。",
-    "level": "对应级别"
+    "level": "对应级别",
+    "openCandles": "打开 K 线阅读器",
+    "live": "可试玩"
   },
   "research": {
     "title": "Research 子版块",
@@ -112,5 +114,53 @@
     "unitStages": "阶段",
     "unitLayers": "层",
     "unitLessons": "课"
+  },
+  "assessment": {
+    "title": "入门测评",
+    "intro": "13 道单选题，测出你的建议起点。没有好坏之分，只为把你的起步台阶放对位置。",
+    "introPoints1": "约 5 分钟完成",
+    "introPoints2": "覆盖金融常识、编程常识与量化概念",
+    "introPoints3": "结果保存在本机，随时可重测",
+    "lastResult": "上次结果",
+    "start": "开始测评",
+    "retake": "重新测评",
+    "back": "上一题",
+    "resultTitle": "你的建议起点",
+    "recommendedStart": "推荐从这里开始",
+    "reasonL0": "从零开始最稳：先在 L0 认识市场与基本概念，再进入 L1 学 Python。",
+    "reasonL1": "你对市场已有感觉，建议从 L1 的 Python 课程起步，把编程补上。",
+    "reasonL2": "你的编程底子够用：从 L2 的行情与交易内容开始，L1 作业查漏补缺。",
+    "reasonL3": "金融、编程、量化概念都过关——直接从 L3 的第一个回测开始。",
+    "trackInterest": "你最感兴趣的方向",
+    "englishNote": "英文材料读起来吃力也没关系：站内术语表可查中文释义，答疑与 Workshop 均为中文。",
+    "scoresNote": "分项得分",
+    "goLesson1": "直接开始第 1 课",
+    "viewMap": "查看学习地图"
+  },
+  "candles": {
+    "title": "K 线阅读器",
+    "subtitle": "腾讯控股（0700.HK）真实日线数据 · 点击图表上的任意一根 K 线查看逐项讲解",
+    "maToggle": "MA20 均线",
+    "clickHint": "提示：点击图表上的任意一根 K 线，下方面板会讲解这一根的含义。",
+    "selected": "选中的 K 线",
+    "open": "开盘",
+    "high": "最高",
+    "low": "最低",
+    "close": "收盘",
+    "change": "较前日",
+    "bodyType": "形态",
+    "bullish": "阳线（收盘高于开盘，买方占优）",
+    "bearish": "阴线（收盘低于开盘，卖方占优）",
+    "upperWick": "上影线",
+    "lowerWick": "下影线",
+    "wickExplainU": "最高价与实体上沿的距离——盘中曾被推高的幅度。",
+    "wickExplainL": "实体下沿与最低价的距离——盘中曾被压低的深度。",
+    "prevBar": "上一根",
+    "nextBar": "下一根",
+    "concepts": "三个核心概念",
+    "quizTitle": "读图小测",
+    "quizCheck": "提交答案",
+    "quizCorrect": "回答正确！",
+    "quizWrong": "再想想——"
   }
 }

@@ -9,12 +9,12 @@
   "home": {
     "heroTag": "PolyU Quantitative Finance Society (founding)",
     "heroTitle": "QFS Learning Platform",
-    "ctaAssess": "Take the Assessment",
+    "ctaAssess": "Take the Placement Assessment",
     "ctaMap": "View the Learning Map",
     "mapTitle": "Learning Map",
     "assessTitle": "Placement Assessment",
     "assessBody": "10–15 questions (finance + programming + interests) recommend your starting level. Coming in M1.",
-    "assessCta": "Coming soon",
+    "assessCta": "Start the assessment",
     "gateLabel": "Gate: "
   },
   "learn": {
@@ -31,7 +31,9 @@
   "trading": {
     "title": "Trading Track",
     "subtitle": "Five stages: Stages 1–4 form the main line (each gated by the previous quiz); Stage 5 is a knowledge extension.",
-    "level": "Levels"
+    "level": "Levels",
+    "openCandles": "Open the Candlestick Reader",
+    "live": "Live"
   },
   "research": {
     "title": "Research Track",
@@ -112,5 +114,53 @@
     "unitStages": "stages",
     "unitLayers": "layers",
     "unitLessons": "lessons"
+  },
+  "assessment": {
+    "title": "Placement Assessment",
+    "intro": "13 single-choice questions to find your recommended starting level. There is no pass or fail — it only places your first step.",
+    "introPoints1": "About 5 minutes",
+    "introPoints2": "Covers finance basics, programming basics, and quant concepts",
+    "introPoints3": "Your result is saved on this device; retake anytime",
+    "lastResult": "Last result",
+    "start": "Start",
+    "retake": "Retake",
+    "back": "Back",
+    "resultTitle": "Your Recommended Start",
+    "recommendedStart": "Recommended starting level",
+    "reasonL0": "Steady from zero: get to know markets and core ideas in L0, then start Python in L1.",
+    "reasonL1": "You have a feel for markets — start with the Python course in L1.",
+    "reasonL2": "Your coding is solid enough: start with L2 market & trading content; use L1 assignments to fill gaps.",
+    "reasonL3": "Finance, coding and quant concepts all check out — jump straight into your first backtest at L3.",
+    "trackInterest": "The track that interests you most",
+    "englishNote": "If English materials feel hard: the in-site glossary gives Chinese definitions, and Q&A plus workshops run in Chinese.",
+    "scoresNote": "Section scores",
+    "goLesson1": "Start Lesson 1",
+    "viewMap": "View the learning map"
+  },
+  "candles": {
+    "title": "Candlestick Reader",
+    "subtitle": "Real daily candles of Tencent (0700.HK) · click any candle for a guided explanation",
+    "maToggle": "MA20 line",
+    "clickHint": "Tip: click any candle on the chart — the panel below explains that bar.",
+    "selected": "Selected candle",
+    "open": "Open",
+    "high": "High",
+    "low": "Low",
+    "close": "Close",
+    "change": "Chg",
+    "bodyType": "Shape",
+    "bullish": "Bullish (close above open)",
+    "bearish": "Bearish (close below open)",
+    "upperWick": "Upper wick",
+    "lowerWick": "Lower wick",
+    "wickExplainU": "distance from the high to the body top — how far price was pushed up intraday.",
+    "wickExplainL": "distance from the body bottom to the low — how far price was pushed down intraday.",
+    "prevBar": "Prev",
+    "nextBar": "Next",
+    "concepts": "Three core concepts",
+    "quizTitle": "Reading quiz",
+    "quizCheck": "Check answers",
+    "quizCorrect": "Correct!",
+    "quizWrong": "Think again —"
   }
 }

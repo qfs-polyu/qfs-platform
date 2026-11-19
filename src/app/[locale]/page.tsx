@@ -1,5 +1,6 @@
 import {Suspense} from 'react';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
+import {Link} from '@/i18n/navigation';
 import {LEVELS} from '@/content/curriculum';
 import L1Badge from '@/components/home/L1Badge';
 
@@ -24,9 +25,12 @@ export default async function HomePage({
           {t('heroTitle')}
         </h1>
         <div className="mt-8 flex flex-wrap gap-3">
-          <span className="rounded-full bg-white/10 px-4 py-2 text-sm text-white/60">
-            {t('ctaAssess')} · {tc('comingM1')}
-          </span>
+          <Link
+            href="/assessment"
+            className="rounded-full border border-white/30 px-5 py-2 text-sm font-medium text-white transition hover:border-white/60"
+          >
+            {t('ctaAssess')}
+          </Link>
           <a
             href="#learning-map"
             className="rounded-full bg-accent px-5 py-2 text-sm font-medium text-white transition hover:bg-accent/90"
@@ -79,14 +83,17 @@ export default async function HomePage({
         </ol>
       </section>
 
-      {/* Assessment placeholder */}
+      {/* Assessment */}
       <section>
         <div className="rounded-xl border border-dashed border-navy/25 bg-surface p-6 md:max-w-xl">
           <h2 className="font-semibold">{t('assessTitle')}</h2>
           <p className="mt-3 text-sm text-navy/60">{t('assessBody')}</p>
-          <span className="mt-3 inline-block rounded-full bg-navy/5 px-3 py-1 text-xs text-navy/50">
+          <Link
+            href="/assessment"
+            className="mt-3 inline-block rounded-full bg-navy px-4 py-1.5 text-sm font-medium text-white transition hover:bg-navy/90"
+          >
             {t('assessCta')}
-          </span>
+          </Link>
         </div>
       </section>
     </div>
