@@ -1,8 +1,6 @@
 import {Suspense} from 'react';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
-import {Link} from '@/i18n/navigation';
 import {LEVELS} from '@/content/curriculum';
-import ProgressCard from '@/components/home/ProgressCard';
 import L1Badge from '@/components/home/L1Badge';
 
 export default async function HomePage({
@@ -81,19 +79,9 @@ export default async function HomePage({
         </ol>
       </section>
 
-      {/* Progress + assessment placeholders */}
-      <section className="grid gap-4 md:grid-cols-2">
-        <Suspense
-          fallback={
-            <div className="rounded-xl border border-dashed border-navy/25 bg-surface p-6">
-              <h2 className="font-semibold">{t('progressTitle')}</h2>
-              <div className="mt-3 h-2 w-24 animate-pulse rounded-full bg-navy/10" />
-            </div>
-          }
-        >
-          <ProgressCard />
-        </Suspense>
-        <div className="rounded-xl border border-dashed border-navy/25 bg-surface p-6">
+      {/* Assessment placeholder */}
+      <section>
+        <div className="rounded-xl border border-dashed border-navy/25 bg-surface p-6 md:max-w-xl">
           <h2 className="font-semibold">{t('assessTitle')}</h2>
           <p className="mt-3 text-sm text-navy/60">{t('assessBody')}</p>
           <span className="mt-3 inline-block rounded-full bg-navy/5 px-3 py-1 text-xs text-navy/50">

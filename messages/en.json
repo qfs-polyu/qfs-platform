@@ -3,7 +3,8 @@
     "home": "Home",
     "learn": "Learning",
     "assignments": "Assignments",
-    "leaderboard": "Leaderboard"
+    "leaderboard": "Leaderboard",
+    "mine": "Profile"
   },
   "home": {
     "heroTag": "PolyU Quantitative Finance Society (founding)",
@@ -11,15 +12,10 @@
     "ctaAssess": "Take the Assessment",
     "ctaMap": "View the Learning Map",
     "mapTitle": "Learning Map",
-    "progressTitle": "My Progress",
-    "progressNote": "Progress tracking arrives in M1 (accounts). This is the M0 skeleton preview.",
     "assessTitle": "Placement Assessment",
     "assessBody": "10–15 questions (finance + programming + interests) recommend your starting level. Coming in M1.",
     "assessCta": "Coming soon",
-    "gateLabel": "Gate: ",
-    "completedLessons": "Coding lessons completed",
-    "codingProgress": "Coding progress (lessons done)",
-    "startFirstLesson": "Nothing recorded yet — finish any coding lesson to light this up."
+    "gateLabel": "Gate: "
   },
   "learn": {
     "title": "Learning",
@@ -104,5 +100,17 @@
     "checkEmail": "Confirmation email sent — open your university inbox, click the link, then log in.",
     "schoolEmailNote": "Accounts use PolyU university emails; progress and assignments attach to your account (from M1).",
     "loginSignup": "Log in / Sign up"
+  },
+  "me": {
+    "title": "Profile",
+    "progressTitle": "My Progress",
+    "accountTitle": "Account",
+    "loginPrompt": "Log in to see your learning progress.",
+    "signedInAs": "Signed in as",
+    "notSignedIn": "Not signed in",
+    "notRecordedYet": "Recording starts when this track's content lands",
+    "unitStages": "stages",
+    "unitLayers": "layers",
+    "unitLessons": "lessons"
   }
 }

@@ -3,7 +3,8 @@
     "home": "首页",
     "learn": "学习版块",
     "assignments": "作业与练习中心",
-    "leaderboard": "排行榜"
+    "leaderboard": "排行榜",
+    "mine": "我的"
   },
   "home": {
     "heroTag": "香港理工大学量化金融学会（筹）",
@@ -11,15 +12,10 @@
     "ctaAssess": "开始入门测评",
     "ctaMap": "查看学习地图",
     "mapTitle": "学习地图",
-    "progressTitle": "个人进度",
-    "progressNote": "进度追踪将在 M1 上线（账号系统）。当前为骨架预览。",
     "assessTitle": "入门测评",
     "assessBody": "10–15 题自测（金融常识 + 编程常识 + 兴趣自评），系统给出建议起点。M1 上线。",
     "assessCta": "敬请期待",
-    "gateLabel": "通关标志：",
-    "completedLessons": "已完成代码课",
-    "codingProgress": "代码课进度（已完成课数）",
-    "startFirstLesson": "还没有记录——完成任意一课代码课后这里会点亮。"
+    "gateLabel": "通关标志："
   },
   "learn": {
     "title": "学习版块",
@@ -104,5 +100,17 @@
     "checkEmail": "确认邮件已发送，请到学校邮箱点击确认链接后再登录。",
     "schoolEmailNote": "账号使用 PolyU 学校邮箱，进度与作业记录将关联到账号（M1 起生效）。",
     "loginSignup": "登录/注册"
+  },
+  "me": {
+    "title": "我的",
+    "progressTitle": "个人进度",
+    "accountTitle": "账号信息",
+    "loginPrompt": "登录后查看你的学习进度。",
+    "signedInAs": "当前登录",
+    "notSignedIn": "尚未登录",
+    "notRecordedYet": "该版块内容上线后开始记录",
+    "unitStages": "阶段",
+    "unitLayers": "层",
+    "unitLessons": "课"
   }
 }

@@ -13,7 +13,8 @@ export default function Header() {
     {href: '/', label: t('home')},
     {href: '/learn', label: t('learn')},
     {href: '/assignments', label: t('assignments')},
-    {href: '/leaderboard', label: t('leaderboard')}
+    {href: '/leaderboard', label: t('leaderboard')},
+    {href: '/me', label: t('mine')}
   ];
 
   return (
