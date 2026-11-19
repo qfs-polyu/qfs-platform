@@ -96,6 +96,14 @@ export const LESSONS: Lesson[] = [
           'entry = 80.0\nexit_price = 90.0\n\n# TODO: print decimal return, then percent return\n',
         expected: '0.125\n12.5',
         hint: 'Same two lines as before: relative gain first, times 100 second.'
+      },
+      {
+        title: "Real data \u2014 a real Tencent fortnight",
+        explain: "These are Tencent's (0700.HK) ACTUAL closing prices: HK$423.4 on 2026-10-14 and HK$383.6 on 2026-10-30. Compute the real holding-period return as a decimal (rounded to 4) and as a percent (rounded to 4), one per line \u2014 exactly how a daily report states it.",
+        example: "old = 431.0   # 2026-09-30 real close\nnew = 417.8   # 2026-10-16 real close\nr = (new - old) / old\nprint(round(r, 4))\nprint(round(r * 100, 4))\n",
+        starter: "old = 423.4   # real close, 2026-10-14\nnew = 383.6   # real close, 2026-10-30\n\n# TODO: print round(r, 4) then round(r * 100, 4)\n",
+        expected: "-0.094\n-9.4001",
+        hint: "Same two lines as the lesson \u2014 with the real prices.",
       }
     ]
   },
@@ -182,6 +190,14 @@ export const LESSONS: Lesson[] = [
           'prices = [100, 120, 90, 110, 80, 130]\n\n# TODO: print(round(max_drawdown, 4))\n',
         expected: '0.3333',
         hint: 'The answer is a clean fraction: how far is 80 below the earlier peak of 120?'
+      },
+      {
+        title: "Real data \u2014 drawdown check on a rough fortnight",
+        explain: "These twelve closes are Tencent's real daily finishes from 2026-10-14 to 2026-10-30 \u2014 a rough patch. Run the running-peak loop on REAL prices and print the fortnight's maximum drawdown rounded to 4 decimals: the number a risk report would flag.",
+        example: "prices = [431.0, 421.2, 423.0]   # three real closes, late Sep 2026\npeak = prices[0]\nmax_dd = 0.0\nfor p in prices:\n    peak = max(peak, p)\n    max_dd = max(max_dd, 1 - p / peak)\nprint(round(max_dd, 4))\n",
+        starter: "prices = [423.4, 417.8, 417.8, 410.4, 393.8, 382.4, 386.0, 386.4, 385.2, 387.6, 377.6, 383.6]  # real closes 2026-10-14..10-30\n\n# TODO: running peak + drawdown loop; print(round(max_drawdown, 4))\n",
+        expected: "0.1082",
+        hint: "The identical loop from the challenge \u2014 only the numbers are real now.",
       }
     ]
   },
@@ -258,6 +274,14 @@ export const LESSONS: Lesson[] = [
           '# TODO: def classify_regime(index_return): ...\n# print(classify_regime(0.25), classify_regime(-0.10), classify_regime(0.0))\n',
         expected: 'Bull Neutral Neutral',
         hint: 'Return the string, do not print inside the function — the caller prints.'
+      },
+      {
+        title: "Real data \u2014 classifying Tencent's real two-month moves",
+        explain: "Your classifier on REAL two-month moves of Tencent: from 2024-03-05 to 2024-05-16 the stock actually rose +48.02%; from 2026-08-28 to 2026-10-29 it fell -17.05%. Classify both real returns with your function and print the verdicts in one line. (Reminder: the 20% rule is a broad-index teaching convention \u2014 a single stock moving 20% is NOT a bull market.)",
+        example: "def zone(r):\n    if r >= 0.20:\n        return \"Strong\"\n    elif r <= -0.20:\n        return \"Weak\"\n    else:\n        return \"Mid\"\nprint(zone(0.4576), zone(-0.1141))   # two other REAL two-month windows (2024)\n",
+        starter: "# TODO: reuse your classify_regime\nclassify_regime(0.4802)   # real: 2024-03-05 -> 2024-05-16\nclassify_regime(-0.1705)  # real: 2026-08-28 -> 2026-10-29\n# print(classify_regime(0.4802), classify_regime(-0.1705))\n",
+        expected: "Bull Neutral",
+        hint: "Only the giant 2024 rally crosses the +20% line; the 2026 slump stays above -20%.",
       }
     ]
   },
@@ -334,6 +358,14 @@ export const LESSONS: Lesson[] = [
           'import numpy as np\n\nprices = np.array([100.0, 110.0, 99.0, 108.9])\nloop_total = 0.0\nfor i in range(1, len(prices)):\n    loop_total += prices[i] / prices[i - 1] - 1\nvec_total = float((prices[1:] / prices[:-1] - 1).sum())\n# TODO: print(round(loop_total, 4), round(vec_total, 4))\n',
         expected: '0.1 0.1',
         hint: 'Two different routes, one identical destination.'
+      },
+      {
+        title: "Real data \u2014 a real week of daily returns",
+        explain: "These are Tencent's last five REAL closes of October 2026. Compute the four actual daily returns with vectorized slicing, printing each rounded to 4 decimals, one per line.",
+        example: "import numpy as np\n\nx = np.array([423.4, 417.8, 417.8, 410.4, 393.8])  # real closes, mid Oct 2026\nr = x[1:] / x[:-1] - 1\nfor v in r:\n    print(round(float(v), 4))\n",
+        starter: "import numpy as np\n\nprices = np.array([386.4, 385.2, 387.6, 377.6, 383.6])  # real closes, 26-30 Oct 2026\n\n# TODO: returns = prices[1:] / prices[:-1] - 1; print each round(float(v), 4)\n",
+        expected: "-0.0031\n0.0062\n-0.0258\n0.0159",
+        hint: "One slice line, one loop to print \u2014 real prices, same as class.",
       }
     ]
   },
@@ -420,6 +452,14 @@ export const LESSONS: Lesson[] = [
           'import numpy as np\nimport pandas as pd\n\nadj = pd.Series([100.0, 110.0, 99.0, 108.9])\nr = adj.pct_change().dropna()\n# TODO: print(round(float(r.std() * np.sqrt(252)), 4))\n',
         expected: '1.833',
         hint: 'Daily spread (~0.1155) stretched by sqrt(252) ≈ 15.87.'
+      },
+      {
+        title: "Real data \u2014 Tencent's real volatility",
+        explain: "The full pipeline on REAL data: 21 actual Tencent closes from 2026-09-30 to 2026-10-30. Build the Series, take pct_change, compute the SAMPLE standard deviation (ddof=1) and annualize with sqrt(252). Print the result rounded to 4 \u2014 this is the actual annualized volatility the market priced for Tencent in October 2026.",
+        example: "import numpy as np\nimport pandas as pd\n\nadj = pd.Series([431.0, 421.2, 423.0, 428.2, 420.6, 411.4])  # six real closes, Sep-Oct 2026\nr = adj.pct_change().dropna()\nprint(round(float(r.std() * np.sqrt(252)), 4))\n",
+        starter: "import numpy as np\nimport pandas as pd\n\nadj = pd.Series([431.0, 421.2, 423.0, 428.2, 420.6, 411.4, 424.8, 425.8, 425.2, 423.4, 417.8, 417.8, 410.4, 393.8, 382.4, 386.0, 386.4, 385.2, 387.6, 377.6, 383.6])  # real closes 2026-09-30..10-30\n\n# TODO: r = adj.pct_change().dropna(); print(round(float(r.std() * np.sqrt(252)), 4))\n",
+        expected: "0.2808",
+        hint: "Steps 6-8 chained: pct_change -> std (ddof=1) -> sqrt(252). Nothing new.",
       }
     ]
   }
