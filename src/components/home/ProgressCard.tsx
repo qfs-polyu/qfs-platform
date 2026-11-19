@@ -51,19 +51,22 @@ export default async function ProgressCard() {
           {user.email}
         </p>
         <div className="flex items-center justify-between text-sm text-navy/70">
-          <span>{t('completedLessons')}</span>
+          <span>{t('codingProgress')}</span>
           <span className="font-semibold text-navy">
             {completedLessons.length} / {TOTAL_LESSONS}
           </span>
         </div>
-        <div className="h-2 overflow-hidden rounded-full bg-navy/10">
+        <div className="h-2.5 overflow-hidden rounded-full bg-navy/15">
           <div
             className="h-full rounded-full bg-accent transition-all"
             style={{
-              width: `${Math.min(100, (completedLessons.length / TOTAL_LESSONS) * 100)}%`
+              width: `${Math.max(2, Math.min(100, (completedLessons.length / TOTAL_LESSONS) * 100))}%`
             }}
           />
         </div>
+        {completedLessons.length === 0 && (
+          <p className="text-xs text-navy/45">{t('startFirstLesson')}</p>
+        )}
       </div>
     </div>
   );

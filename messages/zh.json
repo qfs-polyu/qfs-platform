@@ -17,7 +17,9 @@
     "assessBody": "10–15 题自测（金融常识 + 编程常识 + 兴趣自评），系统给出建议起点。M1 上线。",
     "assessCta": "敬请期待",
     "gateLabel": "通关标志：",
-    "completedLessons": "已完成代码课"
+    "completedLessons": "已完成代码课",
+    "codingProgress": "代码课进度（已完成课数）",
+    "startFirstLesson": "还没有记录——完成任意一课代码课后这里会点亮。"
   },
   "learn": {
     "title": "学习版块",

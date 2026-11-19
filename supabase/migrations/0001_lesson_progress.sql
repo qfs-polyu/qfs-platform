@@ -26,3 +26,7 @@ create policy "lesson_progress_upsert_own"
   on public.lesson_progress for update
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
+
+-- Table privileges for the app roles (required on top of RLS).
+revoke all on public.lesson_progress from anon;
+grant select, insert, update on public.lesson_progress to authenticated;

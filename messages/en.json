@@ -17,7 +17,9 @@
     "assessBody": "10–15 questions (finance + programming + interests) recommend your starting level. Coming in M1.",
     "assessCta": "Coming soon",
     "gateLabel": "Gate: ",
-    "completedLessons": "Coding lessons completed"
+    "completedLessons": "Coding lessons completed",
+    "codingProgress": "Coding progress (lessons done)",
+    "startFirstLesson": "Nothing recorded yet — finish any coding lesson to light this up."
   },
   "learn": {
     "title": "Learning",
