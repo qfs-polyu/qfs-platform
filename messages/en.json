@@ -95,7 +95,9 @@
     "saveError": "Progress not saved yet (resumes once the database is initialized).",
     "exampleLabel": "Example — see it work first",
     "runExample": "Run example",
-    "exampleOutput": "Example output"
+    "exampleOutput": "Example output",
+    "hardcodedFlag": "Answer looks hardcoded",
+    "hardcodedTip": "The output is right, but the answer appears printed as a literal — compute it from the given variables instead."
   },
   "auth": {
     "title": "Account",

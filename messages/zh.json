@@ -95,7 +95,9 @@
     "saveError": "进度暂未保存（数据库初始化后自动恢复）。",
     "exampleLabel": "示例 · 先看一遍怎么工作",
     "runExample": "运行示例",
-    "exampleOutput": "示例输出"
+    "exampleOutput": "示例输出",
+    "hardcodedFlag": "答案疑似硬编码",
+    "hardcodedTip": "输出对了，但答案像是直接写进 print 的——请用题目给的变量把它算出来再输出。"
   },
   "auth": {
     "title": "账号",

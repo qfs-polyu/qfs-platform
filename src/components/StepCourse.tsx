@@ -43,6 +43,82 @@ const outputsMatch = (expected: string, actual: string): boolean => {
   return false;
 };
 
+/* Hardcode detector: the expected answer must be COMPUTED, not printed as a
+   literal. Flags:
+   1) a multi-token expected line appearing as a quoted string in code;
+   2) an expected number appearing as a bare literal inside a print(...) call.
+   Data in variables/lists, strings returned by logic, and small helper
+   arguments (like round(x, 4)) are NOT flagged. */
+const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+function printArgSpans(code: string): string[] {
+  const spans: string[] = [];
+  const src = code.replace(/#.*$/gm, ''); // ignore comments
+  let idx = 0;
+  while (true) {
+    const start = src.indexOf('print', idx);
+    if (start === -1) break;
+    // must be a call: optional whitespace then (
+    let p = start + 5;
+    while (p < src.length && /\s/.test(src[p])) p++;
+    if (src[p] !== '(') {
+      idx = start + 5;
+      continue;
+    }
+    let depth = 0;
+    let end = p;
+    for (; end < src.length; end++) {
+      if (src[end] === '(') depth++;
+      else if (src[end] === ')') {
+        depth--;
+        if (depth === 0) break;
+      }
+    }
+    spans.push(src.slice(p + 1, end));
+    idx = end + 1;
+  }
+  return spans;
+}
+
+function looksHardcoded(expected: string, code: string): boolean {
+  const codeNoComments = code.replace(/#.*$/gm, '');
+  const spans = printArgSpans(code);
+  for (const line of toLines(expected)) {
+    const tokens = line.split(/\s+/).filter((t) => t.length > 0);
+    if (tokens.length === 1) {
+      // single-token lines: only numeric literals in print args are flagged
+      // (single words are legitimately printed by logic, e.g. print("Positive"))
+      const tok = tokens[0].replace(/[,()[\]]/g, '');
+      if (NUM_RE.test(tok) && Number.isFinite(Number(tok))) {
+        const num = Number(tok);
+        const forms = [String(num), String(num) + '.0'];
+        for (const span of spans) {
+          for (const f of forms) {
+            const re = new RegExp(`(?<![\\w.'"])${esc(f)}(?![\\w.'"])`);
+            if (re.test(span)) return true;
+          }
+        }
+      }
+      continue;
+    }
+    // multi-token lines: whole line quoted verbatim …
+    const q = new RegExp(`["']${esc(line)}["']`);
+    if (q.test(codeNoComments)) return true;
+    // … or EVERY token present as a standalone literal (quoted or bare)
+    // inside ONE print call
+    const norm = (t: string) => t.replace(/[,()[\]]/g, '');
+    const tokInSpan = (tok: string, span: string): boolean => {
+      const n = norm(tok);
+      const re = new RegExp(`(?<![\\w'"])['"]?${esc(n)}['"]?(?![\\w'"])`);
+      return re.test(span);
+    };
+    if (spans.some((span) => tokens.every((tok) => tokInSpan(tok, span)))) {
+      return true;
+    }
+  }
+  return false;
+}
+
 export default function StepCourse({lesson}: {lesson: Lesson}) {
   const t = useTranslations('lesson');
   const {state, run} = usePyodide();
@@ -62,6 +138,7 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
   const [exampleRun, setExampleRun] = useState<'idle' | 'running' | 'done'>(
     'idle'
   );
+  const [hardcoded, setHardcoded] = useState(false);
 
   const step = lesson.steps[stepIndex];
   const isLast = stepIndex === lesson.steps.length - 1;
@@ -74,6 +151,7 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
     setCodes(next);
     setChecked(false);
     setPassed(false);
+    setHardcoded(false);
   };
 
   const resetStepUi = () => {
@@ -81,6 +159,7 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
     setError('');
     setChecked(false);
     setPassed(false);
+    setHardcoded(false);
     setShowHint(false);
     setExampleOut('');
     setExampleErr('');
@@ -113,8 +192,11 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
 
   const onCheck = () => {
     const ok = !error && outputsMatch(step.expected, output);
+    const hard =
+      ok && !step.allowLiteral && looksHardcoded(step.expected, code);
     setChecked(true);
-    setPassed(ok);
+    setPassed(ok && !hard);
+    setHardcoded(hard);
   };
 
   const onNext = async () => {
@@ -304,8 +386,15 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
               passed ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
             }`}
           >
-            {passed ? `✓ ${t('passed')}` : `✗ ${t('failed')}`}
+            {passed
+              ? `✓ ${t('passed')}`
+              : hardcoded
+                ? `✗ ${t('hardcodedFlag')}`
+                : `✗ ${t('failed')}`}
           </span>
+        )}
+        {checked && hardcoded && (
+          <p className="w-full text-xs text-amber-700">{t('hardcodedTip')}</p>
         )}
         {passed && !isLast && (
           <button

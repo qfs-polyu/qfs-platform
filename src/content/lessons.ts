@@ -8,6 +8,8 @@
 export type LessonStep = {
   title: string;
   explain: string;
+  /** true when the task itself is to print a fixed literal (step 1.1) */
+  allowLiteral?: boolean;
   /** worked example shown before the task (different numbers than the task) */
   example: string;
   starter: string;
@@ -28,6 +30,7 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         title: 'Say something',
+        allowLiteral: true,
         example: "print(\"Hello, world!\")\nprint(\"Hong Kong\")\n",
         explain:
           'print() sends text to the console, and text must be wrapped in quotes. Press Run — the code prints the greeting "Hello, QFS!". Then press Check: it compares your output with the expected output. (Trying changing the text between the quotes to anything you like, then run again to see the difference.)',
