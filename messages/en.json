@@ -92,7 +92,10 @@
     "progressSaved": "Progress saved to your account",
     "loginToSave": "Log in to save your progress across devices.",
     "loginLink": "Log in",
-    "saveError": "Progress not saved yet (resumes once the database is initialized)."
+    "saveError": "Progress not saved yet (resumes once the database is initialized).",
+    "exampleLabel": "Example — see it work first",
+    "runExample": "Run example",
+    "exampleOutput": "Example output"
   },
   "auth": {
     "title": "Account",

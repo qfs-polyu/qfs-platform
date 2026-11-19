@@ -57,6 +57,11 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
   const [saveState, setSaveState] = useState<'idle' | 'saved' | 'anon' | 'error'>(
     'idle'
   );
+  const [exampleOut, setExampleOut] = useState('');
+  const [exampleErr, setExampleErr] = useState('');
+  const [exampleRun, setExampleRun] = useState<'idle' | 'running' | 'done'>(
+    'idle'
+  );
 
   const step = lesson.steps[stepIndex];
   const isLast = stepIndex === lesson.steps.length - 1;
@@ -69,6 +74,28 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
     setCodes(next);
     setChecked(false);
     setPassed(false);
+  };
+
+  const resetStepUi = () => {
+    setOutput('');
+    setError('');
+    setChecked(false);
+    setPassed(false);
+    setShowHint(false);
+    setExampleOut('');
+    setExampleErr('');
+    setExampleRun('idle');
+  };
+
+  const onRunExample = async () => {
+    if (state !== 'ready' || exampleRun === 'running') return;
+    setExampleRun('running');
+    setExampleOut('');
+    setExampleErr('');
+    const result = await run(step.example);
+    setExampleOut(result.stdout);
+    setExampleErr(result.error ?? '');
+    setExampleRun('done');
   };
 
   const onRun = async () => {
@@ -113,11 +140,7 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
       }
     } else {
       setStepIndex(stepIndex + 1);
-      setOutput('');
-      setError('');
-      setChecked(false);
-      setPassed(false);
-      setShowHint(false);
+      resetStepUi();
     }
   };
 
@@ -151,10 +174,7 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
             setDone(false);
             setStepIndex(0);
             setCodes(lesson.steps.map((s) => s.starter));
-            setOutput('');
-            setError('');
-            setChecked(false);
-            setPassed(false);
+            resetStepUi();
           }}
           className="mt-5 rounded-full bg-navy px-5 py-2 text-sm font-medium text-white hover:bg-navy/90"
         >
@@ -175,11 +195,7 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
             onClick={() => {
               if (i < stepIndex) {
                 setStepIndex(i);
-                setOutput('');
-                setError('');
-                setChecked(false);
-                setPassed(false);
-                setShowHint(false);
+                resetStepUi();
               }
             }}
             className={`rounded-full px-3 py-1 text-xs font-medium transition ${
@@ -203,6 +219,38 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
           {stepIndex + 1}. {step.title}
         </h2>
         <p className="mt-2 text-sm leading-relaxed text-navy/70">{step.explain}</p>
+      </div>
+
+      {/* Worked example */}
+      <div className="rounded-xl border border-navy/10 bg-white shadow-sm">
+        <div className="flex items-center justify-between border-b border-navy/10 px-5 py-3">
+          <span className="text-xs font-semibold uppercase tracking-wide text-navy/50">
+            {t('exampleLabel')}
+          </span>
+          <button
+            onClick={onRunExample}
+            disabled={state !== 'ready' || exampleRun === 'running'}
+            className="rounded-full bg-navy/90 px-4 py-1.5 text-xs font-medium text-white transition hover:bg-navy disabled:opacity-40"
+          >
+            {exampleRun === 'running' ? '…' : `▶ ${t('runExample')}`}
+          </button>
+        </div>
+        <pre className="overflow-x-auto bg-[#1e2530] px-5 py-4 font-mono text-sm leading-relaxed text-white/90">
+          {step.example}
+        </pre>
+        {exampleRun === 'done' && (
+          <div className="border-t border-navy/10 px-5 py-3">
+            <p className="text-xs font-medium text-navy/45">{t('exampleOutput')}</p>
+            {exampleOut && (
+              <pre className="mt-1 font-mono text-sm text-navy/85">{exampleOut}</pre>
+            )}
+            {exampleErr && (
+              <pre className="mt-1 whitespace-pre-wrap font-mono text-xs text-red-600">
+                {exampleErr}
+              </pre>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Code editor + output */}
