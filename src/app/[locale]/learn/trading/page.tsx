@@ -71,6 +71,15 @@ export default async function TradingPage({
                       {t('live')}
                     </span>
                   </Link>
+                  <Link
+                    href="/learn/trading/quotes"
+                    className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline"
+                  >
+                    {t('openQuotes')} →
+                    <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
+                      {t('live')}
+                    </span>
+                  </Link>
                 </div>
               )}
             </div>

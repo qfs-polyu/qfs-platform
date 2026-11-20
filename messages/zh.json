@@ -37,7 +37,8 @@
     "openCandles": "打开 K 线阅读器",
     "live": "可试玩",
     "openIndicators": "指标学堂",
-    "openFoundations": "量化金融入门"
+    "openFoundations": "量化金融入门",
+    "openQuotes": "行情解剖图"
   },
   "research": {
     "title": "Research 子版块",
@@ -196,5 +197,34 @@
   },
   "tracks": {
     "progressTitle": "本版块进度"
+  },
+  "admin": {
+    "title": "管理端看板",
+    "subtitle": "仅版块负责人与执委可见。数据：注册与完成情况、每课完成率、成员明细，可导出 CSV。",
+    "needLogin": "本页面需要登录后访问。",
+    "loginLink": "登录/注册",
+    "notAdmin": "你的账号不是管理员。管理员身份由 Supabase 中用户的 app_metadata（role: admin）标记，请联系技术接口人设置。",
+    "loadError": "读取失败：请确认已执行 0002_admin.sql（数据库函数未就绪时会出现此提示）。",
+    "registered": "注册成员",
+    "activeLearners": "有学习记录的成员",
+    "totalCompletions": "累计课程完成数",
+    "perLessonTitle": "每课完成人数",
+    "perLessonNote": "分母为有学习记录的成员数；第 6–8 课内容未上线，为 0 属正常。",
+    "membersTitle": "成员明细",
+    "colEmail": "邮箱",
+    "colSignup": "注册日期",
+    "colLessons": "完成课数",
+    "colLastActive": "最近学习",
+    "exportCsv": "导出 CSV",
+    "lessonLabel": "第{n}课"
+  },
+  "quotes": {
+    "title": "行情解剖图",
+    "subtitle": "一张典型港股报价面板（腾讯 0700.HK 真实价格；量比、市盈率为示教值）——点击任意区块，看它是什么、怎么算、传递什么信号。",
+    "panelHint": "下面是一张模拟报价面板，点击任意区块查看讲解。",
+    "whatLabel": "是什么：",
+    "signalLabel": "信号类型：",
+    "quizTitle": "读盘小测",
+    "quizCheck": "提交答案"
   }
 }

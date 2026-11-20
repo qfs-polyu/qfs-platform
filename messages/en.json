@@ -37,7 +37,8 @@
     "openCandles": "Open the Candlestick Reader",
     "live": "Live",
     "openIndicators": "Indicator Lab",
-    "openFoundations": "Quant Foundations"
+    "openFoundations": "Quant Foundations",
+    "openQuotes": "Quote Anatomy"
   },
   "research": {
     "title": "Research Track",
@@ -196,5 +197,34 @@
   },
   "tracks": {
     "progressTitle": "Track progress"
+  },
+  "admin": {
+    "title": "Admin Dashboard",
+    "subtitle": "Board leads and committee only. Registration & completion, per-lesson rates, member detail, CSV export.",
+    "needLogin": "This page requires you to log in.",
+    "loginLink": "Log in / Sign up",
+    "notAdmin": "Your account is not an admin. Admin is marked via the user's app_metadata (role: admin) in Supabase — ask the tech lead to set it.",
+    "loadError": "Failed to load: make sure 0002_admin.sql has been run (this appears when the DB functions are missing).",
+    "registered": "Registered members",
+    "activeLearners": "Members with progress",
+    "totalCompletions": "Total lesson completions",
+    "perLessonTitle": "Completions per lesson",
+    "perLessonNote": "Denominator = members with progress; lessons 6–8 show 0 until their content lands.",
+    "membersTitle": "Members",
+    "colEmail": "Email",
+    "colSignup": "Signed up",
+    "colLessons": "Lessons done",
+    "colLastActive": "Last active",
+    "exportCsv": "Export CSV",
+    "lessonLabel": "Lesson {n}"
+  },
+  "quotes": {
+    "title": "Quote Anatomy",
+    "subtitle": "A typical HK quote panel (real Tencent 0700.HK prices; volume ratio and P/E illustrative) — click any block for what it is, how it's calculated, and what signal it carries.",
+    "panelHint": "A mock quote panel — click any block to open its explanation.",
+    "whatLabel": "What it is:",
+    "signalLabel": "Signal type:",
+    "quizTitle": "Quote-reading quiz",
+    "quizCheck": "Check answers"
   }
 }
