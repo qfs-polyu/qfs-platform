@@ -36,8 +36,8 @@ export const LESSONS: Lesson[] = [
         example: "print(\"Hello, world!\")\nprint(\"Hong Kong\")\n",
         exampleNotes: {"0": "print() shows whatever is inside the brackets; text must be wrapped in quotes", "1": "a second print() starts a NEW line automatically"},
         explain:
-          'print() sends text to the console, and text must be wrapped in quotes. Press Run — the code prints the greeting "Hello, QFS!". Then press Check: it compares your output with the expected output. (Trying changing the text between the quotes to anything you like, then run again to see the difference.)',
-        starter: 'print("Hello, QFS!")\n',
+          "print() is your outlet to the world: whatever sits between its brackets is written to the console \u2014 the output panel below your editor. Text (a string) must be wrapped in quotes so Python treats it as words, not as a variable name. The brackets () make it a CALL: you are telling Python to run the print action now. The checker compares your console output with the expected output, so match the text exactly \u2014 capitals and punctuation included.",
+        starter: "# Task: make this program print the greeting: Hello, QFS!\n",
         expected: 'Hello, QFS!',
         hint: 'The expected output for Check is "Hello, QFS!" — restore it before pressing Check.'
       },
@@ -46,9 +46,9 @@ export const LESSONS: Lesson[] = [
         example: "apples = 3\nprice_per_apple = 2.5\nprint(apples * price_per_apple)\n",
         exampleNotes: {"0": "create a variable named apples; a whole number is an int", "1": "a decimal value is a float — the dot makes it one", "2": "* multiplies the two variables; print() shows the result: 7.5"},
         explain:
-          'A variable is a name for a value — here, the price of one share (in dollars) and the number of shares you hold. Print the total value of the position: how many dollars are these 200 shares worth altogether?',
+          "A variable is a NAME that points to a value \u2014 like a labelled box: price = 12.5 puts 12.5 into a box labelled price, and from then on the name price hands Python the value. Python knows everyday arithmetic: + - * / work as in maths, with * binding tighter than +. Inside an expression, every variable is replaced by its value before the arithmetic runs. Task in words: compute the total worth of the position and print it.",
         starter:
-          'price = 12.5      # dollars per share\nquantity = 200    # shares\n\n# TODO: print the total value of the position\n',
+          "price = 12.5      # dollars per share\nquantity = 200    # shares\n\n# Task: print how many dollars these 200 shares are worth altogether\n",
         expected: '2500.0',
         hint: 'Which arithmetic operation combines "price per share" with "number of shares"?'
       },
@@ -57,9 +57,9 @@ export const LESSONS: Lesson[] = [
         example: "score = 90\nscore = score + 10\nprint(score)\n",
         exampleNotes: {"0": "create score with 90", "1": "RIGHT side runs first: read old score, add 10, store it back into score", "2": "score is now 100 — assignment overwrote the old value"},
         explain:
-          'The = sign means "assign", not "equals" in the math sense: the right side is computed first, then stored into the name on the left. That is why a variable can appear on both sides. Update the price by 5 dollars and print it.',
+          "The = sign does NOT mean equals \u2014 it means STORE INTO. Python runs the RIGHT side first, then stores the result into the name on the LEFT. That is why price = price + 5 is legal and powerful: it reads the OLD value, adds 5, and overwrites price with the result. This update pattern (read old, compute, overwrite) is the engine behind every running total in this course. Task: apply it once.",
         starter:
-          'price = 100.0\n\n# TODO: add 5 to price (assign price = price + 5), then print price\n',
+          "price = 100.0\n\n# Task: increase price by 5 dollars, then print the new price\n",
         expected: '105.0',
         hint: 'The new value overwrites the old one — after the update line, price holds 105.0.'
       },
@@ -68,9 +68,9 @@ export const LESSONS: Lesson[] = [
         example: "print(type(\"HK\"), type(7), type(7.0))\n",
         exampleNotes: {"0": "type() reveals a value's type; commas show three results on ONE line, space-separated"},
         explain:
-          'Every value has a type: int (whole numbers), float (decimals), str (text in quotes). type() tells you which. Print the types of the ticker, the share count and the price — separated by spaces in one print call.',
+          "Every value has a TYPE: the ticker is a str (text), 200 is an int (whole number), 12.5 is a float (decimal). Types matter because operations behave differently on them: joining two strings is legal, adding a string to a number is a TypeError. New syntax: type(x) RETURNS the type of x as a value you can print; and print(a, b, c) with COMMAS prints several values on ONE line, space-separated. One print call, three types, in order.",
         starter:
-          'ticker = "0700.HK"\nshares = 200\nprice = 12.5\n\n# TODO: print type(ticker), type(shares) and type(price) in one print()\n',
+          "ticker = \"0700.HK\"\nshares = 200\nprice = 12.5\n\n# Task: print the type of each of the three values, in order, in ONE print call\n",
         expected: "<class 'str'> <class 'int'> <class 'float'>",
         hint: 'print(type(a), type(b), type(c)) — commas print the values separated by spaces.'
       },
@@ -79,9 +79,9 @@ export const LESSONS: Lesson[] = [
         example: "cost = 40.0\nsale = 50.0\nr = (sale - cost) / cost\nprint(r)\nprint(r * 100)\n",
         exampleNotes: {"0": "the entry (buy) price", "1": "the exit (sell) price", "2": "gain divided by the STARTING price — brackets force subtraction first: the decimal return", "3": "0.25 — the decimal form (means 25%)", "4": "multiply by 100 to state it as a percent: 25.0"},
         explain:
-          'A return measures a price change relative to the start. Convention on this platform: the decimal form (0.075 means 7.5%) and the percent form (7.5 means 7.5%). From the two prices below, compute return_decimal first, then return_percent from it, and print both (one per line).',
+          "A return measures a price CHANGE relative to where you started \u2014 the most important number in this course. Logic: first the GAIN (new minus old), then scale by the STARTING price (divide by old), because a $5 gain on a $100 stock means something very different from $5 on a $1000 stock. Convention: decimal 0.075 MEANS 7.5%, and the percent form 7.5 also means 7.5% \u2014 compute the decimal first, then multiply by 100. Mind operator order: without brackets, division would bind to new_price alone. Two print calls give two lines.",
         starter:
-          'old_price = 100.0\nnew_price = 107.5\n\n# TODO: return_decimal = (new - old) / old; return_percent = decimal * 100\n# print both, one per line\n',
+          "old_price = 100.0\nnew_price = 107.5\n\n# Task: create return_decimal and return_percent, then print them, one per line\n",
         expected: '0.075\n7.5',
         hint: 'First the gain relative to the starting price (brackets!), then multiply by 100 for percent.'
       },
@@ -90,8 +90,8 @@ export const LESSONS: Lesson[] = [
         example: "word = \"hello\"\nprint(word + 1)\n",
         exampleNotes: {"0": "a string variable — text in quotes", "1": "string + number has no meaning in Python, so it crashes: read the LAST line of the error first (TypeError)"},
         explain:
-          'Errors are messages, not failures: read the LAST line first (the error type), then the line number. Run the code — it crashes with a NameError because a variable is misspelled. Read the message, fix the typo, make it print 100.0.',
-        starter: 'price = 100.0\nprint(prcie)\n',
+          "Errors are messages, not failures \u2014 professionals read them constantly. Reading order: the LAST line names the error TYPE (here NameError \u2014 Python met a name it does not know); the lines above show WHERE (line number). This program crashes because the variable was defined as price but used as prcie: spelling must match EXACTLY, every character. Task: fix the name so the program prints 100.0. Habit: never guess \u2014 let the error tell you which name, which line.",
+        starter: "price = 100.0\nprint(prcie)\n",
         expected: '100.0',
         hint: 'The error names the undefined name — make the spelling consistent everywhere.'
       },
@@ -100,9 +100,9 @@ export const LESSONS: Lesson[] = [
         example: "cost = 60.0\nprice = 90.0\nr = (price - cost) / cost\nprint(r)\nprint(r * 100)\n",
         exampleNotes: {"0": "entry price", "1": "exit price", "2": "decimal return: gain relative to entry", "3": "0.5", "4": "50.0 — the percent form"},
         explain:
-          'Putting it together: given an entry and an exit price, print the decimal return and the percent return, one per line. No functions yet — a plain script is exactly right at this stage.',
+          "The whole lesson in one place: variables hold the buy and sell prices; the gain is measured relative to the entry; decimal first, percent second. This is exactly the calculation a daily P&L (profit-and-loss) report runs on every position. No new syntax \u2014 structure it yourself from a blank editor.",
         starter:
-          'entry = 80.0\nexit_price = 90.0\n\n# TODO: print decimal return, then percent return\n',
+          "cost = 60.0\nprice = 90.0\n\n# Task: print the decimal return, then the percent return\n",
         expected: '0.125\n12.5',
         hint: 'Same two lines as before: relative gain first, times 100 second.'
       },
@@ -110,8 +110,8 @@ export const LESSONS: Lesson[] = [
         title: "Real data \u2014 a real Tencent fortnight",
         explain: "These are Tencent's (0700.HK) ACTUAL closing prices: HK$423.4 on 2026-10-14 and HK$383.6 on 2026-10-30. Compute the real holding-period return as a decimal (rounded to 4) and as a percent (rounded to 4), one per line \u2014 exactly how a daily report states it.",
         example: "old = 431.0   # 2026-09-30 real close\nnew = 417.8   # 2026-10-16 real close\nr = (new - old) / old\nprint(round(r, 4))\nprint(round(r * 100, 4))\n",
-        exampleNotes: {},
-        starter: "old = 423.4   # real close, 2026-10-14\nnew = 383.6   # real close, 2026-10-30\n\n# TODO: print round(r, 4) then round(r * 100, 4)\n",
+        exampleNotes: {"0": "entry price", "1": "exit price", "2": "decimal return: gain relative to entry", "3": "0.5", "4": "50.0 — the percent form"},
+        starter: "old = 423.4   # real close, 2026-10-14\nnew = 383.6   # real close, 2026-10-30\n\n# Task: print the real holding-period return \u2014 decimal then percent, both rounded to 4\n",
         expected: "-0.094\n-9.4001",
         hint: "Same two lines as the lesson \u2014 with the real prices.",
       }
@@ -126,9 +126,9 @@ export const LESSONS: Lesson[] = [
         example: "temps = [20, 25, 31]\nprint(temps)\n",
         exampleNotes: {"0": "square brackets create a list; commas separate items IN ORDER — order is the data", "1": "printing a list shows every item between brackets"},
         explain:
-          'A list is an ordered sequence of values — perfect for daily closing prices. Create the list below and print it.',
+          "Same return logic on real prices, plus one new tool for display: round(x, 4) RETURNS a copy of x cut to 4 decimal places (x itself is untouched). Reports round for humans \u2014 0.0940 reads better than 0.09400566. Compute from the variables; round only at the print stage; decimal line first, percent line second.",
         starter:
-          'prices = [100, 110, 99, 108.9]\n\n# TODO: print prices\n',
+          "old = 423.4   # real close, 2026-10-14\nnew = 383.6   # real close, 2026-10-30\n\n# Task: print the real holding-period return \u2014 decimal then percent, both rounded to 4\n",
         expected: '[100, 110, 99, 108.9]',
         hint: 'print(prices) prints the whole list with brackets.'
       },
@@ -137,9 +137,9 @@ export const LESSONS: Lesson[] = [
         example: "temps = [20, 25, 31]\nprint(temps[0], temps[-1])\n",
         exampleNotes: {"1": "index 0 = first item; -1 = last item. Counting starts at ZERO, so 'the third day' is index 2"},
         explain:
-          'Positions start at 0: prices[0] is the first day. Negative counts from the end: prices[-1] is the latest. Print the first, the third and the latest price in one line (separated by spaces).',
+          "A list is Python's ordered container: square brackets, comma-separated items. Order is not decoration \u2014 position 0 is the OLDEST day; the sequence IS the data, and every technique in lessons 2\u20135 (loops, slicing, arrays, Series) starts from exactly this structure. print(prices) shows all items with their brackets.",
         starter:
-          'prices = [100, 110, 99, 108.9]\n\n# TODO: print prices[0], prices[2] and prices[-1]\n',
+          "prices = [100, 110, 99, 108.9]\n\n# Task: print the whole series\n",
         expected: '100 99 108.9',
         hint: 'Third day means index 2, not 3 — counting starts at zero.'
       },
@@ -148,9 +148,9 @@ export const LESSONS: Lesson[] = [
         example: "letters = [\"a\", \"b\"]\nletters.append(\"c\")\nprint(len(letters))\n",
         exampleNotes: {"0": "a two-item list", "1": "append() adds one item to the END of the SAME list — no new variable needed", "2": "len() counts the items: now 3"},
         explain:
-          'len() counts items; append() adds one item to the end of the SAME list. A new closing price arrived — add it, then print the new length.',
+          "Every item has an INDEX \u2014 its position number \u2014 and Python counts from ZERO: prices[0] is the first day, prices[1] the second, prices[2] the third. The off-by-one habit trips everyone at first: the THIRD item lives at index 2. Negative indices count from the END: prices[-1] is the latest price. Square brackets after the list name perform the selection; commas in print() keep everything on one line.",
         starter:
-          'prices = [100, 110, 99, 108.9]\nprices.append(120.0)\n\n# TODO: print the length of prices\n',
+          "prices = [100, 110, 99, 108.9]\n\n# Task: print the first, the third and the latest price \u2014 all in one line\n",
         expected: '5',
         hint: 'One function call gives the count of items.'
       },
@@ -159,9 +159,9 @@ export const LESSONS: Lesson[] = [
         example: "for n in [1, 2, 3]:\n    print(n)\n",
         exampleNotes: {"0": "the loop header: take items one at a time, each round named n. Colon + indentation start the body", "1": "the indented body runs once per item: 1, then 2, then 3"},
         explain:
-          'A for loop repeats once per item: "for price in prices:" takes each value in order. Print every price, one per line.',
+          "Two everyday tools. len(x) RETURNS the count of items. list.append(value) ADDS one item to the END of that same list \u2014 note the DOT syntax: the action belongs to the list itself (this dot pattern returns everywhere in pandas). The append line is given; after it, the series holds five closes. Your job: count them.",
         starter:
-          'prices = [100, 110, 99, 108.9]\n\n# TODO: for price in prices: print(price)\n',
+          "prices = [100, 110, 99, 108.9]\nprices.append(120.0)   # a new close arrived\n\n# Task: print how many items the series now has\n",
         expected: '100\n110\n99\n108.9',
         hint: 'The loop line ends with a colon; the body is indented.'
       },
@@ -170,9 +170,9 @@ export const LESSONS: Lesson[] = [
         example: "nums = [2, 4, 6]\ntotal = 0\nfor n in nums:\n    total = total + n\nprint(total)\n",
         exampleNotes: {"0": "the data", "1": "INITIALISE the accumulator BEFORE the loop — it starts at zero", "2": "walk the list in order", "3": "inside the loop: add the current item into total, overwriting it each round", "4": "after the loop ends: the sum of every item"},
         explain:
-          'A classic loop pattern: initialise a total BEFORE the loop, add each item INSIDE it. Compute the total of all prices, then the average (rounded to 4 decimals) — print both, one per line.',
+          "A for loop = do the same thing once per item. Structure: the header for price in prices: takes items one at a time, each round named price; the colon opens the body; the body is INDENTED (4 spaces) and runs once per item, in order. Indentation is not cosmetic \u2014 it IS Python's block structure. Each print(price) emits one line, so four items produce four lines.",
         starter:
-          'prices = [100, 110, 99, 108.9]\n\n# TODO: total = 0 before the loop; add each price inside it\n# print(total), then print(round(total / len(prices), 4))\n',
+          "prices = [100, 110, 99, 108.9]\n\n# Task: print every price, one per line\n",
         expected: '417.9\n104.475',
         hint: 'Initialise outside, update inside — the order is the whole trick.'
       },
@@ -181,9 +181,9 @@ export const LESSONS: Lesson[] = [
         example: "vals = [3, 9, 5]\npeak = vals[0]\nfor v in vals:\n    peak = max(peak, v)\nprint(peak)\n",
         exampleNotes: {"0": "the data", "1": "the running peak STARTS at the first value — a running value may only use current and PAST data", "2": "walk forward in time", "3": "max(peak, v): keep whichever is larger — the best-so-far price", "4": "9: the highest price seen by the end"},
         explain:
-          'A "running" value uses only current and past data — never the future. Update a peak with peak = max(peak, price) as the loop walks forward, then print the final peak.',
+          "The accumulator \u2014 the most-used pattern in data code. Logic: create total = 0 BEFORE the loop (it must exist before anyone adds to it); INSIDE the loop, total = total + price applies the update pattern from lesson 1 once per item. The order is the whole trick: initialise outside, update inside \u2014 swap them and you erase your progress every round. For the average, divide the final total by the count (len helps) and round for display.",
         starter:
-          'prices = [100, 110, 99, 108.9]\n\n# TODO: peak = prices[0] before the loop\n# inside: peak = max(peak, price); after: print(peak)\n',
+          "prices = [100, 110, 99, 108.9]\n\n# Task: print the total of all prices, then the average rounded to 4 decimals\n",
         expected: '110',
         hint: 'Each day asks: is today higher than the best so far? max() answers it.'
       },
@@ -192,9 +192,9 @@ export const LESSONS: Lesson[] = [
         example: "vals = [3, 9, 5]\npeak = vals[0]\nmax_dd = 0.0\nfor v in vals:\n    peak = max(peak, v)\n    dd = 1 - v / peak\n    max_dd = max(max_dd, dd)\nprint(round(max_dd, 4))\n",
         exampleNotes: {"0": "the data", "1": "running peak, same as before", "2": "a SECOND running value: the deepest fall so far, starting at zero", "3": "walk forward", "4": "update the best-so-far price FIRST", "5": "how far the current price sits below the running peak, as a fraction (0 = at the peak)", "6": "keep the deeper of the two falls", "7": "round(..., 4) prints cleanly: 5 is 4/9 below the peak of 9, about 0.4444"},
         explain:
-          'Drawdown = how far below the running peak: 1 - price / peak. On a monotonic rise it stays 0. Track the MAXIMUM drawdown so far (same max() pattern as the peak) and print it rounded to 4 decimals.',
+          "A running value may only use CURRENT and PAST data \u2014 never peek ahead (that rule is what keeps backtests honest). Logic: start peak at the FIRST price; each day ask whether today beats the record. New syntax: max(a, b) RETURNS the larger of two values, so peak = max(peak, price) keeps today's price if it beats the record, else keeps the record. Initialise before the loop, update inside, print after it ends.",
         starter:
-          'prices = [100, 110, 99, 108.9]\n\n# TODO: with running peak and drawdown = 1 - price / peak\n# track max_drawdown; print(round(max_drawdown, 4))\n',
+          "prices = [100, 110, 99, 108.9]\n\n# Task: track the running peak and print the final peak\n",
         expected: '0.1',
         hint: 'Two running values side by side: the best-so-far price, and the worst-so-far fall from it.'
       },
@@ -203,9 +203,9 @@ export const LESSONS: Lesson[] = [
         example: "vals = [50, 100, 40, 80]\npeak = vals[0]\nmax_dd = 0.0\nfor v in vals:\n    peak = max(peak, v)\n    dd = 1 - v / peak\n    max_dd = max(max_dd, dd)\nprint(round(max_dd, 4))\n",
         exampleNotes: {"0": "the data: rises to 100, crashes to 40, recovers to 80", "1": "running peak starts at the first price", "2": "deepest fall so far", "3": "walk forward in time", "4": "peak becomes 100 before the crash", "5": "at 40: 1 - 40/100 = 0.6 — the trough is measured against the EARLIER peak", "6": "0.6 is the maximum drawdown of this path", "7": "clean print: 0.6"},
         explain:
-          'Full task: for the series below, the maximum drawdown is the deepest fall from a PREVIOUS peak (order matters: the peak must come before the trough). Compute it with the running-peak loop and print the value rounded to 4 decimals.',
+          "Drawdown = how far below the running peak, as a fraction: 1 - price / peak (zero means sitting at the peak). Two running values walk together \u2014 peak only ratchets UP, drawdown only ratchets DEEPER \u2014 and order inside the loop matters: update the peak FIRST, then measure today's fall against it. The deepest fall by the end is the maximum drawdown, the risk number every fund reports daily.",
         starter:
-          'prices = [100, 120, 90, 110, 80, 130]\n\n# TODO: print(round(max_drawdown, 4))\n',
+          "prices = [100, 110, 99, 108.9]\n\n# Task: print the maximum drawdown of this walk, rounded to 4 decimals\n",
         expected: '0.3333',
         hint: 'The answer is a clean fraction: how far is 80 below the earlier peak of 120?'
       },
@@ -214,7 +214,7 @@ export const LESSONS: Lesson[] = [
         explain: "These twelve closes are Tencent's real daily finishes from 2026-10-14 to 2026-10-30 \u2014 a rough patch. Run the running-peak loop on REAL prices and print the fortnight's maximum drawdown rounded to 4 decimals: the number a risk report would flag.",
         example: "prices = [431.0, 421.2, 423.0]   # three real closes, late Sep 2026\npeak = prices[0]\nmax_dd = 0.0\nfor p in prices:\n    peak = max(peak, p)\n    max_dd = max(max_dd, 1 - p / peak)\nprint(round(max_dd, 4))\n",
         exampleNotes: {"2": "deepest fall so far", "6": "clean print: 0.6"},
-        starter: "prices = [423.4, 417.8, 417.8, 410.4, 393.8, 382.4, 386.0, 386.4, 385.2, 387.6, 377.6, 383.6]  # real closes 2026-10-14..10-30\n\n# TODO: running peak + drawdown loop; print(round(max_drawdown, 4))\n",
+        starter: "prices = [423.4, 417.8, 417.8, 410.4, 393.8, 382.4, 386.0, 386.4, 385.2, 387.6, 377.6, 383.6]  # real closes 2026-10-14..10-30\n\n# Task: print the real maximum drawdown of this fortnight, rounded to 4 decimals\n",
         expected: "0.1082",
         hint: "The identical loop from the challenge \u2014 only the numbers are real now.",
       }
@@ -227,11 +227,11 @@ export const LESSONS: Lesson[] = [
       {
         title: 'Why functions?',
         example: "def add10(x):\n    return x + 10\nprint(add10(5))\n",
-        exampleNotes: {},
+        exampleNotes: {"0": "def DEFINES a function: name square, input slot x, colon starts the body", "1": "return sends the result back to whoever called", "2": "call with 4: body runs, 16 comes back"},
         explain:
-          'A function is a named, reusable rule. The one below squares its input. Call it on 4 and print the result — you did not write the rule, you used it.',
+          "A path with a story: rally to 120, crash to 90, recover, crash deeper to 80, surge to 130. The trap: the trough (80) must be measured against the peak that came BEFORE it (120) \u2014 not against the starting price (100) and not against anything after it. A correctly ordered running-peak loop takes care of the sequencing for you. Same code as the last step, only new numbers.",
         starter:
-          'def square(x):\n    return x * x\n\n# TODO: print square(4)\n',
+          "prices = [100, 120, 90, 110, 80, 130]\n\n# Task: print the maximum drawdown of this path, rounded to 4 decimals\n",
         expected: '16',
         hint: 'Call by name with the input in brackets.'
       },
@@ -240,9 +240,9 @@ export const LESSONS: Lesson[] = [
         example: "def triple(x):\n    return 3 * x\nprint(triple(7))\n",
         exampleNotes: {"0": "your own function: name it triple, one parameter x", "1": "the body: one line computing what to give back", "2": "call it: 7 goes in, 21 comes out"},
         explain:
-          'def names the function; the parameter x is the input; the indented body runs on each call. Write double(x) that returns twice the input, then print double(21).',
+          "A function is a named, reusable rule: define once, use forever. Two halves: the definition is GIVEN (def square(x): names it and opens the body); and CALLING square(4) runs that body with x set to 4. New syntax: return hands a value back to the caller \u2014 the call square(4) literally BECOMES 16 wherever it sits, so you can print it, store it, or pass it onward.",
         starter:
-          '# TODO: def double(x): return x * 2\n# then print(double(21))\n',
+          "def square(x):\n    return x * x\n\n# Task: call square on the number 4 and print what comes back\n",
         expected: '42',
         hint: 'Three parts: def line with colon, indented return line, call line.'
       },
@@ -251,9 +251,9 @@ export const LESSONS: Lesson[] = [
         example: "def f(x):\n    return x + 1\nresult = f(9)\nprint(result)\n",
         exampleNotes: {"0": "a tiny function", "1": "RETURN hands the value back to the caller — it does not show anything by itself", "2": "the caller can CAPTURE the returned value into a variable — that is the power of return", "3": "10 — reuse the stored result later as many times as you like"},
         explain:
-          'print() only SHOWS a value; return hands it BACK to the caller, who can store and reuse it. The function below returns; capture its result into a variable y and print y.',
+          "Now you write both halves. Anatomy of a definition: the def line (keyword def, a short lowercase name, the parameter slot in brackets, a colon), then the INDENTED body \u2014 here one return line that computes the answer. After the definition, double(21) runs the body with x = 21. Nothing here is new syntax \u2014 it is pieces you have used, assembled by you for the first time.",
         starter:
-          'def give(x):\n    return x * 2\n\n# TODO: y = give(5); print(y)\n',
+          "# Task: define a function double(x) that returns twice x, then print double(21)\n",
         expected: '10',
         hint: 'The caller stores what comes back — assignment captures the returned value.'
       },
@@ -262,9 +262,9 @@ export const LESSONS: Lesson[] = [
         example: "print(5 > 3, 5 < 3, 5 == 5.0)\n",
         exampleNotes: {"0": "comparisons produce True/False. NOTE: == COMPARES (one = assigns). 5 == 5.0 is True — same value even with different types"},
         explain:
-          'Comparisons produce True/False (Booleans): >, <, >=, <=, ==. Note == compares, = assigns. Predict first, then print all three comparisons in one line.',
+          "The deepest beginner confusion, settled. print() only DISPLAYS a value to a human \u2014 after showing it, the value is gone. return hands the value BACK to the caller: the call site give(9) becomes 10, and 10 can be stored, reused, combined. So y = give(9) stores the returned 10 into y, and y stays usable afterwards. A function that prints but forgets to return leaves its caller with NOTHING (Python quietly returns None) \u2014 remember this for the classifier steps.",
         starter:
-          '# TODO: print(107.5 > 100, 100 == 100.0, "A" == "A")\n',
+          "def give(x):\n    return x + 1\n\n# Task: capture what give(9) returns into a variable y, then print y\n",
         expected: 'True True True',
         hint: '100 and 100.0 are equal in VALUE even though their types differ.'
       },
@@ -273,9 +273,9 @@ export const LESSONS: Lesson[] = [
         example: "temp = 31\nif temp > 30:\n    print(\"Hot\")\nelif temp > 20:\n    print(\"Warm\")\nelse:\n    print(\"Cool\")\n",
         exampleNotes: {"0": "the input to classify", "1": "conditions are tested TOP-DOWN; the first true branch runs and the rest are skipped", "2": "31 > 30 → this branch wins", "3": "elif = 'else if' — only reached when the if above was False", "4": "(skipped this time)", "5": "else catches everything the tests above did not", "6": "(skipped this time)"},
         explain:
-          'Conditions are checked top to bottom; the first true branch runs, the rest are skipped. Classify a return as Positive / Negative / Flat and print the label.',
+          "Comparisons ASK questions, and the answer is a Boolean: True or False \u2014 a value type of its own. Operators: > < >= <= compare; == TESTS equality (two signs!). One = stores, two == ask \u2014 mixing them up is the classic bug. Subtlety: 5 == 5.0 is True, because equality compares VALUE, not type (int 5 and float 5.0 hold the same number). Booleans are the fuel that powers if-statements in the next step.",
         starter:
-          'r = 0.075\n\n# TODO: if r > 0: print("Positive") elif r < 0: ... else: ...\n',
+          "# Task: print three checks in one line \u2014 whether 5 is greater than 3, whether 5 is less than 3, and whether 5 equals 5.0\n",
         expected: 'Positive',
         hint: 'Three branches cover all cases; only one prints.'
       },
@@ -284,9 +284,9 @@ export const LESSONS: Lesson[] = [
         example: "def check(x):\n    if x >= 10:\n        return \"pass\"\n    else:\n        return \"fail\"\nprint(check(10), check(9.99))\n",
         exampleNotes: {"0": "a threshold classifier", "1": ">= INCLUDES the boundary itself: exactly 10 passes", "2": "the branch's answer goes back via return", "3": "everything below 10", "4": "9.99 fails — just under the line", "5": "two calls in one print: results appear space-separated: pass fail"},
         explain:
-          'Bull and bear labels conventionally use a 20% THRESHOLD on a broad index over two months or more — and whether 20.0% itself counts depends on >= vs >. Test the three edge inputs below in one print.',
+          "Branching: run different code depending on a condition. Execution logic: conditions are tested TOP-DOWN; the FIRST true branch runs and the rest are skipped entirely. Structure mirrors the loop \u2014 header ending in a colon, indented body. elif (else-if) is reached only when everything above was False; else is the catch-all. Exactly ONE of the three prints will fire \u2014 that is the point of a classifier.",
         starter:
-          '# after you build classify_regime in the next step, this will reuse it\n# TODO: define classify_regime first (next step preview):\n# threshold >= 0.20 Bull, <= -0.20 Bear, else Neutral\n# then print(classify_regime(0.2), classify_regime(-0.2), classify_regime(0.199999))\n',
+          "r = 0.075\n\n# Task: print \"Positive\" if r is above zero, \"Negative\" if below, and \"Flat\" if exactly zero\n",
         expected: 'Bull Bear Neutral',
         hint: 'Use >= and <= so exactly 20% counts; 0.199999 is just below the line.'
       },
@@ -295,9 +295,9 @@ export const LESSONS: Lesson[] = [
         example: "def zone(r):\n    if r >= 0.5:\n        return \"Strong\"\n    elif r <= -0.5:\n        return \"Weak\"\n    else:\n        return \"Mid\"\nprint(zone(0.5), zone(0.3))\n",
         exampleNotes: {"0": "same shape as the challenge, different thresholds", "1": "boundary included: 0.5 is Strong", "2": "…", "3": "symmetric lower boundary", "4": "…", "6": "between the lines", "7": "Strong Mid — 0.5 crosses the line, 0.3 stays inside"},
         explain:
-          'Build the classifier as a function: input is a decimal return of a broad index over at least two months (a teaching rule, not a prediction model). Return "Bull" (>= 0.20), "Bear" (<= -0.20) or "Neutral" — then print its verdicts on 0.25, -0.10 and 0.0 in one line.',
+          "Boundaries are where classifiers live or die: >= INCLUDES the boundary itself (exactly 10 passes), while > would exclude it. Professional discipline: write the boundary table FIRST \u2014 10 in, 9.999 out, 0 out \u2014 then code, then verify each row. Both branches RETURN a string (the function decides, the caller prints); two calls inside one print() show both verdicts on one line, space-separated.",
         starter:
-          '# TODO: def classify_regime(index_return): ...\n# print(classify_regime(0.25), classify_regime(-0.10), classify_regime(0.0))\n',
+          "# Task: write a function check(x) that returns \"pass\" when x is 10 or more, and \"fail\" otherwise; print check(10) and check(9.99) in one line\n",
         expected: 'Bull Neutral Neutral',
         hint: 'Return the string, do not print inside the function — the caller prints.'
       },
@@ -306,7 +306,7 @@ export const LESSONS: Lesson[] = [
         explain: "Your classifier on REAL two-month moves of Tencent: from 2024-03-05 to 2024-05-16 the stock actually rose +48.02%; from 2026-08-28 to 2026-10-29 it fell -17.05%. Classify both real returns with your function and print the verdicts in one line. (Reminder: the 20% rule is a broad-index teaching convention \u2014 a single stock moving 20% is NOT a bull market.)",
         example: "def zone(r):\n    if r >= 0.20:\n        return \"Strong\"\n    elif r <= -0.20:\n        return \"Weak\"\n    else:\n        return \"Mid\"\nprint(zone(0.4576), zone(-0.1141))   # two other REAL two-month windows (2024)\n",
         exampleNotes: {"0": "same shape as the challenge, different thresholds", "2": "…", "4": "…", "6": "between the lines"},
-        starter: "# TODO: reuse your classify_regime\nclassify_regime(0.4802)   # real: 2024-03-05 -> 2024-05-16\nclassify_regime(-0.1705)  # real: 2026-08-28 -> 2026-10-29\n# print(classify_regime(0.4802), classify_regime(-0.1705))\n",
+        starter: "# Task: reuse classify_regime on two REAL two-month moves of Tencent:\n# +0.4802 (2024-03-05 -> 2024-05-16) and -0.1705 (2026-08-28 -> 2026-10-29)\n# print both verdicts in one line\n",
         expected: "Bull Neutral",
         hint: "Only the giant 2024 rally crosses the +20% line; the 2026 slump stays above -20%.",
       }
@@ -321,31 +321,31 @@ export const LESSONS: Lesson[] = [
         example: "import numpy as np\n\na = np.array([1.0, 2.0, 3.0])\nprint(type(a))\n",
         exampleNotes: {"0": "load the NumPy library under its universal nickname np"},
         explain:
-          'NumPy arrays are lists tuned for number-crunching: operations apply to every element at once. Convert the list to an array and print its type.',
+          "Industry convention, teaching version: a broad market INDEX moving 20% or more over two months earns the Bull/Bear label \u2014 thresholds 0.20 and -0.20, boundaries INCLUDED, input a decimal return (0.25 means 25%; do not multiply again). Caveat that matters: the convention is about broad indexes \u2014 a single stock jumping 20% is NOT a bull market. Every branch returns; nothing is printed inside.",
         starter:
-          'import numpy as np\n\nprices_list = [100.0, 110.0, 99.0, 108.9]\n# TODO: prices = np.array(prices_list); print(type(prices))\n',
+          "# Task: write classify_regime(index_return): \"Bull\" for +0.20 or above, \"Bear\" for -0.20 or below, otherwise \"Neutral\"; print its verdicts on 0.25, -0.10 and 0.0 in one line\n",
         expected: "<class 'numpy.ndarray'>",
         hint: 'np.array(list) makes the array; type() reveals the class.'
       },
       {
         title: 'Element-wise operations',
         example: "import numpy as np\n\na = np.array([2.0, 4.0])\nprint(a.mean())\n",
-        exampleNotes: {},
+        exampleNotes: {"0": "an array of prices", "1": ".mean() averages ALL elements in one call — no loop written by you"},
         explain:
-          'Array arithmetic happens element by element: prices / 100 divides EVERY price at once, no loop. Check the mean price of the array (one number, no loop written by you).',
+          "Your classifier meets real history: Tencent really did rise +48.02% in two months in spring 2024, and really did fall -17.05% across autumn 2026. Even that savage real slump stays ABOVE the -0.20 line \u2014 the rule is deliberately strict, which is why the 2024 rally is the only Bull verdict you will see. One print line, two calls, two real verdicts.",
         starter:
-          'import numpy as np\n\nprices = np.array([100.0, 110.0, 99.0, 108.9])\n# TODO: print(prices.mean())\n',
+          "# Task: reuse classify_regime on two REAL two-month moves of Tencent:\n# +0.4802 (2024-03-05 -> 2024-05-16) and -0.1705 (2026-08-28 -> 2026-10-29)\n# print both verdicts in one line\n",
         expected: '104.475',
         hint: 'Arrays carry their own methods: mean() averages all elements.'
       },
       {
         title: 'Slicing: today and yesterday',
         example: "import numpy as np\n\nx = np.array([10, 20, 30, 40])\nprint(len(x[1:]), len(x[:-1]))\n",
-        exampleNotes: {},
+        exampleNotes: {"0": "four prices: N = 4", "1": "x[1:] = from the 2nd item to the end — drops the first (today's set)", "2": "x[:-1] = everything EXCEPT the last — drops the latest (yesterday's set)", "3": "both have length N-1 = 3: four prices give three today/yesterday pairs"},
         explain:
-          'prices[1:] is "from the 2nd item to the end" (today\'s prices); prices[:-1] is "up to but excluding the last" (yesterday\'s prices). Both have length N-1. Print the lengths of the two slices in one line.',
+          "NumPy is the number-crunching engine: arrays look like lists but do maths on ALL elements at once. New syntax, used in every numeric script you will ever write: import numpy as np loads the library under the universal nickname np; np.array(list) converts a list into an array. The import is given \u2014 your task is the conversion plus printing the type (ndarray proves it happened).",
         starter:
-          'import numpy as np\n\nprices = np.array([100.0, 110.0, 99.0, 108.9])\ntoday = prices[1:]\nyesterday = prices[:-1]\n# TODO: print(len(today), len(yesterday))\n',
+          "import numpy as np\n\nprices_list = [100.0, 110.0, 99.0, 108.9]\n\n# Task: convert prices_list into a NumPy array and print the array's type\n",
         expected: '3 3',
         hint: 'Four prices means three today/yesterday pairs.'
       },
@@ -354,20 +354,20 @@ export const LESSONS: Lesson[] = [
         example: "import numpy as np\n\nx = np.array([10, 20, 30])\nfor t, y in zip(x[1:], x[:-1]):\n    print(t, y)\n",
         exampleNotes: {"4": "each round receives today t and ITS yesterday y"},
         explain:
-          'Why those two slices? Each return needs TODAY paired with ITS yesterday: 110 with 100, 99 with 110, 108.9 with 99. Print each pair on its own line (today first, yesterday second).',
+          "Arrays carry their own toolbox \u2014 the DOT pattern from append returns, bigger: prices.mean() RETURNS the average of every element, computed in one call inside optimised machine code, no Python loop written by you. This data-dot-method style is exactly how pandas works, so internalise it now. The array is given as setup; your job is one method call.",
         starter:
-          'import numpy as np\n\nprices = np.array([100.0, 110.0, 99.0, 108.9])\ntoday = prices[1:]\nyesterday = prices[:-1]\n# TODO: for t, y in zip(today, yesterday): print(t, y)\n',
+          "import numpy as np\n\nprices = np.array([100.0, 110.0, 99.0, 108.9])\n\n# Task: print the average of ALL elements in one call, no loop\n",
         expected: '110.0 100.0\n99.0 110.0\n108.9 99.0',
         hint: 'zip() walks two sequences side by side.'
       },
       {
         title: 'Vectorized returns',
         example: "import numpy as np\n\nx = np.array([10.0, 20.0, 30.0])\nr = x[1:] / x[:-1] - 1\nfor v in r:\n    print(round(float(v), 4))\n",
-        exampleNotes: {},
+        exampleNotes: {"0": "the data", "1": "THE vectorized line: every today/yesterday pair divided at once — no loop", "2": "a loop only to PRINT cleanly", "3": "float() converts a numpy scalar to a plain number; round kills float noise"},
         explain:
-          'The whole idea in one line: today / yesterday - 1 computes ALL returns at once. Print each return rounded to 4 decimals, one per line (use round(float(r), 4) inside a loop for clean output).',
+          "Slicing takes a contiguous piece: prices[1:] runs from index 1 to the end (drops the FIRST); prices[:-1] runs up to but NOT including the last (drops the LAST) \u2014 a missing number defaults to the edge. Why exactly these two: each return needs TODAY paired with ITS yesterday, so todays exclude day one (no yesterday inside the window) and yesterdays exclude the final day. N prices yield N-1 pairs \u2014 confirm with len() on each slice.",
         starter:
-          'import numpy as np\n\nprices = np.array([100.0, 110.0, 99.0, 108.9])\nreturns = prices[1:] / prices[:-1] - 1\n# TODO: for r in returns: print(round(float(r), 4))\n',
+          "import numpy as np\n\nprices = np.array([100.0, 110.0, 99.0, 108.9])\n\n# Task: build today = all except the first, and yesterday = all except the last; print both lengths in one line\n",
         expected: '0.1\n-0.1\n0.1',
         hint: 'Rounding hides float noise (like 0.099999…) so outputs read clean.'
       },
@@ -376,29 +376,29 @@ export const LESSONS: Lesson[] = [
         example: "days = [\"D1\", \"D2\", \"D3\"]\nprint(days[1:])\n",
         exampleNotes: {"0": "N=3 dates but only N-1=2 returns exist", "1": "the returns belong to days[1:] onward — day 1 has no yesterday inside the window"},
         explain:
-          'N prices give N-1 returns — the first return belongs to the SECOND date (nothing to compare on day one). Print the dates that own the returns, space-separated in one line.',
+          "New syntax: zip(a, b) walks two sequences SIDE BY SIDE, handing you one pair per round; for t, y in zip(today, yesterday) unpacks each pair into t and y. zip stops at the shorter sequence (equal here, by construction). The alignment logic to hold in your head: 110 with 100, 99 with 110, 108.9 with 99 \u2014 each return's numerator beside its own denominator.",
         starter:
-          'dates = ["Mon", "Tue", "Wed", "Thu"]\n# TODO: print(dates[1], dates[2], dates[3])\n',
+          "import numpy as np\n\nprices = np.array([100.0, 110.0, 99.0, 108.9])\n\n# Task: print each (today, yesterday) pair on its own line, today first\n",
         expected: 'Tue Wed Thu',
         hint: 'Skip the first date — it has no yesterday inside this window.'
       },
       {
         title: 'Loop vs vector — same answer',
         example: "import numpy as np\n\nx = np.array([10, 20, 30])\nprint(round(float(x[1:].sum()), 4), round(float(x.sum() - x[0]), 4))\n",
-        exampleNotes: {},
+        exampleNotes: {"0": "the data", "1": "route 1: accumulator, as in lesson 2", "2": "i = 1..2: each i is 'today', i-1 is its 'yesterday'", "3": "add each return into the total", "4": "route 2: the one-line vectorized version, then .sum()", "5": "identical numbers — two routes, one destination"},
         explain:
-          'Cross-check lesson 2 thinking against today\'s one-liner: compute returns with a loop, and again with slicing; print both totals rounded to 4 decimals in one line — they must match.',
+          "The lesson's payoff: today / yesterday - 1 with ARRAYS divides every pair AT ONCE \u2014 one line, three divisions, zero loops; that single line IS vectorization. Display hygiene: float noise is real (0.099999\u2026 for minus ten percent), so round(float(r), 4) each value when printing \u2014 float() converts NumPy's scalar to a plain Python number that round handles cleanly. Vectorize first, round at the end.",
         starter:
-          'import numpy as np\n\nprices = np.array([100.0, 110.0, 99.0, 108.9])\nloop_total = 0.0\nfor i in range(1, len(prices)):\n    loop_total += prices[i] / prices[i - 1] - 1\nvec_total = float((prices[1:] / prices[:-1] - 1).sum())\n# TODO: print(round(loop_total, 4), round(vec_total, 4))\n',
+          "import numpy as np\n\nprices = np.array([100.0, 110.0, 99.0, 108.9])\n\n# Task: compute ALL daily returns in ONE vectorized line, then print each rounded to 4 decimals\n",
         expected: '0.1 0.1',
         hint: 'Two different routes, one identical destination.'
       },
       {
         title: "Real data \u2014 a real week of daily returns",
-        explain: "These are Tencent's last five REAL closes of October 2026. Compute the four actual daily returns with vectorized slicing, printing each rounded to 4 decimals, one per line.",
+        explain: "Bookkeeping that bites real code: 4 prices produce 3 returns, and the first return belongs to the SECOND date \u2014 Monday has no previous day inside the window, so returns align with dates[1:]. Getting date alignment wrong (off-by-one) silently corrupts backtests, which is why it earns its own step. Pure slicing practice: one slice, one print, spaces between.",
         example: "import numpy as np\n\nx = np.array([423.4, 417.8, 417.8, 410.4, 393.8])  # real closes, mid Oct 2026\nr = x[1:] / x[:-1] - 1\nfor v in r:\n    print(round(float(v), 4))\n",
-        exampleNotes: {},
-        starter: "import numpy as np\n\nprices = np.array([386.4, 385.2, 387.6, 377.6, 383.6])  # real closes, 26-30 Oct 2026\n\n# TODO: returns = prices[1:] / prices[:-1] - 1; print each round(float(v), 4)\n",
+        exampleNotes: {"0": "the data", "1": "route 1: accumulator, as in lesson 2", "2": "i = 1..2: each i is 'today', i-1 is its 'yesterday'", "3": "add each return into the total", "4": "route 2: the one-line vectorized version, then .sum()", "5": "identical numbers — two routes, one destination"},
+        starter: "import numpy as np\n\nprices = np.array([386.4, 385.2, 387.6, 377.6, 383.6])  # real closes, 26-30 Oct 2026\n\n# Task: compute all four real daily returns vectorized, then print each rounded to 4\n",
         expected: "-0.0031\n0.0062\n-0.0258\n0.0159",
         hint: "One slice line, one loop to print \u2014 real prices, same as class.",
       }
@@ -415,7 +415,7 @@ export const LESSONS: Lesson[] = [
         explain:
           'A Series is a one-dimensional column whose entries can carry LABELS (like dates) instead of bare positions. Create the Series below and print the Tuesday value by label.',
         starter:
-          'import pandas as pd\n\ns = pd.Series([100.0, 110.0, 99.0, 108.9], index=["Mon", "Tue", "Wed", "Thu"])\n# TODO: print(s["Tue"])\n',
+          "dates = [\"Mon\", \"Tue\", \"Wed\", \"Thu\"]\n\n# Task: print the dates that own the returns, in order, in one line\n",
         expected: '110.0',
         hint: 'Square brackets work with labels, not just numbers.'
       },
@@ -424,9 +424,9 @@ export const LESSONS: Lesson[] = [
         example: "import pandas as pd\n\ndf = pd.DataFrame({\"A\": [1, 2], \"B\": [3, 4]})\nprint(df.shape)\n",
         exampleNotes: {"2": "a dict of columns becomes a table: each key is a column name, each list its values", "3": "shape = (rows, columns): 2 rows, 2 columns"},
         explain:
-          'A DataFrame is a 2-D table: each column is a Series, all sharing one index. Build one from a dict of columns (the same structure pd.read_csv() returns from a file) and print its shape.',
+          "Two world-views, cross-checked. The loop route is GIVEN (lesson-2 thinking) with two new bits explained: range(1, len(prices)) generates 1, 2, \u2026 stopping before len \u2014 every today-index; and += means add to myself. Your task is the vector route: slice, divide, subtract one, and remember arrays carry .sum() to total their elements. Two different routes printing the same number is the cheapest correctness check in data work \u2014 use it constantly.",
         starter:
-          'import pandas as pd\n\ndf = pd.DataFrame({\n    "Date": ["Wed", "Mon", "Thu"],\n    "Close": [99.0, 100.0, 108.9],\n    "Adj Close": [99.0, 100.0, 108.9],\n})\n# TODO: print(df.shape)\n',
+          "import numpy as np\n\nprices = np.array([10, 20, 30])\nloop_total = 0.0\nfor i in range(1, len(prices)):\n    loop_total += prices[i] / prices[i - 1] - 1\n\n# Task: compute the SAME total the vectorized way, then print both totals rounded to 4, in one line\n",
         expected: '(3, 3)',
         hint: 'shape is (rows, columns).'
       },
@@ -435,9 +435,9 @@ export const LESSONS: Lesson[] = [
         example: "import pandas as pd\n\ndf = pd.DataFrame({\"A\": [1, 2]})\nprint(df[\"A\"].tolist())\n",
         exampleNotes: {"2": "a minimal table", "3": "df[\"A\"] selects ONE column (a Series); .tolist() turns it into a plain Python list"},
         explain:
-          'df["Adj Close"] pulls one column as a Series. We use ADJUSTED close throughout: splits and dividends make raw prices jump mechanically — adjusted prices keep returns honest. Print the adjusted-close column as a plain list.',
+          "pandas starts here. New syntax: pd.Series(values, index=labels) creates a one-dimensional column whose entries carry LABELS instead of bare positions \u2014 index= is optional (0,1,2\u2026 by default); labels make reads self-describing. Selecting: s[\"Tue\"] fetches BY LABEL, quotes required (it is a string). Labels are why pandas rules time-series: dates become the index and alignment happens by date automatically.",
         starter:
-          'import pandas as pd\n\ndf = pd.DataFrame({\n    "Date": ["Wed", "Mon", "Thu"],\n    "Close": [99.0, 100.0, 108.9],\n    "Adj Close": [99.0, 100.0, 108.9],\n})\n# TODO: print(df["Adj Close"].tolist())\n',
+          "import pandas as pd\n\n# Task: build a Series holding [100.0, 110.0, 99.0, 108.9] with labels Mon/Tue/Wed/Thu, then print Tuesday's value\n",
         expected: '[99.0, 100.0, 108.9]',
         hint: '.tolist() turns the Series into an ordinary Python list.'
       },
@@ -446,9 +446,9 @@ export const LESSONS: Lesson[] = [
         example: "import pandas as pd\n\ndf = pd.DataFrame({\"A\": [1.0, 5.0, 3.0]})\nprint(len(df), df[\"A\"].max())\n",
         exampleNotes: {"2": "a small table", "3": "inspect FIRST: how many rows, and the column maximum — before trusting any math"},
         explain:
-          'Professional habit: inspect a new table BEFORE any math — head() peeks at rows, info() shows types and gaps, dtypes lists column types. (In this browser sandbox we build tables from cached data; with files you would use pd.read_csv("file.csv", parse_dates=["Date"]) first.) Print the row count and the highest adjusted close in one line.',
+          "The dict literal (given as setup) maps each column NAME to its list of values \u2014 curly braces, key: value pairs; it is the standard recipe for hand-built tables. New syntax: pd.DataFrame(data) wraps that dict into a real table \u2014 columns keep the key names, rows share one index. Its .shape returns (rows, columns): the first health-check on any new table (does 3\u00d73 match what was typed?).",
         starter:
-          'import pandas as pd\n\ndf = pd.DataFrame({\n    "Date": ["Wed", "Mon", "Thu"],\n    "Adj Close": [99.0, 100.0, 108.9],\n})\n# TODO: print(len(df), df["Adj Close"].max())\n',
+          "import pandas as pd\n\ndata = {\n    \"Date\": [\"Wed\", \"Mon\", \"Thu\"],\n    \"Close\": [99.0, 100.0, 108.9],\n    \"Adj Close\": [99.0, 100.0, 108.9],\n}\n\n# Task: turn data into a DataFrame and print its shape\n",
         expected: '3 108.9',
         hint: 'One gives the height of the table, the other the column maximum.'
       },
@@ -457,9 +457,9 @@ export const LESSONS: Lesson[] = [
         example: "import pandas as pd\n\ndf = pd.DataFrame({\"D\": [\"c\", \"a\", \"b\"], \"V\": [3, 1, 2]})\ndf = df.sort_values(\"D\")\nprint(df[\"V\"].tolist())\n",
         exampleNotes: {"2": "rows deliberately out of order", "3": "sort_values re-orders the ROWS by column D — plain strings sort alphabetically (a, b, c)", "4": "V now travels in the sorted order: [1, 2, 3]"},
         explain:
-          'Returns only make sense in time order — the table above is deliberately shuffled. sort_values("Date") sorts by the values as they compare: plain strings sort ALPHABETICALLY (Mon < Thu < Wed here), which is why real pipelines use actual date types. Print the adjusted-close column of the SORTED table as a list and see the order it produces.',
+          "Selecting one column: df[\"Adj Close\"] returns that column as a Series \u2014 brackets plus the exact column name in quotes, capitals included. We track ADJUSTED close deliberately: splits and dividends make raw prices jump mechanically, while adjusted prices keep returns honest (a 1-for-5 split is not an 80% crash). New syntax: .tolist() converts the Series into a plain Python list \u2014 the bridge from pandas back to lessons 1\u20133.",
         starter:
-          'import pandas as pd\n\ndf = pd.DataFrame({\n    "Date": ["Wed", "Mon", "Thu"],\n    "Adj Close": [99.0, 100.0, 108.9],\n})\ndf = df.sort_values("Date")\n# TODO: print(df["Adj Close"].tolist())\n',
+          "import pandas as pd\n\ndata = {\"Date\": [\"Wed\", \"Mon\", \"Thu\"], \"Adj Close\": [99.0, 100.0, 108.9]}\ndf = pd.DataFrame(data)\n\n# Task: print the Adj Close column as an ordinary Python list\n",
         expected: '[100.0, 108.9, 99.0]',
         hint: 'Alphabetical order of the three day names decides the row order — trace it by hand first.'
       },
@@ -468,9 +468,9 @@ export const LESSONS: Lesson[] = [
         example: "import pandas as pd\n\ns = pd.Series([2.0, 3.0])\nr = s.pct_change()\nprint(r.isna().tolist())\nprint(round(float(r.iloc[1]), 4))\n",
         exampleNotes: {"2": "two prices", "3": "pct_change = each value ÷ previous − 1, in decimal form", "4": "the FIRST entry is NaN — no previous value exists. NaN means unknown, NOT zero", "5": "iloc[1] = the first REAL return: 3.0/2.0 − 1 = 0.5"},
         explain:
-          'pct_change() computes decimal returns for you: each value divided by the previous one, minus 1. With no previous value, the FIRST entry becomes NaN (not zero!) — "unknown", not "no change". Print the NaN pattern (as a list), then the first real return rounded to 4 decimals.',
+          "Professional habit #1: interrogate a table BEFORE trusting any calculation on it. The standard kit (demoed in the example): df.head() peeks at first rows, df.info() lists columns/types/gaps, df.dtypes lists types. For the task, combine two facts in one comma-separated print: len(df) counts rows; the column Series carries .max() \u2014 the same dot pattern as NumPy's mean, one toolkit everywhere.",
         starter:
-          'import pandas as pd\n\nadj = pd.Series([100.0, 110.0, 99.0, 108.9])\nr = adj.pct_change()\n# TODO: print(r.isna().tolist()); print(round(float(r.iloc[1]), 4))\n',
+          "import pandas as pd\n\ndata = {\"Date\": [\"Wed\", \"Mon\", \"Thu\"], \"Adj Close\": [99.0, 100.0, 108.9]}\ndf = pd.DataFrame(data)\n\n# Task: print the number of rows and the highest adjusted close, in one line\n",
         expected: '[True, False, False, False]\n0.1',
         hint: 'isna() flags the missing first return; iloc[1] is the first real one.'
       },
@@ -479,9 +479,9 @@ export const LESSONS: Lesson[] = [
         example: "import pandas as pd\n\nr = pd.Series([0.2, -0.2, 0.2])\nprint(round(float(r.std()), 4))\n",
         exampleNotes: {"2": "a series of returns", "3": ".std() is the SAMPLE std (ddof=1, divide by N−1) by DEFAULT in pandas — NumPy's np.std defaults to ddof=0, always state which"},
         explain:
-          'Volatility starts with the standard deviation of daily returns. Subtle trap: pandas .std() uses ddof=1 (sample, divide by N-1) by DEFAULT, while NumPy np.std() uses ddof=0 — always state which. Print the sample std of the returns, rounded to 4 decimals.',
+          "Returns only make sense in TIME order \u2014 and this table arrives deliberately shuffled. New syntax: df.sort_values(\"Date\") RETURNS a new table with rows re-ordered by the given column (it does not modify the original \u2014 you re-assign the result, as the example shows). Planted trap to notice: these dates are plain STRINGS, so they sort ALPHABETICALLY (Mon < Thu < Wed), not by calendar \u2014 real pipelines use true date types. Verify the order in your printed list.",
         starter:
-          'import pandas as pd\n\nadj = pd.Series([100.0, 110.0, 99.0, 108.9])\nr = adj.pct_change().dropna()\n# TODO: print(round(float(r.std()), 4))   # ddof=1 is pandas default\n',
+          "import pandas as pd\n\ndata = {\"Date\": [\"Wed\", \"Mon\", \"Thu\"], \"Adj Close\": [99.0, 100.0, 108.9]}\ndf = pd.DataFrame(data)\n\n# Task: sort the table by Date and print the adjusted-close column of the SORTED table as a list\n",
         expected: '0.1155',
         hint: 'dropna() first — NaN would poison the calculation.'
       },
@@ -490,9 +490,9 @@ export const LESSONS: Lesson[] = [
         example: "import numpy as np\nimport pandas as pd\n\nr = pd.Series([0.2, -0.2, 0.2])\nprint(round(float(r.std() * np.sqrt(252)), 4))\n",
         exampleNotes: {"0": "load NumPy (for sqrt) and pandas", "3": "a series of daily returns", "4": "daily spread stretched to a year: × √252 (252 trading days). A convention, not a law"},
         explain:
-          'Convention for daily stock data: annualize by multiplying the daily sample std by the square root of 252 trading days. It is a convention (assumes roughly independent daily moves) — remember it as an estimate, not a law. Print the annualized volatility rounded to 4 decimals.',
+          "pct_change() performs the whole lesson-4 slicing routine for you: each value divided by the previous one, minus one, in decimals. Critical detail: the FIRST entry has no previous value, so it becomes NaN \u2014 pandas' spelling of unknown. NaN is NOT zero: zero would claim a flat day, NaN honestly claims no information. New syntax: r.isna() tests every entry (True where NaN); r.iloc[1] selects by POSITION \u2014 the first real return.",
         starter:
-          'import numpy as np\nimport pandas as pd\n\nadj = pd.Series([100.0, 110.0, 99.0, 108.9])\nr = adj.pct_change().dropna()\n# TODO: print(round(float(r.std() * np.sqrt(252)), 4))\n',
+          "import pandas as pd\n\nadj = pd.Series([100.0, 110.0, 99.0, 108.9])\n\n# Task: compute the returns with pct_change; print the NaN pattern, then the first REAL return rounded to 4\n",
         expected: '1.833',
         hint: 'Daily spread (~0.1155) stretched by sqrt(252) ≈ 15.87.'
       },
@@ -501,7 +501,7 @@ export const LESSONS: Lesson[] = [
         explain: "The full pipeline on REAL data: 21 actual Tencent closes from 2026-09-30 to 2026-10-30. Build the Series, take pct_change, compute the SAMPLE standard deviation (ddof=1) and annualize with sqrt(252). Print the result rounded to 4 \u2014 this is the actual annualized volatility the market priced for Tencent in October 2026.",
         example: "import numpy as np\nimport pandas as pd\n\nadj = pd.Series([431.0, 421.2, 423.0, 428.2, 420.6, 411.4])  # six real closes, Sep-Oct 2026\nr = adj.pct_change().dropna()\nprint(round(float(r.std() * np.sqrt(252)), 4))\n",
         exampleNotes: {"5": "daily spread stretched to a year: × √252 (252 trading days). A convention, not a law"},
-        starter: "import numpy as np\nimport pandas as pd\n\nadj = pd.Series([431.0, 421.2, 423.0, 428.2, 420.6, 411.4, 424.8, 425.8, 425.2, 423.4, 417.8, 417.8, 410.4, 393.8, 382.4, 386.0, 386.4, 385.2, 387.6, 377.6, 383.6])  # real closes 2026-09-30..10-30\n\n# TODO: r = adj.pct_change().dropna(); print(round(float(r.std() * np.sqrt(252)), 4))\n",
+        starter: "import numpy as np\nimport pandas as pd\n\ncloses = [431.0, 421.2, 423.0, 428.2, 420.6, 411.4, 424.8, 425.8, 425.2, 423.4, 417.8, 417.8, 410.4, 393.8, 382.4, 386.0, 386.4, 385.2, 387.6, 377.6, 383.6]  # real closes 2026-09-30..10-30\n\n# Task: build the Series from closes, then print the annualized volatility of October 2026 rounded to 4\n",
         expected: "0.2808",
         hint: "Steps 6-8 chained: pct_change -> std (ddof=1) -> sqrt(252). Nothing new.",
       }
