@@ -1,11 +1,21 @@
 'use client';
 
 import {useEffect, useMemo, useState} from 'react';
+import dynamic from 'next/dynamic';
 import {useTranslations} from 'next-intl';
 import {Link} from '@/i18n/navigation';
 import {createClient} from '@/lib/supabase/browser';
 import type {Lesson} from '@/content/lessons';
 import {usePyodide} from './pyodide/usePyodide';
+
+const CodeEditor = dynamic(() => import('./CodeEditor'), {
+  ssr: false,
+  loading: () => (
+    <div className="h-56 w-full bg-[#1e2530] p-4 font-mono text-sm text-white/50">
+      Loading editor…
+    </div>
+  )
+});
 
 /* Lenient answer matching: "correct answer passes".
    1) Extra printed lines around the expected block are fine (containment).
@@ -380,11 +390,10 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
             <span>lesson_{lesson.n}_step_{stepIndex + 1}.py</span>
             <span>{state === 'ready' ? 'Python 3 (in-browser)' : '…'}</span>
           </div>
-          <textarea
+          <CodeEditor
+            key={`${lesson.n}-${stepIndex}`}
             value={code}
-            onChange={(e) => setCode(e.target.value)}
-            spellCheck={false}
-            className="h-56 w-full resize-none bg-[#1e2530] p-4 font-mono text-sm text-white/90 outline-none"
+            onChange={setCode}
           />
         </div>
         <div className="flex flex-col overflow-hidden rounded-xl border border-navy/10 shadow-sm">
