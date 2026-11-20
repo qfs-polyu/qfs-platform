@@ -1,6 +1,6 @@
 'use client';
 
-import {useMemo, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {useTranslations} from 'next-intl';
 import {Link} from '@/i18n/navigation';
 import {createClient} from '@/lib/supabase/browser';
@@ -139,6 +139,32 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
     'idle'
   );
   const [hardcoded, setHardcoded] = useState(false);
+  const [freeRoam, setFreeRoam] = useState(false);
+
+  // A lesson this user has already completed unlocks free navigation.
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const supabase = createClient();
+        const {
+          data: {session}
+        } = await supabase.auth.getSession();
+        if (!session) return;
+        const {data} = await supabase
+          .from('lesson_progress')
+          .select('lesson_id')
+          .eq('user_id', session.user.id)
+          .eq('lesson_id', lesson.n);
+        if (!cancelled && (data ?? []).length > 0) setFreeRoam(true);
+      } catch {
+        // table/grant not ready — sequential mode stays
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [lesson.n]);
 
   const step = lesson.steps[stepIndex];
   const isLast = stepIndex === lesson.steps.length - 1;
@@ -273,9 +299,9 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
         {lesson.steps.map((s, i) => (
           <button
             key={i}
-            disabled={i > stepIndex}
+            disabled={i > stepIndex && !freeRoam}
             onClick={() => {
-              if (i < stepIndex) {
+              if (i < stepIndex || (freeRoam && i !== stepIndex)) {
                 setStepIndex(i);
                 resetStepUi();
               }
@@ -396,7 +422,7 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
         {checked && hardcoded && (
           <p className="w-full text-xs text-amber-700">{t('hardcodedTip')}</p>
         )}
-        {passed && !isLast && (
+        {(passed || freeRoam) && !isLast && (
           <button
             onClick={onNext}
             className="ml-auto rounded-full bg-green-700 px-5 py-2 text-sm font-medium text-white hover:bg-green-800"
@@ -404,7 +430,7 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
             {t('next')} →
           </button>
         )}
-        {passed && isLast && (
+        {(passed || freeRoam) && isLast && (
           <button
             onClick={onNext}
             className="ml-auto rounded-full bg-green-700 px-5 py-2 text-sm font-medium text-white hover:bg-green-800"

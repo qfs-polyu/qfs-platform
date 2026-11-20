@@ -1,6 +1,7 @@
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 import {Link} from '@/i18n/navigation';
 import {CODE_LESSONS} from '@/content/curriculum';
+import TrackProgressBar from '@/components/tracks/TrackProgressBar';
 
 export default async function CodePage({
   params
@@ -50,6 +51,7 @@ export default async function CodePage({
           </tbody>
         </table>
       </div>
+      <TrackProgressBar track="coding" />
     </div>
   );
 }

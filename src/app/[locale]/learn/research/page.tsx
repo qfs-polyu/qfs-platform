@@ -1,5 +1,6 @@
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 import {RESEARCH_LAYERS} from '@/content/curriculum';
+import TrackProgressBar from '@/components/tracks/TrackProgressBar';
 
 export default async function ResearchPage({
   params
@@ -39,6 +40,7 @@ export default async function ResearchPage({
           </div>
         ))}
       </div>
+      <TrackProgressBar track="research" />
     </div>
   );
 }

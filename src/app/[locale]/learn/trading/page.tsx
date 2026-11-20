@@ -1,6 +1,7 @@
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 import {Link} from '@/i18n/navigation';
 import {TRADING_STAGES} from '@/content/curriculum';
+import TrackProgressBar from '@/components/tracks/TrackProgressBar';
 
 export default async function TradingPage({
   params
@@ -76,6 +77,7 @@ export default async function TradingPage({
           </div>
         ))}
       </div>
+      <TrackProgressBar track="trading" />
     </div>
   );
 }
