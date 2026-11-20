@@ -150,6 +150,42 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
   );
   const [hardcoded, setHardcoded] = useState(false);
   const [freeRoam, setFreeRoam] = useState(false);
+  // Steps already passed this visit (survives navigating back and refresh):
+  // going back to review must never force redoing passed steps.
+  const [passedSteps, setPassedSteps] = useState<Set<number>>(() => {
+    try {
+      const raw = window.sessionStorage.getItem(
+        `qfs_lesson_passed_${lesson.n}`
+      );
+      return new Set<number>(raw ? (JSON.parse(raw) as number[]) : []);
+    } catch {
+      return new Set<number>();
+    }
+  });
+
+  const markPassed = (i: number) => {
+    setPassedSteps((prev) => {
+      if (prev.has(i)) return prev;
+      const next = new Set(prev);
+      next.add(i);
+      try {
+        window.sessionStorage.setItem(
+          `qfs_lesson_passed_${lesson.n}`,
+          JSON.stringify([...next])
+        );
+      } catch {
+        // storage unavailable — in-memory still works
+      }
+      return next;
+    });
+  };
+
+  // furthest reachable step index = highest passed + 1
+  const furthest = useMemo(() => {
+    let m = -1;
+    for (const i of passedSteps) m = Math.max(m, i);
+    return Math.min(m + 1, lesson.steps.length - 1);
+  }, [passedSteps, lesson.steps.length]);
 
   // A lesson this user has already completed unlocks free navigation.
   useEffect(() => {
@@ -233,6 +269,7 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
     setChecked(true);
     setPassed(ok && !hard);
     setHardcoded(hard);
+    if (ok && !hard) markPassed(stepIndex);
   };
 
   const onNext = async () => {
@@ -309,9 +346,12 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
         {lesson.steps.map((s, i) => (
           <button
             key={i}
-            disabled={i > stepIndex && !freeRoam}
+            disabled={i > stepIndex && !freeRoam && i > furthest}
             onClick={() => {
-              if (i < stepIndex || (freeRoam && i !== stepIndex)) {
+              if (
+                i < stepIndex ||
+                ((freeRoam || i <= furthest) && i !== stepIndex)
+              ) {
                 setStepIndex(i);
                 resetStepUi();
               }
@@ -443,7 +483,7 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
         {checked && hardcoded && (
           <p className="w-full text-xs text-amber-700">{t('hardcodedTip')}</p>
         )}
-        {(passed || freeRoam) && !isLast && (
+        {(passed || freeRoam || passedSteps.has(stepIndex)) && !isLast && (
           <button
             onClick={onNext}
             className="ml-auto rounded-full bg-green-700 px-5 py-2 text-sm font-medium text-white hover:bg-green-800"
@@ -451,7 +491,7 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
             {t('next')} →
           </button>
         )}
-        {(passed || freeRoam) && isLast && (
+        {(passed || freeRoam || passedSteps.has(stepIndex)) && isLast && (
           <button
             onClick={onNext}
             className="ml-auto rounded-full bg-green-700 px-5 py-2 text-sm font-medium text-white hover:bg-green-800"
