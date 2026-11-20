@@ -343,9 +343,21 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
             {exampleRun === 'running' ? '…' : `▶ ${t('runExample')}`}
           </button>
         </div>
-        <pre className="overflow-x-auto bg-[#1e2530] px-5 py-4 font-mono text-sm leading-relaxed text-white/90">
-          {step.example}
-        </pre>
+        <div className="overflow-x-auto bg-[#1e2530] px-5 py-4 font-mono text-sm leading-relaxed text-white/90">
+          {step.example
+            .replace(/\n+$/, '')
+            .split('\n')
+            .map((line, i) => (
+              <div key={i}>
+                <div className="whitespace-pre">{line || '\u00a0'}</div>
+                {step.exampleNotes?.[i] && (
+                  <div className="my-0.5 ml-3 whitespace-pre-wrap border-l-2 border-white/20 pl-2 text-xs leading-snug text-white/50">
+                    {step.exampleNotes[i]}
+                  </div>
+                )}
+              </div>
+            ))}
+        </div>
         {exampleRun === 'done' && (
           <div className="border-t border-navy/10 px-5 py-3">
             <p className="text-xs font-medium text-navy/45">{t('exampleOutput')}</p>
