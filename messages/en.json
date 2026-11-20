@@ -38,18 +38,22 @@
     "live": "Live",
     "openIndicators": "Indicator Lab",
     "openFoundations": "Quant Foundations",
-    "openQuotes": "Quote Anatomy"
+    "openQuotes": "Quote Anatomy",
+    "openBasics": "Stage 1 directory",
+    "backToLearn": "Back to Learning"
   },
   "research": {
     "title": "Research Track",
-    "subtitle": "Five layers: from concept to a complete workflow, then paper replication and competition exits."
+    "subtitle": "Five layers: from concept to a complete workflow, then paper replication and competition exits.",
+    "backToLearn": "Back to Learning"
   },
   "code": {
     "title": "Coding Track",
     "subtitle": "8 lessons covering L1–L3. Step-by-step courses with auto-graded assignments, fully in-site.",
     "lesson": "Lesson",
     "assignmentLabel": "Assignment (auto-graded)",
-    "live": "Live now"
+    "live": "Live now",
+    "backToLearn": "Back to Learning"
   },
   "assignments": {
     "title": "Assignments & Practice",
@@ -226,5 +230,13 @@
     "signalLabel": "Signal type:",
     "quizTitle": "Quote-reading quiz",
     "quizCheck": "Check answers"
+  },
+  "basics": {
+    "title": "Know Quant & Markets",
+    "subtitle": "The four tools of Trading Stage 1: what quant is and what markets quants trade, then reading candles, indicators and quote panels.",
+    "descFoundations": "What quantitative finance is, quant vs discretionary, markets & instruments, why we learn with stocks.",
+    "descCandles": "Interactive candlesticks on real Tencent data — click any candle for guided explanations and a quiz.",
+    "descIndicators": "MA, Bollinger, MACD, KDJ and volume computed live, with formula cards worked on real numbers.",
+    "descQuotes": "Ten hotspots of a quote panel: what each is, how it's computed, what signal it carries."
   }
 }

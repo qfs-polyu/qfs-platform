@@ -15,6 +15,9 @@ export default async function CodePage({
   return (
     <div>
       <h1 className="text-2xl font-bold">{t('title')}</h1>
+      <Link href="/learn" className="mt-2 inline-block text-sm text-accent hover:underline">
+        ← {t('backToLearn')}
+      </Link>
       <p className="mt-2 max-w-3xl text-sm text-navy/70">{t('subtitle')}</p>
       <div className="mt-8 overflow-hidden rounded-xl border border-navy/10 shadow-sm">
         <table className="w-full bg-white text-left text-sm">

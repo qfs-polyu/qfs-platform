@@ -1,4 +1,5 @@
 import {getTranslations, setRequestLocale} from 'next-intl/server';
+import {Link} from '@/i18n/navigation';
 import {RESEARCH_LAYERS} from '@/content/curriculum';
 import TrackProgressBar from '@/components/tracks/TrackProgressBar';
 
@@ -15,6 +16,9 @@ export default async function ResearchPage({
   return (
     <div>
       <h1 className="text-2xl font-bold">{t('title')}</h1>
+      <Link href="/learn" className="mt-2 inline-block text-sm text-accent hover:underline">
+        ← {t('backToLearn')}
+      </Link>
       <p className="mt-2 max-w-3xl text-sm text-navy/70">{t('subtitle')}</p>
       <div className="mt-8 space-y-4">
         {RESEARCH_LAYERS.map((layer) => (

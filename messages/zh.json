@@ -38,18 +38,22 @@
     "live": "可试玩",
     "openIndicators": "指标学堂",
     "openFoundations": "量化金融入门",
-    "openQuotes": "行情解剖图"
+    "openQuotes": "行情解剖图",
+    "openBasics": "进入阶段一目录",
+    "backToLearn": "返回学习版块"
   },
   "research": {
     "title": "Research 子版块",
-    "subtitle": "五层递进：从概念到完整流程，再到论文复现与比赛出口。"
+    "subtitle": "五层递进：从概念到完整流程，再到论文复现与比赛出口。",
+    "backToLearn": "返回学习版块"
   },
   "code": {
     "title": "代码教学子版块",
     "subtitle": "8 课对应 L1–L3。手把手步骤式课程 + 自动判题作业，全部站内实现。",
     "lesson": "课",
     "assignmentLabel": "作业（自动判题）",
-    "live": "可试玩"
+    "live": "可试玩",
+    "backToLearn": "返回学习版块"
   },
   "assignments": {
     "title": "作业与练习中心",
@@ -226,5 +230,13 @@
     "signalLabel": "信号类型：",
     "quizTitle": "读盘小测",
     "quizCheck": "提交答案"
+  },
+  "basics": {
+    "title": "认识量化与市场",
+    "subtitle": "Trading 阶段一的四件学习工具：先弄清量化是什么、在什么市场交易什么，再学会读 K 线、看指标、解剖报价面板。",
+    "descFoundations": "量化金融是什么、与主观交易的区别、市场与工具概览、为什么以股票为例。",
+    "descCandles": "真实腾讯日线上的交互 K 线：点击任意一根看逐项讲解，附读图小测。",
+    "descIndicators": "均线、布林带、MACD、KDJ、成交量现场计算，知识卡配公式与真实数字演算。",
+    "descQuotes": "报价面板十个热区：是什么、怎么算、传递什么信号。"
   }
 }
