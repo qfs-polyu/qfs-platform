@@ -2,11 +2,26 @@
 
 import {useEffect, useMemo, useState} from 'react';
 import dynamic from 'next/dynamic';
-import {useTranslations} from 'next-intl';
+import {useLocale, useTranslations} from 'next-intl';
 import {Link} from '@/i18n/navigation';
 import {createClient} from '@/lib/supabase/browser';
-import type {Lesson} from '@/content/lessons';
+import type {Lesson, LessonStep} from '@/content/lessons';
+import {LESSONS_ZH} from '@/content/lessons-zh';
 import {usePyodide} from './pyodide/usePyodide';
+
+/** Merge a step with its Chinese translation (falls back to English). */
+function localizeStep(lessonN: number, step: LessonStep, idx: number, locale: string): LessonStep {
+  if (locale !== 'zh') return step;
+  const zh = LESSONS_ZH[lessonN]?.steps[idx];
+  if (!zh) return step;
+  return {
+    ...step,
+    explain: zh.explain ?? step.explain,
+    starter: zh.starter ?? step.starter,
+    hint: zh.hint ?? step.hint,
+    exampleNotes: zh.exampleNotes ?? step.exampleNotes
+  };
+}
 
 const CodeEditor = dynamic(() => import('./CodeEditor'), {
   ssr: false,
@@ -130,10 +145,21 @@ function looksHardcoded(expected: string, code: string): boolean {
 }
 
 export default function StepCourse({lesson}: {lesson: Lesson}) {
+  const locale = useLocale();
   const t = useTranslations('lesson');
   const {state, run} = usePyodide();
   const [stepIndex, setStepIndex] = useState(0);
-  const [codes, setCodes] = useState<string[]>(lesson.steps.map((s) => s.starter));
+  const [codes, setCodes] = useState<string[]>(() =>
+    lesson.steps.map((s, i) => localizeStep(lesson.n, s, i, locale).starter)
+  );
+
+  // Re-seed starter code when the display language changes (only untouched steps).
+  useEffect(() => {
+    setCodes((prev) =>
+      lesson.steps.map((s, i) => localizeStep(lesson.n, s, i, locale).starter)
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [locale]);
   const [output, setOutput] = useState('');
   const [error, setError] = useState('');
   const [passed, setPassed] = useState(false);
@@ -212,7 +238,10 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
     };
   }, [lesson.n]);
 
-  const step = lesson.steps[stepIndex];
+  const step = useMemo(
+    () => localizeStep(lesson.n, lesson.steps[stepIndex], stepIndex, locale),
+    [lesson, stepIndex, locale]
+  );
   const isLast = stepIndex === lesson.steps.length - 1;
   const [done, setDone] = useState(false);
 
