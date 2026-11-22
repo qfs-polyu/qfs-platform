@@ -35,6 +35,22 @@ npm run build      # production build
 npm run start      # serve the production build
 ```
 
+## Course content tests
+
+```bash
+npm test               # audit all coding-lesson answers and worked examples
+npm run test:lessons   # the same audit, called directly
+```
+
+The audit loads the actual TypeScript course content, executes every reference
+solution against its expected output, runs every worked example, and checks
+Chinese translations, example-note locations, and Chinese/English starter-code
+parity. A new step must have a corresponding entry in `scripts/audit_lessons.py`.
+
+The test runner requires Node.js plus Python 3 with NumPy and pandas installed.
+Set the `PYTHON` environment variable if the interpreter is not on `PATH`.
+GitHub Actions runs the audit on pushes to `main` and on pull requests.
+
 ## Milestones
 
 - **M0 (current)** — skeleton + bilingual UI, no content, no accounts
