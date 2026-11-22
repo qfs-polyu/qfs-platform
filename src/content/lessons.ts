@@ -373,10 +373,10 @@ export const LESSONS: Lesson[] = [
       },
       {
         title: 'Align the dates',
-        example: "days = [\"D1\", \"D2\", \"D3\"]\nprint(days[1:])\n",
-        exampleNotes: {"0": "N=3 dates but only N-1=2 returns exist", "1": "the returns belong to days[1:] onward — day 1 has no yesterday inside the window"},
+        example: "days = [\"D1\", \"D2\", \"D3\"]\nprint(*days[1:])\n",
+        exampleNotes: {"0": "N=3 dates but only N-1=2 returns exist — the returns belong to days[1:] onward", "1": "the * UNPACKS the slice: print(*days[1:]) prints each element space-separated on one line — NOT as a list with brackets"},
         explain:
-          "Bookkeeping that bites real code: 4 prices produce 3 returns, and the first return belongs to the SECOND date \u2014 Monday has no previous day inside the window, so returns align with dates[1:]. Getting date alignment wrong (off-by-one) silently corrupts backtests, which is why it earns its own step. Pure slicing practice: one slice, one print, spaces between.",
+          "Bookkeeping that bites real code: 4 prices produce 3 returns, and the first return belongs to the SECOND date \u2014 Monday has no previous day inside the window, so returns align with dates[1:]. Getting date alignment wrong (off-by-one) silently corrupts backtests, which is why it earns its own step. New syntax: print(*list) \u2014 the star UNPACKS the list, printing each element space-separated on one line instead of showing Python's list brackets. Without the star you get ['Tue', 'Wed', 'Thu']; with it you get Tue Wed Thu.",
         starter:
           "dates = [\"Mon\", \"Tue\", \"Wed\", \"Thu\"]\n\n# Task: print the dates that own the returns, in order, in one line\n",
         expected: 'Tue Wed Thu',
