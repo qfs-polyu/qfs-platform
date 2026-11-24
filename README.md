@@ -51,6 +51,21 @@ The test runner requires Node.js plus Python 3 with NumPy and pandas installed.
 Set the `PYTHON` environment variable if the interpreter is not on `PATH`.
 GitHub Actions runs the audit on pushes to `main` and on pull requests.
 
+## Assignment tests and saved records
+
+```bash
+npm run test:assignments  # execute all five reference answers and every hidden test
+```
+
+The assignment audit covers every parameter variant and mirrors the browser's
+isolated-namespace grader. It runs automatically as part of `npm test`.
+
+For signed-in submission history and the mistake notebook, run
+`supabase/migrations/0003_assignments_and_quizzes.sql` in the Supabase SQL Editor.
+This creates `assignment_submissions` and `quiz_attempts`, with authenticated
+users restricted by RLS to reading and inserting their own rows. Anonymous
+grading remains available without database writes.
+
 ## Milestones
 
 - **M0 (current)** — skeleton + bilingual UI, no content, no accounts

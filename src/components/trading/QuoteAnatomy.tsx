@@ -3,30 +3,23 @@
 import {useState} from 'react';
 import {useTranslations} from 'next-intl';
 import {HOTSPOTS, QUOTE, QUIZ} from '@/content/quotes-content';
+import QuizSaveNotice from './QuizSaveNotice';
+import {useQuizAttempt} from './useQuizAttempt';
 
-export default function QuoteAnatomy() {
-  const t = useTranslations('quotes');
-  const [selected, setSelected] = useState<string>('last');
-  const [picks, setPicks] = useState<Record<number, number>>({});
-  const [checked, setChecked] = useState(false);
+type CellProps = {
+  id: string;
+  label: string;
+  labelCn: string;
+  value: string;
+  selected: string;
+  onSelect: (id: string) => void;
+  emphasis?: boolean;
+};
 
-  const spot = HOTSPOTS.find((h) => h.id === selected) ?? HOTSPOTS[0];
-
-  const Cell = ({
-    id,
-    label,
-    labelCn,
-    value,
-    emphasis
-  }: {
-    id: string;
-    label: string;
-    labelCn: string;
-    value: string;
-    emphasis?: boolean;
-  }) => (
+function Cell({id, label, labelCn, value, selected, onSelect, emphasis}: CellProps) {
+  return (
     <button
-      onClick={() => setSelected(id)}
+      onClick={() => onSelect(id)}
       className={`group relative rounded-lg border p-2.5 text-left transition ${
         selected === id
           ? 'border-accent bg-accent-soft/60 ring-1 ring-accent'
@@ -52,6 +45,16 @@ export default function QuoteAnatomy() {
       </span>
     </button>
   );
+}
+
+export default function QuoteAnatomy() {
+  const t = useTranslations('quotes');
+  const [selected, setSelected] = useState<string>('last');
+  const [picks, setPicks] = useState<Record<number, number>>({});
+  const [checked, setChecked] = useState(false);
+  const {saveState, recordAttempt} = useQuizAttempt('trading-quotes');
+
+  const spot = HOTSPOTS.find((h) => h.id === selected) ?? HOTSPOTS[0];
 
   return (
     <div className="space-y-6">
@@ -61,26 +64,26 @@ export default function QuoteAnatomy() {
         <div className="space-y-2.5">
           {/* header row */}
           <div className="grid gap-2.5 sm:grid-cols-3">
-            <Cell id="name" label="Name" labelCn="名称" value={`${QUOTE.nameCn} ${QUOTE.symbol}`} />
+            <Cell selected={selected} onSelect={setSelected} id="name" label="Name" labelCn="名称" value={`${QUOTE.nameCn} ${QUOTE.symbol}`} />
             <div className="sm:col-span-2">
-              <Cell id="last" label="Last" labelCn="最新" value="383.6  +6.0  +1.59%" emphasis />
+              <Cell selected={selected} onSelect={setSelected} id="last" label="Last" labelCn="最新" value="383.6  +6.0  +1.59%" emphasis />
             </div>
           </div>
           {/* ohlc + volume */}
           <div className="grid gap-2.5 sm:grid-cols-2">
-            <Cell id="ohlc" label="O/H/L/Prev" labelCn="开高低收" value="376.4 / 387.6 / 375.2 / 377.6" />
-            <Cell id="volume" label="Vol / Turnover" labelCn="量/额" value="22.27M / ≈HK$8.6B" />
+            <Cell selected={selected} onSelect={setSelected} id="ohlc" label="O/H/L/Prev" labelCn="开高低收" value="376.4 / 387.6 / 375.2 / 377.6" />
+            <Cell selected={selected} onSelect={setSelected} id="volume" label="Vol / Turnover" labelCn="量/额" value="22.27M / ≈HK$8.6B" />
           </div>
           {/* stats */}
           <div className="grid gap-2.5 sm:grid-cols-4">
-            <Cell id="turnover-rate" label="Turnover" labelCn="换手率" value="0.24%" />
-            <Cell id="vol-ratio" label="Vol Ratio" labelCn="量比" value="1.18" />
-            <Cell id="mktcap" label="Mkt Cap" labelCn="市值" value="HK$3.5T" />
-            <Cell id="pe" label="P/E" labelCn="市盈率" value="22x" />
+            <Cell selected={selected} onSelect={setSelected} id="turnover-rate" label="Turnover" labelCn="换手率" value="0.24%" />
+            <Cell selected={selected} onSelect={setSelected} id="vol-ratio" label="Vol Ratio" labelCn="量比" value="1.18" />
+            <Cell selected={selected} onSelect={setSelected} id="mktcap" label="Mkt Cap" labelCn="市值" value="HK$3.5T" />
+            <Cell selected={selected} onSelect={setSelected} id="pe" label="P/E" labelCn="市盈率" value="22x" />
           </div>
           {/* order book */}
-          <Cell id="bidask" label="Order Book" labelCn="买卖五档" value="买 383.4×3 · 383.2×7 … 卖 383.8×2 · 384.0×5" />
-          <Cell id="lot" label="Lot" labelCn="每手" value="100 shares" />
+          <Cell selected={selected} onSelect={setSelected} id="bidask" label="Order Book" labelCn="买卖五档" value="买 383.4×3 · 383.2×7 … 卖 383.8×2 · 384.0×5" />
+          <Cell selected={selected} onSelect={setSelected} id="lot" label="Lot" labelCn="每手" value="100 shares" />
         </div>
       </div>
 
@@ -149,12 +152,16 @@ export default function QuoteAnatomy() {
           ))}
         </div>
         <button
-          onClick={() => setChecked(true)}
+          onClick={() => {
+            setChecked(true);
+            void recordAttempt(picks);
+          }}
           disabled={Object.keys(picks).length < QUIZ.length}
           className="mt-5 rounded-full bg-navy px-5 py-2 text-sm font-medium text-white transition hover:bg-navy/90 disabled:opacity-40"
         >
           {t('quizCheck')}
         </button>
+        <QuizSaveNotice state={saveState} />
       </div>
     </div>
   );

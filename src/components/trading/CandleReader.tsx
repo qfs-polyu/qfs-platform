@@ -14,6 +14,8 @@ import {
 } from 'lightweight-charts';
 import data from '@/data/candles_0700.json';
 import {CONCEPTS, QUIZ} from '@/content/candles-content';
+import QuizSaveNotice from './QuizSaveNotice';
+import {useQuizAttempt} from './useQuizAttempt';
 
 type Bar = {t: string; o: number; h: number; l: number; c: number; v: number};
 const bars = (data as {symbol: string; name: string; bars: Bar[]}).bars;
@@ -35,6 +37,7 @@ export default function CandleReader() {
   const [openConcept, setOpenConcept] = useState<string | null>(null);
   const [quizPicks, setQuizPicks] = useState<Record<number, number>>({});
   const [quizChecked, setQuizChecked] = useState(false);
+  const {saveState, recordAttempt} = useQuizAttempt('trading-candles');
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -284,12 +287,16 @@ export default function CandleReader() {
           ))}
         </div>
         <button
-          onClick={() => setQuizChecked(true)}
+          onClick={() => {
+            setQuizChecked(true);
+            void recordAttempt(quizPicks);
+          }}
           disabled={Object.keys(quizPicks).length < QUIZ.length}
           className="mt-5 rounded-full bg-navy px-5 py-2 text-sm font-medium text-white transition hover:bg-navy/90 disabled:opacity-40"
         >
           {t('quizCheck')}
         </button>
+        <QuizSaveNotice state={saveState} />
       </div>
     </div>
   );

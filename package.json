@@ -7,8 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "npm run test:lessons",
-    "test:lessons": "node scripts/audit-lessons.mjs"
+    "test": "npm run test:lessons && npm run test:assignments",
+    "test:lessons": "node scripts/audit-lessons.mjs",
+    "test:assignments": "node scripts/audit-assignments.mjs"
   },
   "dependencies": {
     "@codemirror/lang-python": "^6.2.1",

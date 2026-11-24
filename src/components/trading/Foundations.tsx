@@ -8,11 +8,14 @@ import {
   WHY_STOCKS,
   QUIZ
 } from '@/content/foundations-content';
+import QuizSaveNotice from './QuizSaveNotice';
+import {useQuizAttempt} from './useQuizAttempt';
 
 export default function Foundations() {
   const t = useTranslations('foundations');
   const [picks, setPicks] = useState<Record<number, number>>({});
   const [checked, setChecked] = useState(false);
+  const {saveState, recordAttempt} = useQuizAttempt('trading-foundations');
 
   return (
     <div className="space-y-6">
@@ -110,12 +113,16 @@ export default function Foundations() {
           ))}
         </div>
         <button
-          onClick={() => setChecked(true)}
+          onClick={() => {
+            setChecked(true);
+            void recordAttempt(picks);
+          }}
           disabled={Object.keys(picks).length < QUIZ.length}
           className="mt-5 rounded-full bg-navy px-5 py-2 text-sm font-medium text-white transition hover:bg-navy/90 disabled:opacity-40"
         >
           {t('quizCheck')}
         </button>
+        <QuizSaveNotice state={saveState} />
       </div>
     </div>
   );
