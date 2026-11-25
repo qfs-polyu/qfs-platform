@@ -135,9 +135,9 @@ export const CODE_LESSONS: Lesson[] = [
   { n: 3, title: 'Functions & Conditionals', assignment: 'Bull/bear regime classifier' },
   { n: 4, title: 'NumPy: Vectorized Thinking', assignment: 'Vectorized daily returns' },
   { n: 5, title: 'pandas I: Series, DataFrame, CSV', assignment: 'Annualized volatility of a stock' },
-  { n: 6, title: 'pandas II: Indexing, Slicing, Rolling', assignment: 'MA20 golden/death cross signals' },
-  { n: 7, title: 'pandas III: groupby, merge, Plotting', assignment: 'Monthly market-return statistics' },
-  { n: 8, title: 'Capstone: pandas + backtesting.py', assignment: 'MA-crossover backtest report (L3 gate)' }
+  { n: 6, title: 'pandas II: Indexing, Rolling & Crossovers', assignment: 'MA5 / MA20 golden/death cross signals' },
+  { n: 7, title: 'pandas III: Groupby, Merge & Visual Summaries', assignment: 'Monthly market-return statistics' },
+  { n: 8, title: 'Capstone: Transparent pandas Backtesting', assignment: 'MA-crossover backtest report (L3 gate)' }
 ];
 
 /* ---------- level <-> content-unit mapping (6 levels bundle the 18 units) ---------- */
@@ -163,15 +163,15 @@ export function levelUnits(levelId: string): UnitRef[] {
     n,
     title: CODE_LESSONS[n - 1].title,
     href: `/learn/code/${n}`,
-    live: n <= 5
+    live: n <= 8
   });
   const r = (n: number): UnitRef => ({
     track: 'research',
     kind: 'layer',
     n,
     title: RESEARCH_LAYERS[n - 1].title,
-    href: '/learn/research',
-    live: false
+    href: n === 2 ? '/learn/research/2' : '/learn/research',
+    live: n === 2
   });
 
   switch (levelId) {

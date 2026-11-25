@@ -506,10 +506,244 @@ export const LESSONS: Lesson[] = [
         hint: "Steps 6-8 chained: pct_change -> std (ddof=1) -> sqrt(252). Nothing new.",
       }
     ]
+  },
+  {
+    n: 6,
+    title: 'pandas II: Indexing, Rolling & Crossovers',
+    steps: [
+      {
+        title: 'A real calendar index',
+        example: "import pandas as pd\n\ndates = pd.to_datetime([\"2024-01-02\", \"2024-01-03\"])\nclose = pd.Series([100.0, 102.0], index=dates)\nprint(close.index.strftime(\"%Y-%m-%d\").tolist())\n",
+        exampleNotes: {2: 'to_datetime converts text into real timestamps, not weekday strings', 4: 'strftime formats each index label; tolist gives a plain list'},
+        explain: 'Lesson 5 deliberately exposed the problem with weekday strings. Here we fix it: pd.to_datetime(list) converts ISO date text (YYYY-MM-DD) into timestamps, and passing index=dates attaches them to the Series. Now order and slicing follow the calendar. The new display chain .index.strftime("%Y-%m-%d").tolist() turns timestamp labels back into readable date strings; it is only for printing, not for calculating. Build the dated Series first, then print all its labels.',
+        starter: "import pandas as pd\n\ndates = pd.to_datetime([\"2024-01-02\", \"2024-01-03\", \"2024-01-04\", \"2024-01-05\"])\nprices = [100.0, 102.0, 101.0, 104.0]\n\n# Task: build close as a Series of prices indexed by dates, then print its date labels in YYYY-MM-DD form\n",
+        expected: "['2024-01-02', '2024-01-03', '2024-01-04', '2024-01-05']",
+        hint: 'Combine pd.Series(prices, index=dates) with the same index.strftime(...).tolist() display chain as the example.'
+      },
+      {
+        title: 'loc — select by date label',
+        example: "import pandas as pd\n\nclose = pd.Series([10.0, 11.0, 12.0, 13.0], index=pd.to_datetime([\"2024-02-01\", \"2024-02-02\", \"2024-02-05\", \"2024-02-06\"]))\nprint(float(close.loc[\"2024-02-02\"]))\nprint(close.loc[\"2024-02-02\":\"2024-02-05\"].tolist())\n",
+        exampleNotes: {3: 'loc[one_label] retrieves the value attached to that exact date', 4: 'a loc date slice INCLUDES both endpoints: three rows here'},
+        explain: '.loc means LABEL location. close.loc["2024-01-04"] asks for a date, not position 2024 or 1. A label slice close.loc[start:end] includes BOTH the start and end dates — unlike Python and iloc slices, which exclude the stop. This makes a calendar window read naturally. The comma form .loc[rows, columns] also works on DataFrames; here a Series needs only rows. float() converts the selected pandas scalar for clean printing; .tolist() prints the whole selected window.',
+        starter: "import pandas as pd\n\nclose = pd.Series([100.0, 102.0, 101.0, 104.0, 103.0], index=pd.to_datetime([\"2024-01-02\", \"2024-01-03\", \"2024-01-04\", \"2024-01-05\", \"2024-01-08\"]))\n\n# Task: print the close on 2024-01-04, then the closes from 2024-01-03 through 2024-01-05 inclusive\n",
+        expected: '101.0\n[102.0, 101.0, 104.0]',
+        hint: 'Use loc twice: one exact label, then one start:end label slice. Both ends of the slice stay in the result.'
+      },
+      {
+        title: 'iloc — select by position',
+        example: "import pandas as pd\n\nclose = pd.Series([10.0, 11.0, 12.0, 13.0], index=pd.to_datetime([\"2024-02-01\", \"2024-02-02\", \"2024-02-05\", \"2024-02-06\"]))\nprint(float(close.iloc[-1]))\nprint(close.iloc[1:3].tolist())\n",
+        exampleNotes: {3: 'iloc[-1] means the last POSITION regardless of its date', 4: 'positions 1 and 2 are included; position 3 is excluded'},
+        explain: '.iloc means INTEGER location: zero-based positions, exactly like NumPy. close.iloc[0] is the first row and close.iloc[-1] the latest. Its slice close.iloc[1:4] includes positions 1, 2, 3 but excludes 4. Choose deliberately: loc answers “on this date”; iloc answers “at this row position”. Confusing them can silently select the wrong observation. Task: select the latest close, then positions 1 through 3 as a list.',
+        starter: "import pandas as pd\n\nclose = pd.Series([100.0, 102.0, 101.0, 104.0, 103.0], index=pd.to_datetime([\"2024-01-02\", \"2024-01-03\", \"2024-01-04\", \"2024-01-05\", \"2024-01-08\"]))\n\n# Task: print the latest close with iloc, then positions 1, 2 and 3 as a list\n",
+        expected: '103.0\n[102.0, 101.0, 104.0]',
+        hint: 'The latest position is -1. To include position 3, the iloc slice must stop at 4.'
+      },
+      {
+        title: 'Boolean filtering — keep the days that qualify',
+        example: "import pandas as pd\n\nclose = pd.Series([10.0, 12.0, 11.0, 14.0], index=pd.to_datetime([\"2024-02-01\", \"2024-02-02\", \"2024-02-05\", \"2024-02-06\"]))\nselected = close.loc[close > 11]\nprint(selected.index.strftime(\"%Y-%m-%d\").tolist())\nprint(selected.tolist())\n",
+        exampleNotes: {3: 'close > 11 creates a True/False mask; loc keeps only True rows', 4: 'the kept dates remain attached to their values'},
+        explain: 'A comparison on a whole Series produces a Boolean mask — one True/False per date. Passing that mask to .loc keeps only the True rows, preserving both date order and labels. This is declarative filtering: state the rule once, no loop required. Read close.loc[close > 103] as “close, where close is above 103”. Task: keep closes strictly above 103, print their dates, then their values. Strictly above means 103 itself does not qualify.',
+        starter: "import pandas as pd\n\nclose = pd.Series([100.0, 102.0, 101.0, 104.0, 103.0, 106.0], index=pd.to_datetime([\"2024-01-02\", \"2024-01-03\", \"2024-01-04\", \"2024-01-05\", \"2024-01-08\", \"2024-01-09\"]))\n\n# Task: keep closes above 103; print the selected dates in YYYY-MM-DD form, then their values\n",
+        expected: "['2024-01-05', '2024-01-09']\n[104.0, 106.0]",
+        hint: 'Build selected = close.loc[close > 103], then print selected.index and selected with the example’s display methods.'
+      },
+      {
+        title: 'rolling — a window that walks forward',
+        example: "import pandas as pd\n\nclose = pd.Series([10.0, 12.0, 14.0, 16.0])\nma3 = close.rolling(3).mean()\nprint(ma3.isna().tolist())\nprint(round(float(ma3.iloc[-1]), 4))\n",
+        exampleNotes: {3: 'rolling(3).mean() averages the current row and two earlier rows', 4: 'the first two windows are incomplete, so their values are NaN', 5: 'the last average is (12 + 14 + 16) / 3 = 14'},
+        explain: 'rolling(n).mean() computes a moving average using the CURRENT row and the previous n-1 rows. With window 3, positions 0 and 1 are NaN because a full three-price window does not yet exist; NaN is not a sell signal and not zero. The window moves forward one row at a time and never uses future prices. Task: compute the three-day moving average, print which entries are missing, then the final moving average rounded to four decimals.',
+        starter: "import pandas as pd\n\nclose = pd.Series([100.0, 102.0, 104.0, 103.0, 106.0])\n\n# Task: compute ma3 = the 3-row rolling mean; print its NaN pattern, then its final value rounded to 4\n",
+        expected: '[True, True, False, False, False]\n104.3333',
+        hint: 'The final full window contains 104, 103 and 106. rolling(3).mean() computes every window for you.'
+      },
+      {
+        title: 'Fast and slow averages become a position',
+        example: "import pandas as pd\n\nclose = pd.Series([10.0, 9.0, 11.0, 12.0, 13.0])\nfast = close.rolling(2).mean()\nslow = close.rolling(3).mean()\ntarget = (fast > slow).astype(int)\nprint(target.tolist())\n",
+        exampleNotes: {3: 'fast reacts to two prices; slow represents a longer three-price memory', 5: 'fast > slow gives Booleans; astype(int) maps True to 1 and False to 0', 6: '1 means target invested, 0 means target flat; early NaN comparisons are False'},
+        explain: 'A fast moving average responds quickly; a slow one carries a longer memory. The teaching rule is target invested when fast > slow, otherwise flat. Comparisons produce True/False, and .astype(int) converts them to 1/0 — a target POSITION, not a trade yet. Any comparison involving an early NaN evaluates False, so warm-up rows safely start at zero. Task: build the two-row and three-row means, convert fast > slow into target, and print the complete target list.',
+        starter: "import pandas as pd\n\nclose = pd.Series([100.0, 102.0, 101.0, 103.0, 99.0, 98.0, 100.0, 103.0])\n\n# Task: create fast (2 rows), slow (3 rows), then target = 1 when fast > slow else 0; print target\n",
+        expected: '[0, 0, 1, 0, 0, 0, 0, 1]',
+        hint: 'Use .rolling(2).mean(), .rolling(3).mean(), then .astype(int) on the comparison.'
+      },
+      {
+        title: 'A crossover needs yesterday AND today',
+        example: "import pandas as pd\n\nclose = pd.Series([10.0, 9.0, 11.0, 12.0, 11.0])\nfast = close.rolling(2).mean()\nslow = close.rolling(3).mean()\ntoday = (fast > slow).astype(int)\nyesterday = today.shift(1)\ngolden = (today == 1) & (yesterday == 0)\ndeath = (today == 0) & (yesterday == 1)\nprint(close.index[golden].tolist())\nprint(close.index[death].tolist())\n",
+        exampleNotes: {5: 'today is the current 0/1 state, not an event', 6: 'shift(1) moves each value one row later: today’s row can see the previous state', 7: 'a golden cross is the transition 0 → 1; parentheses are required around each comparison', 8: 'a death cross is 1 → 0; & combines two Boolean Series'},
+        explain: 'Being above the slow average for five straight days is one regime, not five new buy signals. A crossover is a TRANSITION: golden means yesterday 0 and today 1; death means yesterday 1 and today 0. shift(1) places yesterday’s target beside today’s. New syntax: & combines two Boolean Series, and each comparison needs its own parentheses. Finally close.index[golden] keeps the dates where the event mask is True. Task: print golden-cross dates and death-cross dates in that order.',
+        starter: "import pandas as pd\n\nclose = pd.Series([100.0, 102.0, 101.0, 103.0, 99.0, 98.0, 100.0, 103.0], index=pd.to_datetime([\"2024-01-02\", \"2024-01-03\", \"2024-01-04\", \"2024-01-05\", \"2024-01-08\", \"2024-01-09\", \"2024-01-10\", \"2024-01-11\"]))\nfast = close.rolling(2).mean()\nslow = close.rolling(3).mean()\ntoday = (fast > slow).astype(int)\nyesterday = today.shift(1)\n\n# Task: create golden and death event masks, then print their dates in YYYY-MM-DD form, golden first\n",
+        expected: "['2024-01-04', '2024-01-11']\n['2024-01-05']",
+        hint: 'golden = (today == 1) & (yesterday == 0). Reverse the states for death, then use close.index[mask].strftime(...).tolist().'
+      },
+      {
+        title: 'Mini challenge — MA5 / MA20 crossover signals',
+        example: "import pandas as pd\n\nclose = pd.Series([10, 9, 8, 7, 8, 9, 10, 9], index=pd.date_range(\"2024-03-04\", periods=8, freq=\"B\"))\nfast = close.rolling(2).mean()\nslow = close.rolling(4).mean()\ntoday = (fast > slow).astype(int)\ngolden = (today == 1) & (today.shift(1) == 0)\nprint(close.index[golden].strftime(\"%Y-%m-%d\").tolist())\n",
+        exampleNotes: {2: 'pd.date_range(..., freq="B") generates weekday trading-style labels without holidays', 3: 'the example uses shorter windows and a different price path', 6: 'only the state transition is marked, not every day above the slow mean'},
+        explain: 'Now run the full event pipeline on a 30-business-day path: five-row fast average, twenty-row slow average, current target, previous target, then two transition masks. The slow MA20 needs twenty observations, so early rows cannot generate a valid signal. The dataset is synthetic and intentionally small enough to audit by hand; a real report would also document data source, execution timing and costs. Print golden dates first, death dates second. Do not print the expected dates directly — derive them from the prices.',
+        starter: "import pandas as pd\n\nclose = pd.Series([120, 118, 116, 114, 112, 110, 108, 106, 104, 102, 100, 98, 96, 94, 92, 90, 92, 94, 96, 98, 100, 102, 104, 102, 100, 98, 96, 94, 92, 90], index=pd.date_range(\"2024-01-02\", periods=30, freq=\"B\"))\n\n# Task: compute MA5 and MA20, then print golden-cross dates and death-cross dates in YYYY-MM-DD form\n",
+        expected: "['2024-02-02']\n['2024-02-09']",
+        hint: 'Reuse the previous step exactly, changing only the rolling windows to 5 and 20. Each mask compares today with today.shift(1).'
+      }
+    ]
+  },
+  {
+    n: 7,
+    title: 'pandas III: Groupby, Merge & Visual Summaries',
+    steps: [
+      {
+        title: 'From timestamps to month labels',
+        example: "import pandas as pd\n\ndf = pd.DataFrame({\"Date\": pd.to_datetime([\"2024-01-31\", \"2024-02-01\"]), \"Return\": [0.02, -0.01]})\ndf[\"Month\"] = df[\"Date\"].dt.to_period(\"M\").astype(str)\nprint(df[\"Month\"].tolist())\n",
+        exampleNotes: {3: '.dt opens datetime tools; to_period("M") assigns each timestamp to its calendar month', 4: 'astype(str) makes labels readable, ready for grouping'},
+        explain: 'Monthly analysis starts by giving every daily row a month key. For a true datetime column, .dt.to_period("M") converts each timestamp to its calendar month; .astype(str) displays it as YYYY-MM. Assigning df["Month"] = ... adds a column without changing the original dates. This is preferable to slicing text by character position because pandas understands real dates. Task: add Month to the supplied three-row table and print its values in row order.',
+        starter: "import pandas as pd\n\ndf = pd.DataFrame({\"Date\": pd.to_datetime([\"2024-01-30\", \"2024-01-31\", \"2024-02-01\"]), \"Return\": [0.01, 0.03, -0.02]})\n\n# Task: add a Month column in YYYY-MM form, then print the Month column as a list\n",
+        expected: "['2024-01', '2024-01', '2024-02']",
+        hint: 'Copy the full .dt.to_period("M").astype(str) chain from the example and assign it to df["Month"].'
+      },
+      {
+        title: 'groupby — split, apply, combine',
+        example: "import pandas as pd\n\ndf = pd.DataFrame({\"Month\": [\"Jan\", \"Jan\", \"Feb\"], \"Return\": [0.01, 0.03, -0.02]})\nmonthly_mean = df.groupby(\"Month\")[\"Return\"].mean()\nprint(monthly_mean.round(4).tolist())\n",
+        exampleNotes: {3: 'split rows by Month, select Return, apply mean to each group, then combine the results', 4: 'Series.round(4) rounds every result for display; groups appear in sorted key order'},
+        explain: 'groupby follows three ideas: SPLIT rows by a key, APPLY a calculation inside each group, COMBINE the answers. df.groupby("Month")["Return"].mean() therefore produces one average per month, not one average over the whole table. The brackets select Return before the calculation. Groups are sorted by their Month key here, and Series.round(4) rounds every value for display. Task: compute each month’s mean daily return and print the rounded results as a list.',
+        starter: "import pandas as pd\n\ndf = pd.DataFrame({\"Month\": [\"2024-01\", \"2024-01\", \"2024-01\", \"2024-02\", \"2024-02\", \"2024-02\"], \"Return\": [0.01, 0.03, -0.02, 0.04, 0.01, 0.0]})\n\n# Task: compute mean Return by Month and print the results rounded to 4 as a list\n",
+        expected: '[0.0067, 0.0167]',
+        hint: 'Chain groupby("Month"), ["Return"], .mean(), then round and tolist.'
+      },
+      {
+        title: 'One summary, several statistics',
+        example: "import pandas as pd\n\ndf = pd.DataFrame({\"Month\": [\"Jan\", \"Jan\", \"Feb\", \"Feb\"], \"Return\": [0.01, 0.03, 0.02, 0.04]})\nsummary = df.groupby(\"Month\").agg(Days=(\"Return\", \"count\"), Mean=(\"Return\", \"mean\"), Vol=(\"Return\", \"std\"))\nfor row in summary.itertuples():\n    print(row.Index, row.Days, round(row.Mean, 4), round(row.Vol, 4))\n",
+        exampleNotes: {3: 'named aggregation: output name = (input column, calculation); std is sample std', 4: 'itertuples visits one result row at a time; Index is the group key', 5: 'row.Mean reads a named result column; each month prints one readable line'},
+        explain: 'A report often needs count, mean and volatility together. Named aggregation uses OutputName=("Return", "statistic") inside .agg(...): Days counts observations, Mean averages them, Vol computes the SAMPLE standard deviation (pandas ddof=1). The group key becomes the index. New display syntax: summary.itertuples() yields one row at a time; row.Index, row.Days and row.Mean read its fields. Task: build Days, Mean and Vol by Month, then print Month, Days, Mean and Vol with both numeric statistics rounded to four decimals.',
+        starter: "import pandas as pd\n\ndf = pd.DataFrame({\"Month\": [\"2024-01\", \"2024-01\", \"2024-01\", \"2024-02\", \"2024-02\", \"2024-02\"], \"Return\": [0.01, 0.03, -0.02, 0.04, 0.01, 0.0]})\n\n# Task: aggregate Days=count, Mean=mean and Vol=sample std of Return by Month\n# Print one line per month: Month Days Mean Vol, rounding Mean and Vol to 4\n",
+        expected: '2024-01 3 0.0067 0.0252\n2024-02 3 0.0167 0.0208',
+        hint: 'Use the three named aggregations exactly as in the example, then itertuples() and row.Index for Month.'
+      },
+      {
+        title: 'Monthly return compounds; it does not add',
+        example: "import pandas as pd\n\ndf = pd.DataFrame({\"Month\": [\"Jan\", \"Jan\", \"Feb\", \"Feb\"], \"Return\": [0.10, 0.20, -0.05, 0.10]})\ndf[\"Growth\"] = 1 + df[\"Return\"]\nmonthly = df.groupby(\"Month\")[\"Growth\"].prod() - 1\nprint(monthly.round(4).tolist())\n",
+        exampleNotes: {3: 'a return r turns $1 into 1+r dollars; this is the growth factor', 4: 'prod multiplies factors within each month; subtract 1 to return to decimal return', 5: 'January is 1.1 × 1.2 − 1 = 0.32, not 0.30'},
+        explain: 'Daily returns compound: after returns a and b, $1 becomes (1+a)(1+b), so adding them ignores the base changing each day. We create Growth = 1 + Return, use .prod() inside each month to multiply its growth factors, then subtract 1. This preserves order-independent multiplication while the underlying daily rows must still represent valid consecutive returns. Task: compute the compounded monthly returns and print them rounded to four decimals as a list.',
+        starter: "import pandas as pd\n\ndf = pd.DataFrame({\"Month\": [\"2024-01\", \"2024-01\", \"2024-01\", \"2024-02\", \"2024-02\", \"2024-02\"], \"Return\": [0.01, 0.03, -0.02, 0.04, 0.01, 0.0]})\n\n# Task: compound daily returns within each Month using growth factors, then print monthly returns rounded to 4\n",
+        expected: '[0.0195, 0.0504]',
+        hint: 'Create Growth = 1 + Return, group by Month, call prod(), subtract 1, then round.'
+      },
+      {
+        title: 'merge — align two tables by a key',
+        example: "import pandas as pd\n\nstock = pd.DataFrame({\"Month\": [\"Jan\", \"Feb\"], \"Stock\": [0.02, 0.05]})\nmarket = pd.DataFrame({\"Month\": [\"Jan\", \"Feb\"], \"Market\": [0.01, 0.03]})\nmerged = stock.merge(market, on=\"Month\", how=\"left\", validate=\"one_to_one\")\nprint(merged.shape)\nprint(merged[\"Market\"].tolist())\n",
+        exampleNotes: {4: 'on="Month" matches equal keys; left keeps every stock row; validate checks unique keys on both sides', 5: 'shape confirms the join did not unexpectedly duplicate or drop rows'},
+        explain: 'merge aligns rows by a shared KEY instead of hoping two tables happen to be in the same order. on="Month" specifies the key; how="left" preserves every left (stock) row and attaches matching market data; validate="one_to_one" raises an error if either key column contains duplicates. Always check .shape afterwards: duplicate keys can multiply rows, while an inner join can silently drop them. Task: left-merge the tables, print the resulting shape, then print which Market entries are missing.',
+        starter: "import pandas as pd\n\nstock = pd.DataFrame({\"Month\": [\"2024-01\", \"2024-02\", \"2024-03\"], \"Stock\": [0.02, 0.05, -0.01]})\nmarket = pd.DataFrame({\"Month\": [\"2024-01\", \"2024-03\"], \"Market\": [0.01, 0.02]})\n\n# Task: left-merge market onto stock on Month with one_to_one validation; print shape, then Market's NaN pattern\n",
+        expected: '(3, 3)\n[False, True, False]',
+        hint: 'February has no market row, so the preserved stock row receives NaN. Use merged["Market"].isna().tolist().'
+      },
+      {
+        title: 'Active return — strategy minus benchmark',
+        example: "import pandas as pd\n\nmerged = pd.DataFrame({\"Month\": [\"Jan\", \"Feb\"], \"Stock\": [0.02, 0.05], \"Market\": [0.01, 0.03]})\nmerged[\"Active\"] = merged[\"Stock\"] - merged[\"Market\"]\nprint(merged[\"Active\"].round(4).tolist())\nprint(round(float(merged[\"Active\"].mean()), 4))\n",
+        exampleNotes: {3: 'subtract matching columns row by row: active return is relative to the benchmark', 5: 'the mean uses available observations; always inspect missing values separately'},
+        explain: 'Active return measures performance relative to a benchmark: Active = Stock − Market for the SAME month. A positive stock return can still be negative active return if the market rose more. After merging, aligned columns make this one vectorized subtraction. pandas .mean() skips NaN by default, which is useful but not permission to ignore missing data — the previous step’s mask is part of the report. Task: create Active, print its missing-value pattern, then its mean over available months rounded to four decimals.',
+        starter: "import pandas as pd\n\nmerged = pd.DataFrame({\"Month\": [\"2024-01\", \"2024-02\", \"2024-03\"], \"Stock\": [0.02, 0.05, -0.01], \"Market\": [0.01, float(\"nan\"), 0.02]})\n\n# Task: create Active = Stock - Market; print its NaN pattern, then its available mean rounded to 4\n",
+        expected: '[False, True, False]\n-0.01',
+        hint: 'January active is +0.01 and March is −0.03. Their available mean is −0.01; February stays unknown.'
+      },
+      {
+        title: 'A visual summary without hidden dependencies',
+        example: "import pandas as pd\n\nsummary = pd.DataFrame({\"Month\": [\"Jan\", \"Feb\"], \"Return\": [0.02, -0.01]})\nfor row in summary.itertuples(index=False):\n    blocks = \"█\" * int(round(abs(row.Return) * 100))\n    direction = \"+\" if row.Return >= 0 else \"-\"\n    print(row.Month, direction, blocks)\n",
+        exampleNotes: {3: 'itertuples(index=False) supplies only the named data columns', 4: 'one block represents one percentage point; abs uses magnitude for bar length', 5: 'the sign carries direction; repeating a string draws a text bar', 6: 'a dependency-free chart students can run in this browser runtime'},
+        explain: 'A chart should answer a question, not merely decorate. Here each █ represents one percentage point, +/− shows direction, and bar length makes month comparison immediate. New syntax: abs(x) is magnitude, "█" * n repeats the block n times, int() makes the count whole, and index=False removes the extra row-number field. This text plot is deliberate: the browser course does not pretend matplotlib is installed. The same labels and scales would feed df.plot() in a configured desktop environment. Task: draw the three supplied monthly returns at one block per percentage point.',
+        starter: "import pandas as pd\n\nsummary = pd.DataFrame({\"Month\": [\"Jan\", \"Feb\", \"Mar\"], \"Return\": [0.03, -0.02, 0.01]})\n\n# Task: print Month, direction (+/-), and one █ per percentage point for each row\n",
+        expected: 'Jan + ███\nFeb - ██\nMar + █',
+        hint: 'Reuse the example loop. abs(Return) × 100 gives the number of percentage-point blocks.'
+      },
+      {
+        title: 'Mini challenge — Monthly market-return report',
+        example: "import pandas as pd\n\nprices = pd.DataFrame({\"Date\": pd.to_datetime([\"2024-01-31\", \"2024-02-01\", \"2024-02-02\"]), \"Stock\": [100.0, 102.0, 103.0]})\nprices[\"StockReturn\"] = prices[\"Stock\"].pct_change()\ndaily = prices.dropna().copy()\ndaily[\"Month\"] = daily[\"Date\"].dt.to_period(\"M\").astype(str)\ndaily[\"Growth\"] = 1 + daily[\"StockReturn\"]\nmonthly = daily.groupby(\"Month\")[\"Growth\"].prod() - 1\nprint(monthly.round(4).tolist())\n",
+        exampleNotes: {4: 'pct_change creates daily returns; the first unknown row must not become zero', 5: 'dropna removes that unknown row; copy makes an independent table', 7: 'the growth-factor column and prod() are exactly the method used in the task'},
+        explain: 'Assemble the complete report. Merge is already done in this supplied daily table. Compute StockReturn and MarketReturn with pct_change, drop the first unknown row, then add Month. For each return column create a growth factor, group by Month, multiply with prod(), subtract 1, and combine the two monthly Series with pd.concat([stock_monthly, market_monthly], axis=1). New syntax: axis=1 places them side by side as columns; .columns=["Stock", "Market"] names them. Finally Active = Stock − Market. Print Month, Stock, Market and Active, all numeric values rounded to four decimals.',
+        starter: "import pandas as pd\n\nprices = pd.DataFrame({\"Date\": pd.to_datetime([\"2024-01-30\", \"2024-01-31\", \"2024-02-01\", \"2024-02-02\", \"2024-02-05\", \"2024-02-06\"]), \"Stock\": [100.0, 102.0, 101.0, 100.0, 101.0, 103.0], \"Market\": [200.0, 202.0, 201.0, 200.0, 202.0, 204.0]})\n\n# Task: build monthly compounded Stock and Market returns from daily prices, then Active = Stock - Market\n# Print Month Stock Market Active, one row per month, numeric values rounded to 4\n",
+        expected: '2024-01 0.02 0.01 0.01\n2024-02 0.0098 0.0099 -0.0001',
+        hint: 'Compute both pct_change columns before dropna. Group GrowthStock and GrowthMarket separately, concatenate with axis=1, rename the two columns, then add Active.'
+      }
+    ]
+  },
+  {
+    n: 8,
+    title: 'Capstone: Transparent pandas Backtesting',
+    steps: [
+      {
+        title: 'Signals are targets; execution comes next bar',
+        example: "import pandas as pd\n\nclose = pd.Series([10.0, 9.0, 11.0, 12.0, 11.0])\ntarget = (close.rolling(2).mean() > close.rolling(3).mean()).astype(int)\nheld = target.shift(1).fillna(0).astype(int)\nprint(target.tolist())\nprint(held.tolist())\n",
+        exampleNotes: {3: 'target uses information available at the current close', 4: 'shift(1) delays exposure by one bar; fillna(0) starts with no position', 5: 'target is what we want; held is what earns the next bar'},
+        explain: 'The central anti-look-ahead rule: a signal computed from today’s close cannot earn today’s close-to-close return. We use a close-to-next-close teaching model: target is calculated at bar t, then target.shift(1) becomes held at bar t+1. fillna(0) makes the unknown first held position explicitly zero; astype(int) restores a clean 0/1 list. This models next-bar execution, not a promise about a particular order type. Task: compute target from MA2 > MA3, delay it one bar, and print target then held.',
+        starter: "import pandas as pd\n\nclose = pd.Series([100.0, 102.0, 101.0, 103.0, 99.0, 98.0, 100.0, 103.0])\n\n# Task: target = 1 when MA2 > MA3; held = target delayed by one bar with initial 0; print both lists\n",
+        expected: '[0, 0, 1, 0, 0, 0, 0, 1]\n[0, 0, 0, 1, 0, 0, 0, 0]',
+        hint: 'held = target.shift(1).fillna(0).astype(int). Notice that target’s first 1 reaches held on the following row.'
+      },
+      {
+        title: 'Position × market return = gross strategy return',
+        example: "import pandas as pd\n\nclose = pd.Series([10.0, 9.0, 11.0, 12.0, 11.0])\ntarget = (close.rolling(2).mean() > close.rolling(3).mean()).astype(int)\nheld = target.shift(1).fillna(0).astype(int)\nasset_return = close.pct_change().fillna(0)\ngross_return = held * asset_return\nprint(round(float(gross_return.sum()), 4))\n",
+        exampleNotes: {5: 'the first market return is unknown; for this report’s flat initial position we explicitly set it to zero', 6: 'held=1 earns the bar return; held=0 earns zero before costs'},
+        explain: 'Once timing is aligned, the gross daily strategy return is simply held × asset_return. A flat position earns zero before costs; an invested position earns that bar’s market return. We fill the first asset return with zero only because the initial held position is also zero and there is no prior trade inside this report — do not silently turn unknown returns into zero in general. Task: use the held positions from step 1, compute market and gross returns, print held, then the SUM of gross returns rounded to four decimals. The sum is a diagnostic, not yet compounded performance.',
+        starter: "import pandas as pd\n\nclose = pd.Series([100.0, 102.0, 101.0, 103.0, 99.0, 98.0, 100.0, 103.0])\ntarget = (close.rolling(2).mean() > close.rolling(3).mean()).astype(int)\n\n# Task: delay target into held; compute asset_return and gross_return\n# Print held, then the sum of gross_return rounded to 4\n",
+        expected: '[0, 0, 0, 1, 0, 0, 0, 0]\n0.0198',
+        hint: 'Only the row where held=1 contributes: 103 / 101 − 1 ≈ 0.0198.'
+      },
+      {
+        title: 'Turnover counts actual changes',
+        example: "import pandas as pd\n\nheld = pd.Series([0.0, 1.0, 1.0, 0.0, 1.0])\nturnover = held.diff().abs().fillna(held.abs())\ntrades = int(turnover.sum())\nprint(turnover.tolist())\nprint(trades)\n",
+        exampleNotes: {2: 'diff compares each held position with the previous bar; abs counts entries and exits symmetrically', 3: 'the first diff is unknown, so use the absolute initial position instead', 4: '0→1 and 1→0 each count as one teaching-model trade event'},
+        explain: 'Staying invested is not a new trade. Turnover measures CHANGE in position: held.diff().abs() gives 1 for 0→1 or 1→0 and 0 for no change. The first diff has no previous value, so fillna(held.abs()) counts an initially invested position as an entry. int(turnover.sum()) counts position-change events in this simplified long/flat model. Task: derive turnover and trades from the given held path, print the turnover list, then the trade-event count.',
+        starter: "import pandas as pd\n\nheld = pd.Series([0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0])\n\n# Task: compute absolute position changes as turnover, using abs(initial held) for the first row\n# Print turnover, then int(turnover.sum())\n",
+        expected: '[0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0]\n2',
+        hint: 'There is one entry and one exit. diff().abs() finds both; the initial position is zero.'
+      },
+      {
+        title: 'Costs turn gross into net',
+        example: "import pandas as pd\n\ngross_return = pd.Series([0.0, 0.02, 0.01])\nturnover = pd.Series([0.0, 1.0, 1.0])\ncost_rate = 0.001\nnet_return = gross_return - turnover * cost_rate\nprint(round(float((turnover * cost_rate).sum()), 4))\nprint(round(float(net_return.sum()), 4))\n",
+        exampleNotes: {4: 'each 0/1 position change pays 0.1% in this simplified proportional-cost model', 5: 'cost is subtracted only when turnover occurs; gross and net are different reports'},
+        explain: 'A backtest that ignores trading costs flatters active strategies. This teaching model charges cost_rate × turnover on each position change and subtracts it from that bar’s gross return. Real execution can also include spread, slippage, taxes and market impact; our single rate is an assumption to disclose, not universal truth. Task: compute net_return using a 0.001 cost rate, print total costs, then the sum of net returns, both rounded to four decimals.',
+        starter: "import pandas as pd\n\nclose = pd.Series([100.0, 102.0, 101.0, 103.0, 99.0, 98.0, 100.0, 103.0])\ntarget = (close.rolling(2).mean() > close.rolling(3).mean()).astype(int)\nheld = target.shift(1).fillna(0).astype(int)\ngross_return = held * close.pct_change().fillna(0)\nturnover = held.diff().abs().fillna(held.abs())\ncost_rate = 0.001\n\n# Task: compute net_return after proportional costs; print total costs, then net_return.sum(), rounded to 4\n",
+        expected: '0.002\n0.0178',
+        hint: 'Two position changes × 0.001 gives total cost 0.002. Subtract turnover × cost_rate from gross_return.'
+      },
+      {
+        title: 'Equity curve and total return',
+        example: "import pandas as pd\n\nnet_return = pd.Series([0.10, -0.05, 0.02])\nequity = 10000 * (1 + net_return).cumprod()\nprint(round(float(equity.iloc[-1]), 2))\nprint(round(float(equity.iloc[-1] / 10000 - 1), 4))\n",
+        exampleNotes: {2: 'cumprod compounds every daily growth factor in time order', 3: 'equity starts from an initial capital of 10000 and evolves after each net return', 4: 'ending equity divided by initial capital, minus 1, is total return'},
+        explain: 'Net daily returns must compound into an equity curve. cumprod() multiplies every 1 + net_return in order, and multiplying by initial capital 10000 gives account value after each bar. Total return is ending equity / initial equity − 1, not the simple sum of daily returns. Task: build the equity curve from the net returns assembled in the previous step, print ending equity to two decimals, then total return to four decimals.',
+        starter: "import pandas as pd\n\nclose = pd.Series([100.0, 102.0, 101.0, 103.0, 99.0, 98.0, 100.0, 103.0])\ntarget = (close.rolling(2).mean() > close.rolling(3).mean()).astype(int)\nheld = target.shift(1).fillna(0).astype(int)\ngross_return = held * close.pct_change().fillna(0)\nturnover = held.diff().abs().fillna(held.abs())\nnet_return = gross_return - turnover * 0.001\n\n# Task: starting with 10000, compound net returns into equity; print final equity (2 decimals), then total return (4)\n",
+        expected: '10177.83\n0.0178',
+        hint: 'equity = 10000 * (1 + net_return).cumprod(). Read the final value with equity.iloc[-1].'
+      },
+      {
+        title: 'Maximum drawdown from the equity curve',
+        example: "import pandas as pd\n\nequity = pd.Series([10000.0, 11000.0, 10450.0, 10659.0])\npeak = equity.cummax()\ndrawdown = 1 - equity / peak\nprint(round(float(drawdown.max()), 4))\n",
+        exampleNotes: {2: 'cummax is the highest equity seen SO FAR at every bar', 3: 'drawdown compares each equity value with its own earlier peak', 4: 'the deepest observed decline is the maximum drawdown'},
+        explain: 'Maximum drawdown belongs on the EQUITY curve, including costs — not on raw prices unless that is explicitly the benchmark being measured. cummax() tracks the running peak; 1 − equity / peak measures each decline; .max() finds the deepest. This is backward-looking path risk, not a maximum possible future loss. Task: reuse the net-return pipeline, build equity, and print maximum drawdown rounded to four decimals.',
+        starter: "import pandas as pd\n\nclose = pd.Series([100.0, 102.0, 101.0, 103.0, 99.0, 98.0, 100.0, 103.0])\ntarget = (close.rolling(2).mean() > close.rolling(3).mean()).astype(int)\nheld = target.shift(1).fillna(0).astype(int)\ngross_return = held * close.pct_change().fillna(0)\nturnover = held.diff().abs().fillna(held.abs())\nnet_return = gross_return - turnover * 0.001\nequity = 10000 * (1 + net_return).cumprod()\n\n# Task: compute running peak and drawdown; print maximum drawdown rounded to 4\n",
+        expected: '0.001',
+        hint: 'peak = equity.cummax(); drawdown = 1 - equity / peak. The exit cost creates the only decline here.'
+      },
+      {
+        title: 'A reusable backtest report',
+        example: "import pandas as pd\n\ndef report(close, fast_n, slow_n, cost_rate):\n    target = (close.rolling(fast_n).mean() > close.rolling(slow_n).mean()).astype(int)\n    held = target.shift(1).fillna(0).astype(int)\n    turnover = held.diff().abs().fillna(held.abs())\n    net = held * close.pct_change().fillna(0) - turnover * cost_rate\n    equity = 10000 * (1 + net).cumprod()\n    drawdown = 1 - equity / equity.cummax()\n    return float(equity.iloc[-1] / 10000 - 1), float(drawdown.max()), int(turnover.sum())\n\nr, dd, trades = report(pd.Series([10.0, 9.0, 11.0, 12.0, 11.0]), 2, 3, 0.001)\nprint(round(r, 4), round(dd, 4), trades)\n",
+        exampleNotes: {3: 'one function packages the timing, return, cost, equity and risk assumptions', 11: 'return three values; tuple unpacking gives them separate names', 12: 'print total return, maximum drawdown and trade events in a fixed order'},
+        explain: 'Now package the whole pipeline so parameters can change without rewriting logic. report returns total return, maximum drawdown and trade events. This transparent pandas engine mirrors the separation used by backtesting.py: indicators are prepared in init(), while next() advances bar by bar. We intentionally do NOT import backtesting.py here because this browser runtime has not loaded it; the pandas calculations are the executable reference. Task: complete the same report function and call it with MA2/MA3 and 0.001 cost on the supplied close series.',
+        starter: "import pandas as pd\n\nclose = pd.Series([100.0, 102.0, 101.0, 103.0, 99.0, 98.0, 100.0, 103.0])\n\ndef report(close, fast_n, slow_n, cost_rate):\n    # Task: return total_return, max_drawdown, trade_events using the pipeline above\n    pass\n\nr, dd, trades = report(close, 2, 3, 0.001)\nprint(round(r, 4), round(dd, 4), trades)\n",
+        expected: '0.0178 0.001 2',
+        hint: 'Inside the function: target, held, turnover, net, equity, drawdown. Return the three computed results in that order.'
+      },
+      {
+        title: 'Final challenge — compare, then question the result',
+        example: "import pandas as pd\n\n# Always compare with a benchmark on the SAME price window.\nclose = pd.Series([100.0, 110.0, 99.0, 108.9])\nbuy_hold_return = close.iloc[-1] / close.iloc[0] - 1\nbuy_hold_equity = 10000 * close / close.iloc[0]\nbuy_hold_dd = 1 - buy_hold_equity / buy_hold_equity.cummax()\nprint(\"BuyHold\", round(float(buy_hold_return), 4), round(float(buy_hold_dd.max()), 4))\n",
+        exampleNotes: {3: 'the example benchmark uses a different price path', 4: 'buy-and-hold starts at the first close and ends at the last', 5: 'its equity follows the same normalized price path', 7: 'a strategy report is more informative beside this simple alternative'},
+        explain: 'Final L3 gate: run report on three parameter pairs — (3,10), (5,20), (8,20) — with cost 0.001. Print one line per pair as fast/slow total_return max_drawdown trade_events, then BuyHold total_return max_drawdown. The benchmark is given conceptually in the example. For the parameter label, new display syntax f"{fast_n}/{slow_n}" inserts the two variables into text such as 3/10. Compare 3/10 with the others, but do NOT crown it a future winner: choosing the best parameters on this same 30-day path is in-sample selection and can overfit. A serious next step would validate on later unseen data. All prices here are synthetic; the purpose is an auditable report, not a return promise.',
+        starter: "import pandas as pd\n\nclose = pd.Series([120, 118, 116, 114, 112, 110, 108, 106, 104, 102, 100, 98, 96, 94, 92, 90, 92, 94, 96, 98, 100, 102, 104, 102, 100, 98, 96, 94, 92, 90])\n\ndef report(close, fast_n, slow_n, cost_rate):\n    target = (close.rolling(fast_n).mean() > close.rolling(slow_n).mean()).astype(int)\n    held = target.shift(1).fillna(0).astype(int)\n    turnover = held.diff().abs().fillna(held.abs())\n    net = held * close.pct_change().fillna(0) - turnover * cost_rate\n    equity = 10000 * (1 + net).cumprod()\n    drawdown = 1 - equity / equity.cummax()\n    return float(equity.iloc[-1] / 10000 - 1), float(drawdown.max()), int(turnover.sum())\n\n# Task: print report(close, fast, slow, 0.001) for (3,10), (5,20), (8,20), one line each as fast/slow r dd trades\n# Then print BuyHold total return and max drawdown on the same path, all numeric results rounded to 4\n",
+        expected: '3/10 -0.0223 0.0778 2\n5/20 -0.0999 0.0999 2\n8/20 -0.1009 0.1009 1\nBuyHold -0.25 0.25',
+        hint: 'Loop through configurations = [(3, 10), (5, 20), (8, 20)]. BuyHold return is last/first − 1; its equity is 10000 × close/first close.'
+      }
+    ]
   }
 ];
 
 export const getLesson = (n: number): Lesson | undefined =>
   LESSONS.find((l) => l.n === n);
 
-export const TOTAL_LESSONS = 8; // lessons 6-8 arrive with the L3 content batch
+export const TOTAL_LESSONS = 8;

@@ -33,7 +33,7 @@ export default async function LessonPage({
 
       {lesson ? (
         <div className="mt-8">
-          <StepCourse lesson={lesson} />
+          <StepCourse key={locale} lesson={lesson} />
         </div>
       ) : (
         <div className="mt-8 rounded-xl border border-dashed border-navy/25 bg-surface p-10 text-center">

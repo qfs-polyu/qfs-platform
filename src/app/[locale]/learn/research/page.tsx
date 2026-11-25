@@ -40,6 +40,14 @@ export default async function ResearchPage({
                 </span>
               </div>
               <p className="mt-1.5 text-sm text-navy/65">{layer.blurb}</p>
+              {layer.n === 2 && (
+                <Link
+                  href="/learn/research/2"
+                  className="mt-3 inline-flex rounded-full bg-accent px-4 py-1.5 text-xs font-medium text-white hover:bg-accent/90"
+                >
+                  {locale === 'zh' ? '开始第二层：数学与金融先修 →' : 'Start Layer 2: Math & Finance →'}
+                </Link>
+              )}
             </div>
           </div>
         ))}

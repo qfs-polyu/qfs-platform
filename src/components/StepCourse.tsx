@@ -16,6 +16,7 @@ function localizeStep(lessonN: number, step: LessonStep, idx: number, locale: st
   if (!zh) return step;
   return {
     ...step,
+    title: zh.title ?? step.title,
     explain: zh.explain ?? step.explain,
     starter: zh.starter ?? step.starter,
     hint: zh.hint ?? step.hint,
@@ -153,13 +154,8 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
     lesson.steps.map((s, i) => localizeStep(lesson.n, s, i, locale).starter)
   );
 
-  // Re-seed starter code when the display language changes (only untouched steps).
-  useEffect(() => {
-    setCodes((prev) =>
-      lesson.steps.map((s, i) => localizeStep(lesson.n, s, i, locale).starter)
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [locale]);
+  // The page keys this component by locale, so a language switch cleanly
+  // re-seeds localized starter code without a cascading state effect.
   const [output, setOutput] = useState('');
   const [error, setError] = useState('');
   const [passed, setPassed] = useState(false);

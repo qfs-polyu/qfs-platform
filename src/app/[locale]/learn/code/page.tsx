@@ -42,7 +42,7 @@ export default async function CodePage({
                   >
                     {lesson.title}
                   </Link>
-                  {lesson.n <= 5 && (
+                  {lesson.n <= 8 && (
                     <span className="ml-2 rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
                       {t('live')}
                     </span>
