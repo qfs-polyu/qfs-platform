@@ -2,6 +2,7 @@
 
 import {useMemo, useState} from 'react';
 import {useLocale} from 'next-intl';
+import {MathText, TeX} from './MathText';
 import {
   RESEARCH_MATH_SECTIONS,
   RESEARCH_MATH_SOURCES,
@@ -58,7 +59,10 @@ function RankVisual({locale}: {locale: string}) {
         {[1, 2, 3, 4].map((rank) => <span key={rank} className="rounded bg-accent py-1 font-semibold text-white">{rank}</span>)}
       </div>
       <p className="mt-3 text-center text-xs text-navy/60">
-        {locale === 'zh' ? '两组排名完全一致 → IC = +1' : 'Identical rank vectors → IC = +1'}
+        <MathText text={locale === 'zh'
+          ? String.raw`两组排名完全一致 → $\mathrm{IC}=+1$`
+          : String.raw`Identical rank vectors → $\mathrm{IC}=+1$`}
+        />
       </p>
     </div>
   );
@@ -160,12 +164,14 @@ export default function ResearchMathCourse() {
         <div className="space-y-5 p-5 sm:p-7">
           <div className="space-y-3">
             {section.body.map((paragraph, index) => (
-              <p key={index} className="text-sm leading-7 text-navy/75">{text(paragraph, locale)}</p>
+              <p key={index} className="text-sm leading-7 text-navy/75">
+                <MathText text={text(paragraph, locale)} />
+              </p>
             ))}
           </div>
 
-          <div className="overflow-x-auto rounded-lg border border-accent/20 bg-accent-soft/60 px-4 py-3 font-mono text-sm text-navy">
-            {section.formula}
+          <div className="overflow-x-auto rounded-lg border border-accent/20 bg-accent-soft/60 px-4 py-3 text-sm text-navy">
+            <TeX tex={section.formula} display />
           </div>
 
           <div className="rounded-lg border border-navy/10 bg-surface p-4">
@@ -175,7 +181,9 @@ export default function ResearchMathCourse() {
                 : zh ? '手算示例' : 'Worked example'}
             </h3>
             <ul className="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-6 text-navy/75">
-              {section.worked.map((line, index) => <li key={index}>{text(line, locale)}</li>)}
+              {section.worked.map((line, index) => (
+                <li key={index}><MathText text={text(line, locale)} /></li>
+              ))}
             </ul>
           </div>
 
@@ -205,7 +213,9 @@ export default function ResearchMathCourse() {
               const correct = answerIsCorrect(question, answers[question.id]);
               return (
                 <fieldset key={question.id} className="rounded-lg border border-navy/10 p-4">
-                  <legend className="px-1 text-sm font-medium text-navy">{text(question.prompt, locale)}</legend>
+                  <legend className="px-1 text-sm font-medium text-navy">
+                    <MathText text={text(question.prompt, locale)} />
+                  </legend>
                   {question.kind === 'number' ? (
                     <label className="mt-2 block text-xs text-navy/55">
                       {zh ? '输入小数答案' : 'Enter a decimal answer'}
@@ -230,7 +240,7 @@ export default function ResearchMathCourse() {
                             onChange={(event) => updateAnswer(question.id, event.target.value)}
                             className="mt-1 accent-[#e8873a]"
                           />
-                          <span>{text(option, locale)}</span>
+                          <span><MathText text={text(option, locale)} /></span>
                         </label>
                       ))}
                     </div>
@@ -238,7 +248,7 @@ export default function ResearchMathCourse() {
                   {isChecked && (
                     <div className={`mt-3 rounded-md p-3 text-sm leading-6 ${correct ? 'bg-green-50 text-green-800' : 'bg-amber-50 text-amber-900'}`}>
                       <strong>{correct ? zh ? '✓ 正确。' : '✓ Correct. ' : zh ? '再试一次。' : 'Try again. '}</strong>
-                      {text(question.explanation, locale)}
+                      <MathText text={text(question.explanation, locale)} />
                     </div>
                   )}
                 </fieldset>

@@ -6,6 +6,7 @@ import {fileURLToPath} from 'node:url';
 import vm from 'node:vm';
 
 const require = createRequire(import.meta.url);
+const katex = require('katex');
 const ts = require('typescript');
 const root = fileURLToPath(new URL('..', import.meta.url));
 const filename = path.join(root, 'src/content/research-math.ts');
@@ -40,6 +41,38 @@ for (const question of questions) {
     assert.ok((question.tolerance ?? 0) > 0, `${question.id}: numeric tolerance`);
   }
 }
+
+let renderedFormulas = 0;
+const renderFormula = (tex, displayMode, location) => {
+  try {
+    katex.renderToString(tex, {displayMode, output: 'htmlAndMathml', throwOnError: true});
+    renderedFormulas += 1;
+  } catch (error) {
+    assert.fail(`${location}: invalid TeX — ${error.message}`);
+  }
+};
+const auditMath = (value, location, displayMode = false) => {
+  if (typeof value === 'string') {
+    if (displayMode) renderFormula(value, true, location);
+    const inline = [...value.matchAll(/\$([^$]+)\$/g)];
+    const dollarCount = value.match(/\$/g)?.length ?? 0;
+    assert.equal(dollarCount, inline.length * 2, `${location}: unmatched or empty $...$ delimiter`);
+    for (const match of inline) renderFormula(match[1], false, location);
+    return;
+  }
+  if (Array.isArray(value)) {
+    value.forEach((item, index) => auditMath(item, `${location}[${index}]`));
+    return;
+  }
+  if (value && typeof value === 'object') {
+    for (const [key, item] of Object.entries(value)) {
+      auditMath(item, `${location}.${key}`, key === 'formula');
+    }
+  }
+};
+sections.forEach((section) => auditMath(section, section.id));
+assert.ok(renderedFormulas > sections.length, 'Inline formulas must be covered by the audit');
+console.log(`Validated KaTeX rendering for ${renderedFormulas} display and inline formulas`);
 
 const mean = (values) => values.reduce((sum, value) => sum + value, 0) / values.length;
 const sampleStd = (values) => {
