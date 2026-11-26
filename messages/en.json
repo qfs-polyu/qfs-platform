@@ -139,6 +139,8 @@
     "loginLink": "Log in",
     "saveError": "Progress not saved yet (resumes once the database is initialized).",
     "exampleLabel": "Example — see it work first",
+    "examplePurpose": "What this example calculates",
+    "taskPurpose": "Your coding task",
     "runExample": "Run example",
     "exampleOutput": "Example output",
     "hardcodedFlag": "Answer looks hardcoded",

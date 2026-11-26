@@ -139,6 +139,8 @@
     "loginLink": "去登录",
     "saveError": "进度暂未保存（数据库初始化后自动恢复）。",
     "exampleLabel": "示例 · 先看一遍怎么工作",
+    "examplePurpose": "示例在算什么",
+    "taskPurpose": "你要完成什么",
     "runExample": "运行示例",
     "exampleOutput": "示例输出",
     "hardcodedFlag": "答案疑似硬编码",

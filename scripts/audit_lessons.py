@@ -105,6 +105,7 @@ def main():
     payload = json.load(sys.stdin)
     lessons = payload["lessons"]
     zh = payload["zh"]
+    guides = payload["guides"]
     failures = []
     steps = []
     example_count = 0
@@ -139,6 +140,34 @@ def main():
             for field in ("explain", "starter", "hint"):
                 if not zh_step.get(field, "").strip():
                     fail(key, f"ZH {field.upper()}", "non-empty content", zh_step.get(field, ""))
+
+            guide = guides.get(key)
+            if guide is None:
+                fail(key, "MISSING GUIDE", "example and task guide", "none")
+            else:
+                if guide.get("title") != step["title"]:
+                    fail(key, "GUIDE TITLE", step["title"], guide.get("title", ""))
+                for part in ("example", "task"):
+                    for lang, minimum in (("en", 40), ("zh", 20)):
+                        value = guide.get(part, {}).get(lang, "")
+                        text = value.strip() if isinstance(value, str) else ""
+                        if len(text) < minimum:
+                            fail(
+                                key,
+                                f"GUIDE {part.upper()} {lang.upper()}",
+                                f"specific explanation of at least {minimum} characters",
+                                value,
+                            )
+                        if text.casefold() in {
+                            "run the example",
+                            "see how it works",
+                            "complete the task",
+                            "write the code",
+                            "运行示例",
+                            "完成练习",
+                            "编写代码",
+                        }:
+                            fail(key, f"GENERIC GUIDE {part.upper()}", "specific content", text)
 
             solution = SOLUTIONS.get(key)
             if solution is None:
@@ -194,9 +223,11 @@ def main():
     extra_solutions = sorted(set(SOLUTIONS) - set(steps))
     for key in extra_solutions:
         fail(key, "EXTRA SOLUTION", "no orphan solution", "solution has no course step")
+    for key in sorted(set(guides) - set(steps)):
+        fail(key, "EXTRA GUIDE", "no orphan guide", "guide has no course step")
 
     print(f"Audited {len(steps)} steps and {example_count} worked examples")
-    print(f"Missing solutions: {missing_solutions}; extra solutions: {extra_solutions}")
+    print(f"Guides: {len(guides)}; missing solutions: {missing_solutions}; extra solutions: {extra_solutions}")
     print(f"Failures: {len(failures)}")
     for key, kind, expected, actual, error in failures:
         print(f"\n[{key}] {kind}\nEXPECTED: {expected!r}\nACTUAL:   {actual!r}")

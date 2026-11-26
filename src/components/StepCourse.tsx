@@ -7,6 +7,7 @@ import {Link} from '@/i18n/navigation';
 import {createClient} from '@/lib/supabase/browser';
 import type {Lesson, LessonStep} from '@/content/lessons';
 import {LESSONS_ZH} from '@/content/lessons-zh';
+import {LESSON_STEP_GUIDES} from '@/content/lesson-step-guides';
 import {usePyodide} from './pyodide/usePyodide';
 
 /** Merge a step with its Chinese translation (falls back to English). */
@@ -238,6 +239,7 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
     () => localizeStep(lesson.n, lesson.steps[stepIndex], stepIndex, locale),
     [lesson, stepIndex, locale]
   );
+  const stepGuide = LESSON_STEP_GUIDES[`${lesson.n}-${stepIndex + 1}`];
   const isLast = stepIndex === lesson.steps.length - 1;
   const [done, setDone] = useState(false);
 
@@ -418,6 +420,14 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
             {exampleRun === 'running' ? '…' : `▶ ${t('runExample')}`}
           </button>
         </div>
+        {stepGuide && (
+          <div className="border-b border-navy/10 bg-surface px-5 py-4">
+            <p className="text-xs font-semibold text-accent">{t('examplePurpose')}</p>
+            <p className="mt-1 text-sm leading-6 text-navy/75">
+              {locale === 'zh' ? stepGuide.example.zh : stepGuide.example.en}
+            </p>
+          </div>
+        )}
         <div className="overflow-x-auto bg-[#1e2530] px-5 py-4 font-mono text-sm leading-relaxed text-white/90">
           {step.example
             .replace(/\n+$/, '')
@@ -447,6 +457,16 @@ export default function StepCourse({lesson}: {lesson: Lesson}) {
           </div>
         )}
       </div>
+
+      {/* Beginner-facing task brief: what to calculate, not only how to type it. */}
+      {stepGuide && (
+        <div className="rounded-xl border border-accent/25 bg-accent-soft/40 px-5 py-4">
+          <h3 className="text-sm font-semibold text-navy">{t('taskPurpose')}</h3>
+          <p className="mt-1 text-sm leading-6 text-navy/75">
+            {locale === 'zh' ? stepGuide.task.zh : stepGuide.task.en}
+          </p>
+        </div>
+      )}
 
       {/* Code editor + output */}
       <div className="grid gap-4 md:grid-cols-2">

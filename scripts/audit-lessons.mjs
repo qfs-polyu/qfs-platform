@@ -32,7 +32,8 @@ function loadTypeScript(relativePath, exportName) {
 
 const payload = JSON.stringify({
   lessons: loadTypeScript('src/content/lessons.ts', 'LESSONS'),
-  zh: loadTypeScript('src/content/lessons-zh.ts', 'LESSONS_ZH')
+  zh: loadTypeScript('src/content/lessons-zh.ts', 'LESSONS_ZH'),
+  guides: loadTypeScript('src/content/lesson-step-guides.ts', 'LESSON_STEP_GUIDES')
 });
 
 const configuredPython = process.env.PYTHON;
