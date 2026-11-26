@@ -17,7 +17,7 @@ export default function LanguageSwitcher() {
     <div className="flex items-center rounded-full border border-white/25 p-0.5 text-sm">
       <button
         onClick={() => switchTo('zh')}
-        className={`rounded-full px-2.5 py-0.5 transition ${
+        className={`min-h-11 min-w-11 rounded-full px-1 py-2 transition ${
           locale === 'zh' ? 'bg-accent text-white' : 'text-white/80 hover:text-white'
         }`}
       >
@@ -25,7 +25,7 @@ export default function LanguageSwitcher() {
       </button>
       <button
         onClick={() => switchTo('en')}
-        className={`rounded-full px-2.5 py-0.5 transition ${
+        className={`min-h-11 min-w-11 rounded-full px-1 py-2 transition ${
           locale === 'en' ? 'bg-accent text-white' : 'text-white/80 hover:text-white'
         }`}
       >

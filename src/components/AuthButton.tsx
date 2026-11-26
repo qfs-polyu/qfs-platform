@@ -37,7 +37,7 @@ export default function AuthButton() {
     return (
       <Link
         href="/auth"
-        className="rounded-full bg-accent px-3.5 py-1.5 text-sm font-medium text-white transition hover:bg-accent/90"
+        className="inline-flex min-h-11 items-center rounded-full bg-accent px-3.5 py-2 text-sm font-medium text-white transition hover:bg-accent/90"
       >
         {t('loginSignup')}
       </Link>
@@ -54,7 +54,7 @@ export default function AuthButton() {
       </span>
       <button
         onClick={signOut}
-        className="rounded-full border border-white/25 px-3 py-1.5 text-xs text-white/80 transition hover:text-white"
+        className="min-h-11 rounded-full border border-white/25 px-3 py-2 text-xs text-white/80 transition hover:text-white"
       >
         {t('logout')}
       </button>
