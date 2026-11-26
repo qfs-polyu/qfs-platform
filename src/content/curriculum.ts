@@ -170,8 +170,8 @@ export function levelUnits(levelId: string): UnitRef[] {
     kind: 'layer',
     n,
     title: RESEARCH_LAYERS[n - 1].title,
-    href: n === 2 ? '/learn/research/2' : '/learn/research',
-    live: n === 2
+    href: `/learn/research/${n}`,
+    live: true
   });
 
   switch (levelId) {
