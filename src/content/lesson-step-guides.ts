@@ -284,10 +284,10 @@ export const LESSON_STEP_GUIDES: Record<string, LessonStepGuide> = {
   ),
   '5-5': guide(
     'Sort by time',
-    'Rows labelled c, a, b are sorted alphabetically by D; the printed V values therefore follow their reordered rows.',
-    '示例按 D 列的字母顺序重排 c、a、b 三行，再打印 V 列，观察数值如何跟随各行一起移动。',
-    'Sort df by the Date strings, then print the sorted table’s Adj Close column as a list.',
-    '你要按 Date 列的字符串顺序给 df 排序，再把排序后表格的 Adj Close 列打印成列表。',
+    'The example converts three shuffled ISO dates into datetimes, sorts them into calendar order, and prints the dates with their accompanying V values.',
+    '示例把三个打乱的 ISO 日期转换成日期时间值，按日历先后排序，再打印日期及对应的 V 值核对行序。',
+    'Convert the Date column with pd.to_datetime, sort df chronologically, then print the formatted dates and Adj Close values as two lists.',
+    '你要先用 pd.to_datetime() 转换 Date 列，再按时间先后排序，最后分别打印格式化后的日期列表和 Adj Close 列表。',
   ),
   '5-6': guide(
     'pct_change() — built-in returns',
@@ -298,10 +298,10 @@ export const LESSON_STEP_GUIDES: Record<string, LessonStepGuide> = {
   ),
   '5-7': guide(
     'Standard deviation — which formula?',
-    'The example calculates the sample standard deviation of the return series [0.2, −0.2, 0.2] using pandas’ default std.',
-    '示例对收益率 [0.2, −0.2, 0.2] 调用 pandas 的 .std()，计算默认口径的样本标准差。',
-    'From the supplied adj prices, the starter already creates cleaned returns; print their sample standard deviation rounded to four decimals.',
-    '起始代码已从 adj 算出并清洗收益率；你要打印这些收益率的样本标准差，保留四位小数。',
+    'The example applies dropna to a return series containing NaN, prints the three remaining returns, and calculates their sample standard deviation.',
+    '示例对含 NaN 的收益率序列使用 dropna()，打印保留下来的三个收益率，再计算它们的样本标准差。',
+    'Starting with r = adj.pct_change(), write dropna yourself, print the cleaned returns rounded to four decimals as a list, then print their sample standard deviation.',
+    '起始代码只算出含 NaN 的 r；你要亲自补上 dropna()，先把清洗后的收益率保留四位小数并打印成列表，再打印样本标准差。',
   ),
   '5-8': guide(
     'Mini challenge — Annualized Volatility',

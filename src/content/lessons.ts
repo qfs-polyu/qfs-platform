@@ -454,14 +454,14 @@ export const LESSONS: Lesson[] = [
       },
       {
         title: 'Sort by time',
-        example: "import pandas as pd\n\ndf = pd.DataFrame({\"D\": [\"c\", \"a\", \"b\"], \"V\": [3, 1, 2]})\ndf = df.sort_values(\"D\")\nprint(df[\"V\"].tolist())\n",
-        exampleNotes: {"2": "rows deliberately out of order", "3": "sort_values re-orders the ROWS by column D — plain strings sort alphabetically (a, b, c)", "4": "V now travels in the sorted order: [1, 2, 3]"},
+        example: "import pandas as pd\n\ndf = pd.DataFrame({\"Date\": [\"2024-02-03\", \"2024-01-31\", \"2024-02-01\"], \"V\": [3, 1, 2]})\ndf[\"Date\"] = pd.to_datetime(df[\"Date\"])\ndf = df.sort_values(\"Date\")\nprint(df[\"Date\"].dt.strftime(\"%Y-%m-%d\").tolist())\nprint(df[\"V\"].tolist())\n",
+        exampleNotes: {"2": "rows deliberately out of calendar order", "3": "to_datetime converts ISO date text into real datetime values; assign the converted column back", "4": "sort_values returns a new table ordered by calendar time, so assign that result back too", "5": ".dt.strftime formats the sorted dates as YYYY-MM-DD for a readable check", "6": "V follows its rows: [1, 2, 3] matches January 31, February 1, February 3"},
         explain:
-          "Returns only make sense in TIME order \u2014 and this table arrives deliberately shuffled. New syntax: df.sort_values(\"Date\") RETURNS a new table with rows re-ordered by the given column (it does not modify the original \u2014 you re-assign the result, as the example shows). Planted trap to notice: these dates are plain STRINGS, so they sort ALPHABETICALLY (Mon < Thu < Wed), not by calendar \u2014 real pipelines use true date types. Verify the order in your printed list.",
+          "Returns only make sense in CHRONOLOGICAL order \u2014 and this table arrives deliberately shuffled. Use two distinct tools: pd.to_datetime(df[\"Date\"]) converts ISO date strings into pandas datetime values, and df.sort_values(\"Date\") RETURNS a new table sorted by that column. Neither conversion nor sorting updates df by itself, so assign both results back. Real datetime values understand calendar order across days, months and years; weekday labels such as Mon and Wed do not. Finally, .dt.strftime(\"%Y-%m-%d\") formats dates for printing. You will convert, sort, then print both dates and adjusted closes to verify the row order.",
         starter:
-          "import pandas as pd\n\ndata = {\"Date\": [\"Wed\", \"Mon\", \"Thu\"], \"Adj Close\": [99.0, 100.0, 108.9]}\ndf = pd.DataFrame(data)\n\n# Task: sort the table by Date and print the adjusted-close column of the SORTED table as a list\n",
-        expected: '[100.0, 108.9, 99.0]',
-        hint: 'Alphabetical order of the three day names decides the row order — trace it by hand first.'
+          "import pandas as pd\n\ndata = {\"Date\": [\"2024-01-03\", \"2024-01-01\", \"2024-01-04\"], \"Adj Close\": [99.0, 100.0, 108.9]}\ndf = pd.DataFrame(data)\n\n# Task: convert Date to datetime, sort chronologically, then print the sorted dates in YYYY-MM-DD form and the adjusted-close column as lists\n",
+        expected: "['2024-01-01', '2024-01-03', '2024-01-04']\n[100.0, 99.0, 108.9]",
+        hint: 'Convert the date text before sorting. datetime values understand calendar order; .dt.strftime formats them for the printed check.'
       },
       {
         title: 'pct_change() — built-in returns',
@@ -476,14 +476,14 @@ export const LESSONS: Lesson[] = [
       },
       {
         title: 'Standard deviation — which formula?',
-        example: "import pandas as pd\n\nr = pd.Series([0.2, -0.2, 0.2])\nprint(round(float(r.std()), 4))\n",
-        exampleNotes: {"2": "a series of returns", "3": ".std() is the SAMPLE std (ddof=1, divide by N−1) by DEFAULT in pandas — NumPy's np.std defaults to ddof=0, always state which"},
+        example: "import pandas as pd\n\nr = pd.Series([float(\"nan\"), 0.2, -0.2, 0.2])\nclean = r.dropna()\nprint(clean.round(4).tolist())\nprint(round(float(clean.std()), 4))\n",
+        exampleNotes: {"2": "a return series containing one unknown first entry", "3": "dropna removes the NaN row and returns a cleaned Series", "4": "the list confirms that exactly three real returns remain", "5": ".std() is the SAMPLE std (ddof=1, divide by N−1) by DEFAULT in pandas — NumPy's np.std defaults to ddof=0, always state which"},
         explain:
-          "Volatility starts as spread: the standard deviation of daily returns. The trap that spans libraries: pandas .std() defaults to ddof=1 \u2014 the SAMPLE formula, dividing by N-1 (an honest measure from a sample); NumPy's np.std() defaults to ddof=0 \u2014 the population formula. Same data, slightly different numbers; in quant work you must KNOW which you computed (this course standardises on sample). Setup gives you a new tool: .dropna() REMOVES NaN entries \u2014 never feed NaN into a statistic.",
+          "Volatility starts as spread: the standard deviation of daily returns. The trap that spans libraries: pandas .std() defaults to ddof=1 \u2014 the SAMPLE formula, dividing by N-1; NumPy's np.std() defaults to ddof=0 \u2014 the population formula. Same data, different answers; in quant work you must KNOW which you computed (this course standardises on sample). New tool: .dropna() REMOVES NaN entries and returns a cleaned Series. Although some pandas statistics skip NaN by default, clean explicitly so the sample length and downstream calculations stay unambiguous. Here you must write dropna yourself, print the cleaned returns to prove the NaN is gone, then print their sample standard deviation.",
         starter:
-          "import pandas as pd\n\nadj = pd.Series([100.0, 110.0, 99.0, 108.9])\nr = adj.pct_change().dropna()\n\n# Task: print the sample standard deviation of the returns, rounded to 4\n",
-        expected: '0.1155',
-        hint: 'dropna() first — NaN would poison the calculation.'
+          "import pandas as pd\n\nadj = pd.Series([100.0, 110.0, 99.0, 108.9])\nr = adj.pct_change()\n\n# Task: remove the NaN from r with dropna; print the cleaned returns rounded to 4 as a list, then their sample standard deviation rounded to 4\n",
+        expected: '[0.1, -0.1, 0.1]\n0.1155',
+        hint: 'Assign the result of dropna back to r (or chain it after pct_change). The cleaned list should contain three returns, with no NaN.'
       },
       {
         title: 'Mini challenge — Annualized Volatility',

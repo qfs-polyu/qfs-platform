@@ -263,10 +263,10 @@ export const LESSONS_ZH: Record<number, ZhLesson> = {
         exampleNotes: { 2: '一个小表', 3: '先体检：几行、列最大值——之后才敢做计算' },
       },
       {
-        explain: '收益率只有在**时间顺序**下才有意义——而这张表故意是乱的。新语法：df.sort_values("Date") 返回一张按给定列重排行序的**新表**（它不改动原表——你要重新赋值，示例就是这么做的）。故意埋的教学陷阱：这些日期是普通**字符串**，所以按**字母序**排（Mon < Thu < Wed），不是按日历——真实管线用真正的日期类型解决。在你打印的列表里亲眼验证顺序。',
-        starter: 'import pandas as pd\n\ndata = {"Date": ["Wed", "Mon", "Thu"], "Adj Close": [99.0, 100.0, 108.9]}\ndf = pd.DataFrame(data)\n\n# 任务：按 Date 排序，把排序后表格的复权价列打印成列表\n',
-        hint: '三个星期几的字母序决定了行序——先动手排一遍。',
-        exampleNotes: { 2: '故意乱序的行', 3: 'sort_values 按 D 列重排行——普通字符串按字母序排（a, b, c）', 4: 'V 现在跟着排好的顺序走：[1, 2, 3]' },
+        explain: '收益率只有在**时间顺序**下才有意义——而这张表故意是乱的。要分清两个工具：pd.to_datetime(df["Date"]) 把 ISO 日期字符串转换成 pandas 的日期时间值；df.sort_values("Date") 则返回一张按该列排序的**新表**。转换和排序都不会自动更新 df，所以两次结果都要重新赋值。真正的日期时间值能跨日、跨月、跨年理解日历顺序；Mon、Wed 这类星期文本做不到。最后用 .dt.strftime("%Y-%m-%d") 把日期格式化后打印。你要亲自完成转换和排序，再打印日期与复权价，核对每一行是否按日历先后排列。',
+        starter: 'import pandas as pd\n\ndata = {"Date": ["2024-01-03", "2024-01-01", "2024-01-04"], "Adj Close": [99.0, 100.0, 108.9]}\ndf = pd.DataFrame(data)\n\n# 任务：把 Date 转成日期时间类型并按时间先后排序，再以 YYYY-MM-DD 格式打印排序后的日期列表和复权价列表\n',
+        hint: '先把日期文本转换成日期时间值，再排序；日期时间值理解日历顺序，.dt.strftime 用于格式化打印结果。',
+        exampleNotes: { 2: '故意打乱日历顺序的行', 3: 'to_datetime 把 ISO 日期文本转成真正的日期时间值，并赋值回原列', 4: 'sort_values 返回按日历时间排序的新表，也要重新赋值', 5: '.dt.strftime 把排序后的日期格式化为 YYYY-MM-DD，方便核对', 6: 'V 跟随各行移动：[1, 2, 3] 依次对应 1 月 31 日、2 月 1 日、2 月 3 日' },
       },
       {
         explain: 'pct_change() 替你完成第 4 课整套切片流程：每个值除以前一个、减一，以小数给出。关键细节：**第一个**元素没有前值，所以变成 NaN——pandas 拼写"未知"的方式。NaN 不是零：零声称那天持平，NaN 诚实地说没有信息。新语法：r.isna() 逐项测试（NaN 处为 True）；r.iloc[1] 按**位置**选择——第一个真实收益率。',
@@ -275,10 +275,10 @@ export const LESSONS_ZH: Record<number, ZhLesson> = {
         exampleNotes: { 2: '两个示例价格', 3: 'pct_change = 每个值 ÷ 前一个 − 1，小数形式', 4: 'isna() 标出缺失的第一项——是"未知"，不是零', 5: 'iloc[1] 按位置取——第一个真实收益率：3.0/2.0 − 1 = 0.5' },
       },
       {
-        explain: '波动率从离散度开始：日收益率的标准差。跨库陷阱：pandas 的 .std() 默认 ddof=1——**样本**公式，除以 N-1（从样本出发的诚实度量）；NumPy 的 np.std() 默认 ddof=0——总体公式。同样数据、略不同的数字；量化工作中你必须**知道**自己算的是哪种（本课程统一用样本）。环境里给了一个新工具：.dropna() 移除 NaN 项——永远不要把 NaN 喂给统计量。',
-        starter: 'import pandas as pd\n\nadj = pd.Series([100.0, 110.0, 99.0, 108.9])\nr = adj.pct_change().dropna()\n\n# 任务：打印收益率的样本标准差，保留 4 位\n',
-        hint: '先 dropna()——NaN 会毒化计算。',
-        exampleNotes: { 2: '一个收益率序列', 3: '.std() 默认是样本标准差（ddof=1，除以 N−1）——NumPy 的 np.std() 默认 ddof=0，必须声明用哪种' },
+        explain: '波动率从离散度开始：日收益率的标准差。跨库陷阱：pandas 的 .std() 默认 ddof=1——**样本**公式，除以 N-1；NumPy 的 np.std() 默认 ddof=0——总体公式。同样数据会得到不同答案；量化工作中你必须**知道**自己算的是哪种（本课程统一用样本）。新工具：.dropna() 移除 NaN 项并返回清洗后的 Series。虽然部分 pandas 统计量会默认跳过 NaN，仍应显式清洗，让样本长度和后续计算都没有歧义。这一步由你亲自写出 dropna()，先打印清洗后的收益率，确认 NaN 已消失，再打印样本标准差。',
+        starter: 'import pandas as pd\n\nadj = pd.Series([100.0, 110.0, 99.0, 108.9])\nr = adj.pct_change()\n\n# 任务：用 dropna() 删除 r 中的 NaN；把清洗后的收益率保留 4 位并打印成列表，再打印保留 4 位的样本标准差\n',
+        hint: '把 dropna() 的结果重新赋值给 r，或直接串联在 pct_change() 后。清洗后的列表应只有三个收益率，不含 NaN。',
+        exampleNotes: { 2: '一个首项未知的收益率序列', 3: 'dropna() 删除 NaN 行，返回清洗后的 Series', 4: '列表确认只留下三个有效收益率', 5: '.std() 默认是样本标准差（ddof=1，除以 N−1）——NumPy 的 np.std() 默认 ddof=0，必须声明用哪种' },
       },
       {
         explain: '由你组装的完整管线，从给出的 Series 出发：pct_change() 得小数收益率；dropna() 清掉未知的第一个；.std()（样本，ddof=1）得日离散度；再乘 √252 拉伸到全年——新语法 np.sqrt(x)，NumPy 的平方根（252 ≈ 每年交易日数）。这个惯例假设日波动大致独立；把结果当作**估计值**，不是自然常数。把四个阶段链成一个表达式。',
