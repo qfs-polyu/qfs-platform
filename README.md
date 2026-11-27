@@ -38,14 +38,16 @@ npm run start      # serve the production build
 ## Course content tests
 
 ```bash
-npm test               # audit all coding-lesson answers and worked examples
-npm run test:lessons   # the same audit, called directly
+npm test               # run every course-content and mistake-notebook audit
+npm run test:lessons   # audit coding answers and worked examples
+npm run test:mistakes  # audit mistake derivation, mastery, and support thresholds
 ```
 
-The audit loads the actual TypeScript course content, executes every reference
-solution against its expected output, runs every worked example, and checks
-Chinese translations, example-note locations, and Chinese/English starter-code
-parity. A new step must have a corresponding entry in `scripts/audit_lessons.py`.
+The lesson audit loads the actual TypeScript course content, executes every
+reference solution against its expected output, runs every worked example, and
+checks Chinese translations, example-note locations, and Chinese/English
+starter-code parity. A new step must have a corresponding entry in
+`scripts/audit_lessons.py`.
 
 The test runner requires Node.js plus Python 3 with NumPy and pandas installed.
 Set the `PYTHON` environment variable if the interpreter is not on `PATH`.
@@ -65,6 +67,13 @@ For signed-in submission history and the mistake notebook, run
 This creates `assignment_submissions` and `quiz_attempts`, with authenticated
 users restricted by RLS to reading and inserting their own rows. Anonymous
 grading remains available without database writes.
+
+The notebook derives each question's failure count and latest mastery state
+from those append-only records; no extra migration is required. A later correct
+answer marks the question mastered, while a subsequent incorrect answer reopens
+it. Three failed attempts on an unresolved question expose the email support
+entry. Research quiz attempts are scoped to the active section so unanswered
+questions in other sections are not counted as mistakes.
 
 ## Milestones
 

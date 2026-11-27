@@ -1,34 +1,99 @@
 import {QUIZ as FOUNDATIONS_QUIZ} from './foundations-content';
 import {QUIZ as CANDLES_QUIZ} from './candles-content';
 import {QUIZ as QUOTES_QUIZ} from './quotes-content';
+import {RESEARCH_MATH_SECTIONS, type LocalText, type ResearchQuestion} from './research-math';
+import {RESEARCH_ELECTIVES} from './research-electives';
+
+export type QuizText = string | LocalText;
 
 export type QuizQuestion = {
-  q: string;
-  options: string[];
+  id?: string;
+  q: QuizText;
+  options?: QuizText[];
   answer: number;
-  explain: string;
+  explain: QuizText;
+  kind?: 'choice' | 'number';
+  tolerance?: number;
+  reviewPath?: string;
 };
 
 export type QuizDefinition = {
-  title: string;
+  title: QuizText;
   reviewPath: string;
   questions: QuizQuestion[];
 };
 
+export function quizText(value: QuizText, locale: string): string {
+  return typeof value === 'string' ? value : locale === 'zh' ? value.zh : value.en;
+}
+
+export function quizAnswerIsCorrect(
+  question: QuizQuestion,
+  raw: number | string | undefined,
+): boolean {
+  if (raw === undefined || String(raw).trim() === '') return false;
+  if (question.kind !== 'number') return Number(raw) === question.answer;
+  const value = Number(raw);
+  return Number.isFinite(value) &&
+    Math.abs(value - question.answer) <= (question.tolerance ?? 0.0001);
+}
+
+function fromResearch(question: ResearchQuestion, reviewPath: string): QuizQuestion {
+  return {
+    id: question.id,
+    q: question.prompt,
+    options: question.options,
+    answer: question.answer,
+    explain: question.explanation,
+    kind: question.kind,
+    tolerance: question.tolerance,
+    reviewPath,
+  };
+}
+
+const RESEARCH_MATH_QUIZ: QuizDefinition = {
+  title: {en: 'Research Math & Finance', zh: '量化研究数学与金融基础'},
+  reviewPath: '/learn/research/2',
+  questions: RESEARCH_MATH_SECTIONS.flatMap((section) =>
+    section.questions.map((question) =>
+      fromResearch(question, `/learn/research/2#${section.id}`),
+    ),
+  ),
+};
+
+const ELECTIVE_QUIZZES = Object.fromEntries(
+  RESEARCH_ELECTIVES.map((course) => [
+    `research-${course.n}`,
+    {
+      title: course.title,
+      reviewPath: `/learn/research/${course.n}`,
+      questions: course.sections.map((section) =>
+        fromResearch(section.question, `/learn/research/${course.n}#${section.id}`),
+      ),
+    } satisfies QuizDefinition,
+  ]),
+) as Record<string, QuizDefinition>;
+
 export const QUIZ_REGISTRY: Record<string, QuizDefinition> = {
   'trading-foundations': {
     title: 'Quant Foundations',
-    reviewPath: '/learn/trading/foundations',
-    questions: FOUNDATIONS_QUIZ
+    reviewPath: '/learn/trading/foundations#quiz',
+    questions: FOUNDATIONS_QUIZ,
   },
   'trading-candles': {
     title: 'Candlestick Reader',
-    reviewPath: '/learn/trading/candles',
-    questions: CANDLES_QUIZ
+    reviewPath: '/learn/trading/candles#quiz',
+    questions: CANDLES_QUIZ,
   },
   'trading-quotes': {
     title: 'Quote Anatomy',
-    reviewPath: '/learn/trading/quotes',
-    questions: QUOTES_QUIZ
-  }
+    reviewPath: '/learn/trading/quotes#quiz',
+    questions: QUOTES_QUIZ,
+  },
+  'research-math': RESEARCH_MATH_QUIZ,
+  ...ELECTIVE_QUIZZES,
 };
+
+export function researchQuizIndex(quizId: string, questionId: string): number {
+  return QUIZ_REGISTRY[quizId]?.questions.findIndex((question) => question.id === questionId) ?? -1;
+}

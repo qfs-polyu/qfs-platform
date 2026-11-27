@@ -1,9 +1,13 @@
 'use client';
 
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import dynamic from 'next/dynamic';
 import {useLocale} from 'next-intl';
 import {MathText, TeX} from './MathText';
+import SupportCard from '../SupportCard';
+import QuizSaveNotice from '../trading/QuizSaveNotice';
+import {useQuizAttempt} from '../trading/useQuizAttempt';
+import {researchQuizIndex} from '@/content/quizzes';
 import {usePyodide} from '../pyodide/usePyodide';
 import type {LocalText, ResearchQuestion} from '@/content/research-math';
 import type {
@@ -342,6 +346,33 @@ export default function ResearchElectiveCourse({course}: {course: Course}) {
   const answered = (answers[question.id] ?? '').trim() !== '';
   const canCheck = answered && (!section.code || codePassed[section.id] === true);
   const isChecked = checked[section.id] === true;
+  const quizId = `research-${course.n}`;
+  const {saveState, recordAttempt, questionStates} = useQuizAttempt(quizId);
+  const questionIndex = researchQuizIndex(quizId, question.id);
+  const questionState = questionStates.find(
+    (item) => item.quizId === quizId && item.questionIndex === questionIndex,
+  );
+  const sectionNeedsSupport = Boolean(
+    questionState && !questionState.mastered && questionState.failureCount >= 3,
+  );
+
+  useEffect(() => {
+    const openLinkedSection = () => {
+      const id = window.location.hash.slice(1);
+      const index = course.sections.findIndex((item) => item.id === id);
+      if (index >= 0) setActive(index);
+    };
+    openLinkedSection();
+    window.addEventListener('hashchange', openLinkedSection);
+    return () => window.removeEventListener('hashchange', openLinkedSection);
+  }, [course.sections]);
+
+  const checkSection = () => {
+    setChecked((previous) => ({...previous, [section.id]: true}));
+    if (questionIndex >= 0) {
+      void recordAttempt({[questionIndex]: answers[question.id] ?? ''});
+    }
+  };
 
   const updateAnswer = (value: string) => {
     setAnswers((previous) => ({...previous, [question.id]: value}));
@@ -392,7 +423,7 @@ export default function ResearchElectiveCourse({course}: {course: Course}) {
         </nav>
       </div>
 
-      <article className="overflow-hidden rounded-xl border border-navy/10 bg-white shadow-sm">
+      <article id={section.id} className="scroll-mt-24 overflow-hidden rounded-xl border border-navy/10 bg-white shadow-sm">
         <header className="border-b border-navy/10 bg-navy px-5 py-5 text-white sm:px-7">
           <p className="text-xs font-semibold uppercase tracking-wider text-white/65">{zh ? `第 ${course.n} 层 · ${course.level}` : `Layer ${course.n} · ${course.level}`}</p>
           <h2 className="mt-1 text-xl font-bold">{text(section.title, locale)}</h2>
@@ -477,14 +508,16 @@ export default function ResearchElectiveCourse({course}: {course: Course}) {
               <button
                 type="button"
                 disabled={!canCheck}
-                onClick={() => setChecked((previous) => ({...previous, [section.id]: true}))}
-                className="min-h-11 cursor-pointer rounded-full bg-accent px-5 py-2 text-sm font-medium text-white transition hover:bg-accent/90 disabled:cursor-not-allowed disabled:opacity-40"
+                onClick={checkSection}
+                className="min-h-11 cursor-pointer rounded-full bg-accent px-5 py-2 text-sm font-medium text-white transition hover:bg-accent/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {zh ? '检查本节答案' : 'Check this section'}
               </button>
               {section.code && !codePassed[section.id] && <span className="text-xs text-navy/55">{zh ? '先运行并通过本节的 Python 实作。' : 'Run and pass this section’s Python practice first.'}</span>}
               {isChecked && sectionComplete(section) && <span role="status" className="text-sm font-medium text-green-700">{zh ? '本节全部通过' : 'Section complete'}</span>}
+              {isChecked && <QuizSaveNotice state={saveState} />}
             </div>
+            {isChecked && sectionNeedsSupport && <SupportCard topic={`${text(course.title, locale)} — ${text(section.title, locale)}`} />}
           </div>
         </div>
         <footer className="flex items-center justify-between gap-3 border-t border-navy/10 px-5 py-4 sm:px-7">

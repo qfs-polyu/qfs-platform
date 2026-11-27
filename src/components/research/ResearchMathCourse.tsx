@@ -1,8 +1,12 @@
 'use client';
 
-import {useMemo, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {useLocale} from 'next-intl';
 import {MathText, TeX} from './MathText';
+import SupportCard from '../SupportCard';
+import QuizSaveNotice from '../trading/QuizSaveNotice';
+import {useQuizAttempt} from '../trading/useQuizAttempt';
+import {researchQuizIndex} from '@/content/quizzes';
 import {
   RESEARCH_MATH_SECTIONS,
   RESEARCH_MATH_SOURCES,
@@ -89,6 +93,36 @@ export default function ResearchMathCourse() {
     (question) => (answers[question.id] ?? '').trim() !== '',
   );
   const isChecked = checked[section.id] ?? false;
+  const quizId = 'research-math';
+  const {saveState, recordAttempt, questionStates} = useQuizAttempt(quizId);
+  const sectionNeedsSupport = section.questions.some((question) => {
+    const index = researchQuizIndex(quizId, question.id);
+    const state = questionStates.find(
+      (item) => item.quizId === quizId && item.questionIndex === index,
+    );
+    return Boolean(state && !state.mastered && state.failureCount >= 3);
+  });
+
+  useEffect(() => {
+    const openLinkedSection = () => {
+      const id = window.location.hash.slice(1);
+      const index = RESEARCH_MATH_SECTIONS.findIndex((item) => item.id === id);
+      if (index >= 0) setActive(index);
+    };
+    openLinkedSection();
+    window.addEventListener('hashchange', openLinkedSection);
+    return () => window.removeEventListener('hashchange', openLinkedSection);
+  }, []);
+
+  const checkSection = () => {
+    const picks: Record<number, string> = {};
+    for (const question of section.questions) {
+      const index = researchQuizIndex(quizId, question.id);
+      if (index >= 0) picks[index] = answers[question.id] ?? '';
+    }
+    setChecked((previous) => ({...previous, [section.id]: true}));
+    void recordAttempt(picks);
+  };
 
   const updateAnswer = (id: string, value: string) => {
     setAnswers((previous) => ({...previous, [id]: value}));
@@ -154,7 +188,7 @@ export default function ResearchMathCourse() {
         </div>
       </div>
 
-      <article className="overflow-hidden rounded-xl border border-navy/10 bg-white shadow-sm">
+      <article id={section.id} className="scroll-mt-24 overflow-hidden rounded-xl border border-navy/10 bg-white shadow-sm">
         <header className="border-b border-navy/10 bg-navy px-5 py-5 text-white sm:px-7">
           <p className="text-xs font-semibold uppercase tracking-wider text-white/60">
             {text(section.eyebrow, locale)}
@@ -258,8 +292,8 @@ export default function ResearchMathCourse() {
               <button
                 type="button"
                 disabled={!sectionAnswered}
-                onClick={() => setChecked((previous) => ({...previous, [section.id]: true}))}
-                className="rounded-full bg-accent px-5 py-2 text-sm font-medium text-white hover:bg-accent/90 disabled:cursor-not-allowed disabled:opacity-40"
+                onClick={checkSection}
+                className="min-h-11 cursor-pointer rounded-full bg-accent px-5 py-2 text-sm font-medium text-white transition hover:bg-accent/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {zh ? '检查本节答案' : 'Check this section'}
               </button>
@@ -268,7 +302,9 @@ export default function ResearchMathCourse() {
                   {zh ? '本节全部通过' : 'Section complete'}
                 </span>
               )}
+              {isChecked && <QuizSaveNotice state={saveState} />}
             </div>
+            {isChecked && sectionNeedsSupport && <SupportCard topic={text(section.title, locale)} />}
           </div>
         </div>
         <footer className="flex items-center justify-between border-t border-navy/10 px-5 py-4 sm:px-7">

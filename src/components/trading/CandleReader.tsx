@@ -245,7 +245,7 @@ export default function CandleReader() {
       </div>
 
       {/* Quiz */}
-      <div className="rounded-xl border border-navy/10 bg-white p-5 shadow-sm">
+      <div id="quiz" className="scroll-mt-24 rounded-xl border border-navy/10 bg-white p-5 shadow-sm">
         <h3 className="font-semibold text-navy">{t('quizTitle')}</h3>
         <div className="mt-4 space-y-5">
           {QUIZ.map((q, qi) => (
