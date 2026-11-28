@@ -22,35 +22,35 @@ export const QUIZ = [
   {
     q: 'A green candle on this chart tells you that, during that session…',
     options: [
-      'The closing price ended above the opening price',
       'The opening price ended above the closing price',
+      'The closing price ended above the opening price',
       'The stock paid a dividend',
       'Trading was suspended'
     ],
-    answer: 0,
+    answer: 1,
     explain: 'Green = close above open: buyers finished the session ahead.'
   },
   {
     q: 'A candle with a very long lower wick and a small body near the top suggests that during the session…',
     options: [
-      'Sellers pushed the price far down, but buyers pulled it back before the close',
       'The price barely moved',
       'The stock never traded',
+      'Sellers pushed the price far down, but buyers pulled it back before the close',
       'The volume was zero'
     ],
-    answer: 0,
+    answer: 2,
     explain:
       'The low sits far below where the bar closed: price fell hard intraday and then recovered.'
   },
   {
     q: 'Compared with a quiet day, a big price move on very high volume is generally…',
     options: [
-      'More meaningful, because more participants acted on it',
       'Less meaningful, because it is random',
       'Meaningless without a news article',
-      'Impossible in real markets'
+      'Impossible in real markets',
+      'More meaningful, because more participants acted on it'
     ],
-    answer: 0,
+    answer: 3,
     explain: 'High volume means conviction — many buyers and sellers agreed on the new price.'
   }
 ];

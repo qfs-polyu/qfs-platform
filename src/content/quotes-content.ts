@@ -140,23 +140,23 @@ export const QUIZ = [
   {
     q: 'Bid1 = 383.4 and Ask1 = 383.8. A small spread between them most likely means…',
     options: [
-      'The stock is liquid and cheap to trade',
       'The stock is about to rise',
       'Volume is zero',
-      'The exchange made an error'
+      'The exchange made an error',
+      'The stock is liquid and cheap to trade'
     ],
-    answer: 0,
+    answer: 3,
     explain: 'Tight spreads come from many competing orders — high liquidity, low trading cost. It says nothing about direction.'
   },
   {
     q: 'A stock trades 4% of its float in one day (turnover rate 4%). Compared with Tencent’s typical 0.2–0.5%, this suggests…',
     options: [
-      'Unusual attention — worth checking the news',
       'The stock is guaranteed to rise',
       'A data error, always',
+      'Unusual attention — worth checking the news',
       'Nothing can ever be inferred'
     ],
-    answer: 0,
+    answer: 2,
     explain: 'Turnover rate is an activity meter: a spike means many owners changed hands — investigate why, don’t assume direction.'
   }
 ];

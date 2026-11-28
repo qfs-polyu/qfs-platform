@@ -2,7 +2,7 @@
 
 import {useEffect, useMemo, useState} from 'react';
 import {createClient} from '@/lib/supabase/browser';
-import {QUIZ_REGISTRY, quizAnswerIsCorrect} from '@/content/quizzes';
+import {QUIZ_REGISTRY, quizAnswerIsCorrect, quizAttemptIsCurrent} from '@/content/quizzes';
 import {buildQuizQuestionStates, type QuizAttemptRecord} from '@/lib/mistakes';
 
 export type QuizSaveState = 'idle' | 'saved' | 'anon' | 'error';
@@ -27,7 +27,9 @@ export function useQuizAttempt(quizId: string) {
           .eq('quiz_id', quizId)
           .order('created_at', {ascending: false})
           .limit(100);
-        if (!cancelled && !error) setAttempts((data ?? []) as QuizAttemptRecord[]);
+        if (!cancelled && !error) {
+          setAttempts(((data ?? []) as QuizAttemptRecord[]).filter(quizAttemptIsCurrent));
+        }
       } catch {
         // Recording remains available; the notebook will surface save failures.
       }

@@ -97,3 +97,19 @@ export const QUIZ_REGISTRY: Record<string, QuizDefinition> = {
 export function researchQuizIndex(quizId: string, questionId: string): number {
   return QUIZ_REGISTRY[quizId]?.questions.findIndex((question) => question.id === questionId) ?? -1;
 }
+
+/**
+ * Option order of these quizzes changed on `at`. Attempts recorded earlier
+ * picked positions from the old order, so they must not be judged against the
+ * current answer keys; the mistake notebook and the level gates both skip them.
+ */
+export const QUIZ_OPTION_ORDER_CHANGED = {
+  at: '2026-11-28T10:19:00Z',
+  quizIds: ['trading-foundations', 'trading-candles', 'trading-quotes', 'research-1'],
+} as const;
+
+/** False for attempts recorded before their quiz's options were reordered. */
+export function quizAttemptIsCurrent(attempt: {quiz_id: string; created_at: string}): boolean {
+  if (!(QUIZ_OPTION_ORDER_CHANGED.quizIds as readonly string[]).includes(attempt.quiz_id)) return true;
+  return Date.parse(attempt.created_at) >= Date.parse(QUIZ_OPTION_ORDER_CHANGED.at);
+}

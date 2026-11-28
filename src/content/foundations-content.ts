@@ -66,13 +66,13 @@ export const QUIZ = [
   {
     q: 'Which rule is the most "quantitative"?',
     options: [
-      'Buy when price closes above its 20-day average for 5 straight days',
       'Buy because the founder seemed confident in the interview',
       'Sell because a friend heard something at dinner',
+      'Buy when price closes above its 20-day average for 5 straight days',
       'Hold because the chart "feels right"'
     ],
-    answer: 0,
-    explain: 'Only the first rule is explicit and testable on historical data — that is the quant test.'
+    answer: 2,
+    explain: 'Only the 20-day-average rule is explicit and testable on historical data — that is the quant test.'
   },
   {
     q: 'Compared with stocks, futures contracts typically add…',
@@ -88,12 +88,12 @@ export const QUIZ = [
   {
     q: 'This platform teaches quant with stocks mainly because…',
     options: [
-      'Stock data is free and clean, and the skills transfer to other instruments',
       'Stocks always go up',
+      'Stock data is free and clean, and the skills transfer to other instruments',
       'Other instruments are illegal',
       'Stocks have no risk'
     ],
-    answer: 0,
+    answer: 1,
     explain: 'Free real data lets you test ideas from day one; returns, risk and backtesting concepts carry over.'
   }
 ];

@@ -11,7 +11,13 @@ import {
   type Assignment,
   type AssignmentTest,
 } from '@/content/assignments';
-import {QUIZ_REGISTRY, quizAnswerIsCorrect, quizText, type QuizQuestion} from '@/content/quizzes';
+import {
+  QUIZ_REGISTRY,
+  quizAnswerIsCorrect,
+  quizAttemptIsCurrent,
+  quizText,
+  type QuizQuestion,
+} from '@/content/quizzes';
 import {
   assignmentSupportNeeded,
   buildAssignmentStates,
@@ -178,7 +184,9 @@ export default function AssignmentCenter() {
         return;
       }
       setSubmissions((submissionResponse.data ?? []) as Submission[]);
-      setQuizAttempts((quizResponse.data ?? []) as QuizAttempt[]);
+      setQuizAttempts(
+        ((quizResponse.data ?? []) as QuizAttempt[]).filter(quizAttemptIsCurrent),
+      );
     };
 
     void supabase.auth.getSession().then(({data}) => {

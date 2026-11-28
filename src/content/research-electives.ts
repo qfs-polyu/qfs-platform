@@ -115,13 +115,13 @@ export const RESEARCH_ELECTIVES: ResearchElectiveCourse[] = [
           {en: 'Which statement is a falsifiable research hypothesis?', zh: '哪一句是可证伪的研究假设？'},
           [
             {en: 'Good stocks always go up.', zh: '好股票总会上涨。'},
-            {en: 'In this defined sample, higher prior returns are associated with higher next-period returns.', zh: '在这个明确样本中，较高的过去收益与较高的下一期收益相关。'},
             {en: 'The best factor is whichever factor made the most money yesterday.', zh: '昨天最赚钱的因子就是最好的因子。'},
+            {en: 'In this defined sample, higher prior returns are associated with higher next-period returns.', zh: '在这个明确样本中，较高的过去收益与较高的下一期收益相关。'},
           ],
-          1,
+          2,
           {
-            en: 'The second statement names the variables, sample and relationship. It can be supported or rejected by evidence.',
-            zh: '第二句明确了变量、样本和关系，因此能够被数据支持或反驳。',
+            en: 'The statement that names the variables, sample and relationship can be supported or rejected by evidence.',
+            zh: '明确写出变量、样本和关系的那一句，能够被数据支持或反驳。',
           },
         ),
       },
@@ -146,11 +146,11 @@ export const RESEARCH_ELECTIVES: ResearchElectiveCourse[] = [
             zh: '学生用 $t_1$ 到 $t_2$ 的收益给股票排序，却声称能在 $t_1$ 按同样名单买入。主要问题是什么？',
           },
           [
-            {en: 'The sample has too few decimal places.', zh: '样本的小数位数太少。'},
             {en: 'Look-ahead bias: the formation rule uses information unavailable at $t_1$.', zh: '前视偏差：分组规则使用了 $t_1$ 时尚不可知的信息。'},
+            {en: 'The sample has too few decimal places.', zh: '样本的小数位数太少。'},
             {en: 'The returns should always be integers.', zh: '收益率应该始终取整数。'},
           ],
-          1,
+          0,
           {
             en: String.raw`At $t_1$, only information available at or before $t_1$ may determine the portfolio. The later return is the outcome, not an input.`,
             zh: String.raw`在 $t_1$ 时，只能用当时或更早可知的信息决定组合。之后的收益是待检验结果，不是输入。`,

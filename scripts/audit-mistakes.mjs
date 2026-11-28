@@ -29,6 +29,7 @@ const {
 const {
   QUIZ_REGISTRY,
   quizAnswerIsCorrect,
+  quizAttemptIsCurrent,
   quizText,
   researchQuizIndex,
 } = require(path.join(root, 'src/content/quizzes.ts'));
@@ -42,10 +43,16 @@ const submission = (id, passed, created_at, assignment_id = 'returns-list') => (
   test_results: passed ? [] : [{name: 'normal', passed: false, expected: '1', actual: '0'}],
   created_at,
 });
+// Fixtures read the correct option from the registry so they survive reordering.
+const optionCount = (quizId, question) => QUIZ_REGISTRY[quizId].questions[question].options.length;
+const right = (question, quizId = 'trading-foundations') => QUIZ_REGISTRY[quizId].questions[question].answer;
+const wrong = (question, quizId = 'trading-foundations') => (right(question, quizId) + 1) % optionCount(quizId, question);
+const otherWrong = (question, quizId = 'trading-foundations') => (right(question, quizId) + 2) % optionCount(quizId, question);
 const attempt = (id, answers, created_at, quiz_id = 'trading-foundations') => ({
   id,
   quiz_id,
-  score: answers.filter((answer) => answer.selected === 0).length,
+  score: answers.filter((answer) =>
+    quizAnswerIsCorrect(QUIZ_REGISTRY[quiz_id].questions[answer.question], answer.selected)).length,
   total: answers.length,
   answers,
   created_at,
@@ -74,10 +81,10 @@ assert.equal(assignmentSupportNeeded(reopenedHistory, 'another-assignment'), fal
 assert.equal(buildAssignmentStates([submission('clean', true, '2026-11-01T09:00:00Z')])[0].failureCount, 0);
 
 const quizHistory = [
-  attempt('quiz-pass', [{question: 0, selected: 0}], '2026-11-03T09:00:00Z'),
-  attempt('quiz-fail-1', [{question: 0, selected: 1}], '2026-11-01T09:00:00Z'),
-  attempt('quiz-fail-2', [{question: 0, selected: 2}], '2026-11-02T09:00:00Z'),
-  attempt('other-question', [{question: 1, selected: 1}], '2026-11-02T10:00:00Z'),
+  attempt('quiz-pass', [{question: 0, selected: right(0)}], '2026-11-03T09:00:00Z'),
+  attempt('quiz-fail-1', [{question: 0, selected: wrong(0)}], '2026-11-01T09:00:00Z'),
+  attempt('quiz-fail-2', [{question: 0, selected: otherWrong(0)}], '2026-11-02T09:00:00Z'),
+  attempt('other-question', [{question: 1, selected: wrong(1)}], '2026-11-02T10:00:00Z'),
 ];
 const correctness = (quizId, questionIndex, selected) =>
   quizAnswerIsCorrect(QUIZ_REGISTRY[quizId].questions[questionIndex], selected);
@@ -86,11 +93,11 @@ let question = quizStates.find((item) => item.questionIndex === 0);
 assert.equal(question.failureCount, 2);
 assert.equal(question.attemptCount, 3);
 assert.equal(question.mastered, true);
-assert.equal(question.lastFailedAnswer.selected, 2);
+assert.equal(question.lastFailedAnswer.selected, otherWrong(0));
 assert.equal(quizStates.find((item) => item.questionIndex === 1).mastered, false);
 
 quizStates = buildQuizQuestionStates([
-  attempt('quiz-reopened', [{question: 0, selected: 1}], '2026-11-04T09:00:00Z'),
+  attempt('quiz-reopened', [{question: 0, selected: wrong(0)}], '2026-11-04T09:00:00Z'),
   ...quizHistory,
 ], correctness);
 question = quizStates.find((item) => item.questionIndex === 0);
@@ -98,7 +105,7 @@ assert.equal(question.failureCount, 3);
 assert.equal(question.mastered, false, 'Quiz mastery follows the latest answer, not any historical pass');
 
 const cleanQuiz = buildQuizQuestionStates([
-  attempt('clean-quiz', [{question: 0, selected: 0}], '2026-11-01T09:00:00Z'),
+  attempt('clean-quiz', [{question: 0, selected: right(0)}], '2026-11-01T09:00:00Z'),
 ], correctness);
 assert.equal(cleanQuiz[0].failureCount, 0, 'A question answered correctly once is not a mistake');
 
@@ -125,6 +132,28 @@ for (const [quizId, quiz] of Object.entries(QUIZ_REGISTRY)) {
     }
   }
 }
+// A quiz whose correct answers all sit at the same option index can be passed
+// by position instead of knowledge (Foundations, Candles and Quotes once did).
+for (const [quizId, quiz] of Object.entries(QUIZ_REGISTRY)) {
+  const positions = quiz.questions
+    .filter((item) => item.kind !== 'number')
+    .map((item) => item.answer);
+  if (positions.length < 2) continue;
+  assert.ok(new Set(positions).size > 1, `${quizId}: correct answers must not all share one option index`);
+}
+
+// Attempts recorded before a quiz's options were reordered used different
+// option positions; judging them against the new order would misread them.
+assert.equal(typeof quizAttemptIsCurrent, 'function', 'quizAttemptIsCurrent is exported');
+assert.equal(quizAttemptIsCurrent({quiz_id: 'trading-foundations', created_at: '2026-11-20T09:00:00Z'}), false,
+  'old attempts of a reordered quiz are stale');
+assert.equal(quizAttemptIsCurrent({quiz_id: 'trading-foundations', created_at: '2026-12-20T09:00:00Z'}), true,
+  'attempts after the reorder are judged');
+assert.equal(quizAttemptIsCurrent({quiz_id: 'research-math', created_at: '2026-11-01T09:00:00Z'}), true,
+  'a quiz whose options never moved keeps its whole history');
+assert.equal(quizAttemptIsCurrent({quiz_id: 'research-1', created_at: '2026-11-20T09:00:00Z'}), false,
+  'every reordered quiz is covered');
+
 const numericQuestion = Object.values(QUIZ_REGISTRY)
   .flatMap((quiz) => quiz.questions)
   .find((item) => item.kind === 'number');
@@ -136,3 +165,4 @@ assert.equal(quizText({en: 'Factor', zh: '因子'}, 'en'), 'Factor');
 
 console.log('Validated assignment and per-question mistake grouping, mastery, reopening and support thresholds');
 console.log(`Audited ${Object.keys(QUIZ_REGISTRY).length} persisted quizzes and all Research answer mappings`);
+console.log('Validated answer positions and the stale-attempt rule for reordered quizzes');
