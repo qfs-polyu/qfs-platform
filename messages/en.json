@@ -16,8 +16,12 @@
     "assessBody": "10–15 questions (finance + programming + interests) recommend your starting level. Coming in M1.",
     "assessCta": "Start the assessment",
     "gateLabel": "Gate: ",
-    "mapLegend": "Six levels form the recommended order; all 18 units across the three tracks belong to a level — expand each one to see its units.",
-    "unitLabel": "units"
+    "mapLegend": "The six levels are the recommended order; open a level to see its units. Levels light up as you pass them; a greyed level is best saved for after the previous one, but every page stays open.",
+    "unitLabel": "units",
+    "mapSignInHint": "Sign in and the map will show your progress.",
+    "mapSignInLink": "Sign in",
+    "currentHint": "Start here",
+    "lockedHint": "Pass {level} first; the content is already open if you want to look ahead."
   },
   "learn": {
     "title": "Learning",
@@ -172,14 +176,13 @@
   "me": {
     "title": "Profile",
     "progressTitle": "My Progress",
+    "levelsTitle": "Levels",
     "accountTitle": "Account",
     "loginPrompt": "Log in to see your learning progress.",
     "signedInAs": "Signed in as",
     "notSignedIn": "Not signed in",
-    "notRecordedYet": "Recording starts when this track's content lands",
-    "unitStages": "stages",
-    "unitLayers": "layers",
-    "unitLessons": "lessons"
+    "currentHint": "Start here",
+    "gateLabel": "Gate: "
   },
   "assessment": {
     "title": "Placement Assessment",
@@ -252,7 +255,25 @@
     "quizCheck": "Check answers"
   },
   "tracks": {
-    "progressTitle": "Track progress"
+    "progressTitle": "Track progress",
+    "trading": "quizzes",
+    "research": "layers",
+    "coding": "lessons",
+    "hintTrading": "A quiz counts once every question in it has been answered correctly; stages 2 onward open later.",
+    "hintResearch": "A layer counts once every self-check question in it has been answered correctly.",
+    "hintCoding": "A lesson counts once you reach its last step; passing L1 also needs all five assignments."
+  },
+  "progress": {
+    "passed": "Passed",
+    "contentComplete": "Content complete",
+    "inProgress": "In progress {done}/{total}",
+    "available": "Ready to start",
+    "locked": "Locked",
+    "upcoming": "Opens in a later milestone",
+    "unitPassed": "Finished",
+    "unitInProgress": "In progress {done}/{total}",
+    "unitNotStarted": "Not started",
+    "unitUnavailable": "Not available yet"
   },
   "admin": {
     "title": "Admin Dashboard",

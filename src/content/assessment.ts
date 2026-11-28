@@ -4,6 +4,9 @@
  * Draft content: to be refined by the content leads (三原则 applies).
  */
 
+/** localStorage key of the latest placement result (kept in this browser only). */
+export const PLACEMENT_STORAGE_KEY = 'qfs_placement_v1';
+
 export type Area = 'finance' | 'programming' | 'quant' | 'profile';
 
 export type Question = {

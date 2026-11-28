@@ -3,9 +3,12 @@
 import {useMemo, useState} from 'react';
 import {useTranslations} from 'next-intl';
 import {Link} from '@/i18n/navigation';
-import {QUESTIONS, scorePlacement, type PlacementResult} from '@/content/assessment';
-
-const STORAGE_KEY = 'qfs_placement_v1';
+import {
+  PLACEMENT_STORAGE_KEY,
+  QUESTIONS,
+  scorePlacement,
+  type PlacementResult,
+} from '@/content/assessment';
 
 export default function AssessmentPage() {
   const t = useTranslations('assessment');
@@ -18,7 +21,7 @@ export default function AssessmentPage() {
   useMemo(() => {
     if (typeof window === 'undefined') return;
     try {
-      const raw = window.localStorage.getItem(STORAGE_KEY);
+      const raw = window.localStorage.getItem(PLACEMENT_STORAGE_KEY);
       if (raw) setHistory(JSON.parse(raw) as PlacementResult);
     } catch {
       // ignore
@@ -38,7 +41,7 @@ export default function AssessmentPage() {
         const r = scorePlacement(next);
         setResult(r);
         try {
-          window.localStorage.setItem(STORAGE_KEY, JSON.stringify(r));
+          window.localStorage.setItem(PLACEMENT_STORAGE_KEY, JSON.stringify(r));
         } catch {
           // ignore
         }

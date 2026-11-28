@@ -4,83 +4,40 @@ import {useEffect, useState} from 'react';
 import {useTranslations} from 'next-intl';
 import {Link} from '@/i18n/navigation';
 import {createClient} from '@/lib/supabase/browser';
-import {TRADING_STAGES, RESEARCH_LAYERS} from '@/content/curriculum';
-import {TOTAL_LESSONS} from '@/content/lessons';
+import {LEVELS} from '@/content/curriculum';
+import {
+  TRACK_COLOR,
+  TRACK_HINT_KEY,
+  LevelStatusPill,
+  levelCircleClass,
+  type Track,
+} from '@/components/progress/LevelStatus';
+import {useLearningProgress} from '@/components/progress/useLearningProgress';
 
-type Track = {
-  key: 'trading' | 'research' | 'coding';
-  bar: string;
-  dot: string;
-  total: number;
-  unit: string;
-  measurable: boolean;
-};
+const TRACKS: Track[] = ['trading', 'research', 'coding'];
 
 export default function MePage() {
   const t = useTranslations('me');
+  const tt = useTranslations('tracks');
   const ta = useTranslations('auth');
+  const {state, signedIn, progress} = useLearningProgress();
   const [email, setEmail] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [codingDone, setCodingDone] = useState(0);
 
   useEffect(() => {
     const supabase = createClient();
-    const load = async () => {
-      const {
-        data: {session}
-      } = await supabase.auth.getSession();
-      setEmail(session?.user?.email ?? null);
-      if (session) {
-        try {
-          const {data} = await supabase
-            .from('lesson_progress')
-            .select('lesson_id');
-          setCodingDone(
-            (data ?? []).filter(
-              (r) => (r.lesson_id as number) >= 1 && (r.lesson_id as number) <= TOTAL_LESSONS
-            ).length
-          );
-        } catch {
-          // table/grant not ready — show 0
-        }
-      }
-      setLoading(false);
+    const load = () => {
+      void supabase.auth.getSession().then(({data}) => {
+        setEmail(data.session?.user?.email ?? null);
+        setLoading(false);
+      });
     };
     load();
     const {
       data: {subscription}
-    } = supabase.auth.onAuthStateChange((_e, session) => {
-      setEmail(session?.user?.email ?? null);
-    });
+    } = supabase.auth.onAuthStateChange(() => load());
     return () => subscription.unsubscribe();
   }, []);
-
-  const tracks: Track[] = [
-    {
-      key: 'trading',
-      bar: 'bg-navy',
-      dot: 'bg-navy',
-      total: TRADING_STAGES.length,
-      unit: t('unitStages'),
-      measurable: false
-    },
-    {
-      key: 'research',
-      bar: 'bg-track-research',
-      dot: 'bg-track-research',
-      total: RESEARCH_LAYERS.length,
-      unit: t('unitLayers'),
-      measurable: false
-    },
-    {
-      key: 'coding',
-      bar: 'bg-accent',
-      dot: 'bg-accent',
-      total: TOTAL_LESSONS,
-      unit: t('unitLessons'),
-      measurable: true
-    }
-  ];
 
   const signOut = async () => {
     const supabase = createClient();
@@ -94,10 +51,8 @@ export default function MePage() {
       {/* Progress */}
       <section className="mt-8">
         <h2 className="font-semibold text-navy/80">{t('progressTitle')}</h2>
-        <div className="mt-4 space-y-5 rounded-xl border border-navy/10 bg-white p-6 shadow-sm">
-          {loading ? (
-            <div className="h-4 w-40 animate-pulse rounded bg-navy/10" />
-          ) : !email ? (
+        <div className="mt-4 space-y-6 rounded-xl border border-navy/10 bg-white p-6 shadow-sm">
+          {!loading && !signedIn && state === 'ready' && (
             <p className="text-sm text-navy/60">
               {t('loginPrompt')}{' '}
               <Link
@@ -107,39 +62,68 @@ export default function MePage() {
                 {ta('loginSignup')}
               </Link>
             </p>
-          ) : null}
-          {tracks.map((track) => {
-            const done = track.measurable && email ? codingDone : 0;
-            const pct = Math.min(100, (done / track.total) * 100);
-            return (
-              <div key={track.key}>
-                <div className="flex items-center justify-between text-sm">
-                  <span className="flex items-center gap-2 font-medium text-navy">
-                    <span className={`h-2.5 w-2.5 rounded-full ${track.dot}`} />
-                    {track.key === 'trading'
-                      ? 'Trading'
-                      : track.key === 'research'
-                        ? 'Research'
-                        : 'Coding'}
-                  </span>
-                  <span className="text-navy/60">
-                    {done} / {track.total} {track.unit}
-                  </span>
+          )}
+
+          {/* Levels */}
+          <div>
+            <h3 className="text-sm font-semibold text-navy/60">{t('levelsTitle')}</h3>
+            {state === 'loading' && <div className="mt-3 h-4 w-40 animate-pulse rounded bg-navy/10" />}
+            {state === 'ready' && progress && (
+              <ol className="mt-3 space-y-3">
+                {LEVELS.map((level) => {
+                  const item = progress.levels.find((entry) => entry.id === level.id);
+                  const current = progress.currentLevelId === level.id;
+                  return (
+                    <li key={level.id} className="flex flex-wrap items-center gap-2 text-sm">
+                      <span
+                        className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white ${levelCircleClass(item, level.track, current)}`}
+                      >
+                        {level.id}
+                      </span>
+                      <span className="text-navy/85">{level.topic}</span>
+                      {item && <LevelStatusPill level={item} />}
+                      {current && (
+                        <span className="text-xs font-medium text-accent">{t('currentHint')}</span>
+                      )}
+                      <span className="w-full pl-8 text-xs text-navy/45">
+                        {t('gateLabel')}
+                        {level.gate}
+                      </span>
+                    </li>
+                  );
+                })}
+              </ol>
+            )}
+          </div>
+
+          {/* Tracks */}
+          <div className="space-y-5">
+            {TRACKS.map((track) => {
+              const done = progress?.tracks[track].done ?? 0;
+              const total = progress?.tracks[track].total ?? 0;
+              const pct = total > 0 ? Math.min(100, (done / total) * 100) : 0;
+              return (
+                <div key={track}>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="flex items-center gap-2 font-medium text-navy">
+                      <span className={`h-2.5 w-2.5 rounded-full ${TRACK_COLOR[track]}`} />
+                      {track === 'trading' ? 'Trading' : track === 'research' ? 'Research' : 'Coding'}
+                    </span>
+                    <span className="text-navy/60">
+                      {done} / {total} {tt(track)}
+                    </span>
+                  </div>
+                  <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-navy/10">
+                    <div
+                      className={`h-full rounded-full transition-all ${TRACK_COLOR[track]}`}
+                      style={{width: pct > 0 ? `${Math.max(2, pct)}%` : '0%'}}
+                    />
+                  </div>
+                  <p className="mt-1 text-xs text-navy/40">{tt(TRACK_HINT_KEY[track])}</p>
                 </div>
-                <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-navy/10">
-                  <div
-                    className={`h-full rounded-full transition-all ${track.bar}`}
-                    style={{width: pct > 0 ? `${Math.max(2, pct)}%` : '0%'}}
-                  />
-                </div>
-                {!track.measurable && (
-                  <p className="mt-1 text-xs text-navy/40">
-                    {t('notRecordedYet')}
-                  </p>
-                )}
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </section>
 
@@ -147,7 +131,9 @@ export default function MePage() {
       <section className="mt-8">
         <h2 className="font-semibold text-navy/80">{t('accountTitle')}</h2>
         <div className="mt-4 rounded-xl border border-navy/10 bg-white p-6 shadow-sm">
-          {!loading && email ? (
+          {loading ? (
+            <div className="h-4 w-40 animate-pulse rounded bg-navy/10" />
+          ) : email ? (
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="min-w-0">
                 <p className="text-xs text-navy/50">{t('signedInAs')}</p>
@@ -157,12 +143,12 @@ export default function MePage() {
               </div>
               <button
                 onClick={signOut}
-                className="rounded-full border border-navy/20 px-4 py-1.5 text-sm text-navy/70 transition hover:border-navy/40 hover:text-navy"
+                className="min-h-11 rounded-full border border-navy/20 px-4 py-1.5 text-sm text-navy/70 transition hover:border-navy/40 hover:text-navy"
               >
                 {ta('logout')}
               </button>
             </div>
-          ) : !loading ? (
+          ) : (
             <div className="flex flex-wrap items-center justify-between gap-3">
               <p className="text-sm text-navy/60">{t('notSignedIn')}</p>
               <Link
@@ -172,8 +158,6 @@ export default function MePage() {
                 {ta('loginSignup')}
               </Link>
             </div>
-          ) : (
-            <div className="h-4 w-40 animate-pulse rounded bg-navy/10" />
           )}
         </div>
       </section>

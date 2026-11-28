@@ -38,9 +38,10 @@ npm run start      # serve the production build
 ## Course content tests
 
 ```bash
-npm test               # run every course-content and mistake-notebook audit
+npm test               # run every course-content, mistake-notebook and progress audit
 npm run test:lessons   # audit coding answers and worked examples
 npm run test:mistakes  # audit mistake derivation, mastery, and support thresholds
+npm run test:progress  # audit level gates, the unlock order, and track totals
 ```
 
 The lesson audit loads the actual TypeScript course content, executes every

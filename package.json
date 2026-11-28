@@ -7,11 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "npm run test:lessons && npm run test:assignments && npm run test:research && npm run test:mistakes",
+    "test": "npm run test:lessons && npm run test:assignments && npm run test:research && npm run test:mistakes && npm run test:progress",
     "test:lessons": "node scripts/audit-lessons.mjs",
     "test:assignments": "node scripts/audit-assignments.mjs",
     "test:research": "node scripts/audit-research.mjs && node scripts/audit-research-electives.mjs",
-    "test:mistakes": "node scripts/audit-mistakes.mjs"
+    "test:mistakes": "node scripts/audit-mistakes.mjs",
+    "test:progress": "node scripts/audit-progress.mjs"
   },
   "dependencies": {
     "@codemirror/lang-python": "^6.2.1",

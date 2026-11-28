@@ -16,8 +16,12 @@
     "assessCta": "开始测评",
     "gateLabel": "通关标志：",
     "ctaAssess": "开始入门测评",
-    "mapLegend": "六个级别是推荐学习顺序；三个版块的全部 18 个内容单元分属各级——点开每级查看包含哪些课。",
-    "unitLabel": "个内容单元"
+    "mapLegend": "六个级别是推荐学习顺序，点开每级查看包含的课。通关后级别会点亮；置灰表示建议先完成前一级，但内容仍然可以打开。",
+    "unitLabel": "个内容单元",
+    "mapSignInHint": "登录后，地图会显示你的通关进度。",
+    "mapSignInLink": "去登录",
+    "currentHint": "建议从这里开始",
+    "lockedHint": "建议先通关 {level}；内容现在也可以打开。"
   },
   "learn": {
     "title": "学习版块",
@@ -172,14 +176,13 @@
   "me": {
     "title": "我的",
     "progressTitle": "个人进度",
+    "levelsTitle": "各级别状态",
     "accountTitle": "账号信息",
     "loginPrompt": "登录后查看你的学习进度。",
     "signedInAs": "当前登录",
     "notSignedIn": "尚未登录",
-    "notRecordedYet": "该版块内容上线后开始记录",
-    "unitStages": "阶段",
-    "unitLayers": "层",
-    "unitLessons": "课"
+    "currentHint": "建议从这里开始",
+    "gateLabel": "通关标志："
   },
   "assessment": {
     "title": "入门测评",
@@ -252,7 +255,25 @@
     "quizCheck": "提交答案"
   },
   "tracks": {
-    "progressTitle": "本版块进度"
+    "progressTitle": "本版块进度",
+    "trading": "组测验",
+    "research": "层",
+    "coding": "课",
+    "hintTrading": "一组测验的全部题目都答对过记 1 组；阶段二起的内容后续上线。",
+    "hintResearch": "一层的自测题全部答对过记 1 层。",
+    "hintCoding": "一课走到最后一步记 1 课；L1 通关另需 5 份作业全部通过。"
+  },
+  "progress": {
+    "passed": "已通关",
+    "contentComplete": "内容已学完",
+    "inProgress": "进行中 {done}/{total}",
+    "available": "可开始",
+    "locked": "未解锁",
+    "upcoming": "后续阶段开放",
+    "unitPassed": "已完成",
+    "unitInProgress": "进行中 {done}/{total}",
+    "unitNotStarted": "未开始",
+    "unitUnavailable": "未上线"
   },
   "admin": {
     "title": "管理端看板",
